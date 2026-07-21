@@ -7,7 +7,7 @@ def run():
     model = ChatOpenAI(model="gpt-4o-mini-2024-07-18")
     response = model.invoke(input = "Tell me about anticoagulants during dental treatments")
     output_file = DATA_DIR / "output.md"
-    output_file.write_text(response.text)
+    output_file.write_text(str(response))
     print(f"Output written to {output_file}")
 
 if __name__ == "__main__":

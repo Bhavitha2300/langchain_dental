@@ -1,0 +1,1 @@
+Nitrous oxide is classified as a pregnancy risk group Category C medication, which means there is a risk of fetal harm if administered during pregnancy. Therefore, it is recommended that pregnant individuals, both patients and staff, avoid exposure to nitrous oxide to prevent potential risks to the fetus.
