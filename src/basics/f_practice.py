@@ -3,19 +3,21 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 
 def run():
-    model = ChatOpenAI(model="gpt-40-mini")
+    model = ChatOpenAI(model="gpt-4o-mini")
     template = PromptTemplate.from_template("""
-    You are a dental assistant.
-    Drug: {drug}
-    Procedure: {procedure}
-    Should the medication be stopped before the procedure? why?
+    You are a professor teaching first-year dental students. Always explain concepts in simple language.
+    Question: {question}
     """)
-    prompt = template.invoke({
-        "drug": "Warfarin",
-        "procedure": "Tooth extraction"
+    prompt1 = template.invoke({
+        "question": "what is gingivitis"
     })
-    response = model.invoke(input=prompt)
-    print(response.content)
+    prompt2 = template.invoke({
+        "question": "What causes tooth sensitivity?"
+    })
+    response1 = model.invoke(input=prompt1)
+    response2 = model.invoke(input=prompt2)
+    print(response1.content)
+    print(response2.content)
 
 if __name__ == "__main__":
     load_config()
