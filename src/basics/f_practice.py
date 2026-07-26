@@ -1,25 +1,22 @@
 from config import load_config
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 
-def run():
+def ask_question(question):
     model = ChatOpenAI(model="gpt-4o-mini")
-    template = PromptTemplate.from_template("""
-    You are a professor teaching first-year dental students. Always explain concepts in simple language.
-    Question: {question}
-    """)
-    prompt1 = template.invoke({
-        "question": "what is gingivitis"
-    })
-    prompt2 = template.invoke({
-        "question": "What causes tooth sensitivity?"
-    })
-    response1 = model.invoke(input=prompt1)
-    response2 = model.invoke(input=prompt2)
-    print(response1.content)
-    print(response2.content)
+    template = ChatPromptTemplate.from_messages([
+        ("system", "You are a helpful dentist."),
+        ("human","My gums bleed when I brush."),
+        ("assistant", "Bleeding gums may indicate gingivitis..."),
+        ("human", "{question}")
+    ])
+    prompt = template.invoke({"question": question})
+    response = model.invoke(input=prompt)
+    print(response.content)
 
 if __name__ == "__main__":
-    load_config()
-    run()
+    load_config()t
+    ask_question("What is plaque?")
+    ask_question("What is calculus?")
+    ask_question("What is periodontitis?")
 
