@@ -37,7 +37,7 @@ def main():
     content_list=[]
     for document in documents:
         content_list.append(document.page_content)
-    embeddings=embed_model.embed_documents(texts=documents)
+    embeddings=embed_model.embed_documents(texts=content_list)
     print(embeddings)
 
 if __name__ == "__main__":
