@@ -1,22 +1,15 @@
-from config import load_config
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
+from pathlib import Path
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-load_config()
+data_dir = Path(__file__).resolve().parent.parent.parent/ "data"
+text_file = data_dir / "dentistry.md"
 
-def run():
-    model = ChatOpenAI(model="gpt-4o-mini")
-    template = ChatPromptTemplate([
-        ("system", "Answer only from the context given, if question cannot be answered from the context then say 'I don't know'."),
-        ("human", "context: {context}"),
-        ("human", "question: {question}")
-    ])
-    chain = template | model
-    response = chain.invoke({
-        "context": "Anticoagulants are a family of medications that stop your blood from clotting too easily. They can break down existing clots or prevent clots from forming in the first place. These medications can help stop life-threatening conditions like strokes, heart attacks and pulmonary embolisms, all of which can happen because of blood clots.",
-        "question": "Should anticoagulants stopped during an extraction?"
-    })
-    print(response.content)
+def main():
+    dentistry_text = text_file.read_text()
+    splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=50)
+    split = splitter.split_text(text=dentistry_text)
+    print(split)
 
 if __name__ == "__main__":
-    run()
+    main()
+
