@@ -27,3 +27,7 @@ def run():
     })
     response = chat_model.invoke(input=prompt)
     print(response.content)
+
+if __name__ == "__main__":
+    load_config()
+    run()

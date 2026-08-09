@@ -19,13 +19,9 @@ def chunked_documents():
     markdown_header_documents=markdown_header_splitter.split_text(markdown_text)
     recursive_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=20)
     _split_documents = recursive_splitter.split_documents(documents=markdown_header_documents)
-    content_list=[]
+    content_list = []
     return _split_documents
 
-
-
-    embeddings=embed_model.embed_documents(texts=content_list)
-    print(embeddings)
 
 
 if __name__ == "__main__":

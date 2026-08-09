@@ -28,7 +28,8 @@ def load_vector():
     vector_store.add_documents(documents=chunked_documents(), ids=id_list)
     print("Loaded vector store")
 
-def delete_collection
+
+def delete_collection():
     vector_store = get_vector_store()
     vector_store.delete_collection()
 
