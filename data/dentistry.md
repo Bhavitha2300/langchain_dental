@@ -1,4 +1,4 @@
-# Oral Anticoagulant and Antiplatelet Medications and Dental Procedures
+# 1.0 Oral Anticoagulant and Antiplatelet Medications and Dental Procedures
 
 ## Key Points
 
@@ -52,13 +52,13 @@ Two narrative reviews published in 201513, 32 included suggestions regarding mor
 
 Warfarin or antiplatelet agents such as clopidogrel (Plavix®), ticlopidine (Ticlid®), prasugrel (Effient®), ticagrelor (Brilinta®) and/or aspirin are commonly used in patients who have experienced a DVT or PE, patients who have had an MI and/or who have undergone cardiac stent placement, or in patients with NVAF.7 As reviewed in the following sections, there is general agreement based on strong evidence that treatment regimens with these older anticoagulants/antiplatelet agents should not be altered before dental procedures.8, 14-16, 22, 25, 33-43
 
-## Warfarin
+## 3.1 Warfarin
 
 A 2009 systematic review and meta-analysis found no increased risk of bleeding associated with continuing regular doses of warfarin in comparison with discontinuing or modifying the dose for patients undergoing single and multiple tooth extraction.33 In its most recent statement, the American Academy of Neurology recommended that patients taking aspirin or warfarin for stroke prevention and undergoing dental procedures continue taking their medications.35
 
 A 2015 systematic review of management of dental extractions in patients receiving warfarin determined that patients whose International Normalized Ratio (INR; a measure of warfarin's therapeutic index) was in therapeutic range (i.e., 3.0 or less) could continue their regular warfarin regimen prior to the procedure.41 Based on a literature review, a 2016 Clinical Practice Statement from the American Academy of Oral Medicine determined that moderately invasive oral surgery (defined as "uncomplicated tooth extraction") is safe with an INR of 3.5, with some experts stating that it is safe up to 4.0.17 A 2008 systematic review and meta-analysis by Oake et al.44 found that although the risks of hemorrhage and thromboembolism are reduced at an INR range of 2 to 3, ratios moderately higher than this range appeared to be safe and more effective than subtherapeutic ratios.
 
-## Single or Dual Antiplatelet Therapy
+## 3.2 Single or Dual Antiplatelet Therapy
 
 The American Heart Association, the American College of Cardiology, the Society for Cardiovascular Angiography and Interventions, the American College of Surgeons, and the American Dental Association published a consensus opinion about drug-eluting stents and antiplatelet therapy (e.g., aspirin, clopidogrel, ticlopidine).9, 10 The consensus opinion states that healthcare providers who perform invasive or surgical procedures (e.g., dentists) and are concerned about periprocedural and postprocedural bleeding should contact the patient’s cardiologist regarding the patient's antiplatelet regimen and discuss optimal patient management, before discontinuing the antiplatelet medications. Given the importance of antiplatelet medications post-stent implantation in minimizing the risk of stent thrombosis, the medications should not be discontinued prematurely.9, 10
 

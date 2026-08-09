@@ -1,0 +1,15 @@
+services:
+  demo2:
+    image: pgvector/pgvector:pg16
+    container_name: demo2
+    ports:
+      - "6025:5432"
+    environment:
+      POSTGRES_USER: langchain
+      POSTGRES_PASSWORD: langchain
+      POSTGRES_DB: langchain
+    volumes:
+      - demo2:/var/lib/postgresql/data
+volumes:
+  demo2:
+
