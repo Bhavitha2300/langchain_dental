@@ -11,7 +11,7 @@ _headers_to_split_on=[
     ("####", "h4")
 ]
 
-def main():
+def chunks():
     markdown_text = markdown_file.read_text(encoding="utf-8")
     markdown_header_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=_headers_to_split_on)
     markdown_header_documents = markdown_header_splitter.split_text(markdown_text)
@@ -24,10 +24,8 @@ def main():
         print(chunk.page_content)
         print()
         print("--"*30)
-
-
-
+    return split_documents
 
 if __name__ == "__main__":
-    main()
+    chunks()
 
