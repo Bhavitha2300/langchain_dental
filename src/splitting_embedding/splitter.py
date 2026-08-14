@@ -9,7 +9,7 @@ markdown_file = data_dir / "dentistry.md"
 _headers_to_split_on=[
     ("#", "h1"),
     ("##", "h2"),
-    ("##", "h3")
+    ("###", "h3")
 ]
 
 def chunked_documents():
@@ -21,6 +21,7 @@ def chunked_documents():
     _split_documents = recursive_splitter.split_documents(documents=markdown_header_documents)
     content_list = []
     return _split_documents
+
 
 
 
