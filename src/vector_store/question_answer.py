@@ -19,10 +19,13 @@ def run():
             "k":5
         }
     )
-
+    documents = retriever.invoke(question_string)
+    context_list = []
+    for document in documents:
+        context_list.append(document.page_content)
 
     prompt = template.invoke({
-        "context": "Without the anticoagulant/antiplatelet medications, these patients are at higher risk for blood clot development, which could result in thromboembolism, stroke, or myocardial infarction (MI). The serious risks of stopping or reducing these medication regimens need to be balanced against the potential consequences of prolonged bleeding,8-12 which can be controlled with local measures such as mechanical pressure, hemostatic agents (e.g., Gelfoam® or Surgicel®), suturing, and/or antifibrinolytics, such as tranexamic acid.13-20 The following sections review the evidence on management of patients taking these drugs and undergoing dental procedures.",
+        "context": context_list,
         "question": question_string
     })
     response = chat_model.invoke(input=prompt)
