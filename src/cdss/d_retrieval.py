@@ -10,7 +10,7 @@ output_file = DATA_DIR / "Answer.md"
 load_config()
 
 def retrieve():
-    question = "Patient taking apixaban needs a dental implant"
+    question = "Patient taking aspirin needs one simple extraction"
     chat_model = ChatOpenAI(model="gpt-4o-mini")
     template = ChatPromptTemplate.from_messages([
         ("system","Answer from the context, if you cannot answer from the context, say 'I dont know'."),
