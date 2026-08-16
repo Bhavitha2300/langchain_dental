@@ -9,8 +9,8 @@ def embed():
 
     for document in documents:
         content_list.append(document.page_content)
-        embeddings = embed_model.embed_documents(texts=content_list)
-        print(embeddings)
+    embeddings = embed_model.embed_documents(texts=content_list)
+    print(embeddings)
 
     return embeddings
 
