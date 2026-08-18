@@ -1,4 +1,4 @@
-from config import load_config, DATA_DIR
+from config import load_config
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from cdss.c_vector_store import get_vector_store

@@ -28,7 +28,7 @@ print(birth_date)
 print(medication)
 
 def retrieve():
-    question = f"Patient taking {medication} needs a dental implant"
+    question = f"Patient taking {medication} needs a dental implant,"
     chat_model = ChatOpenAI(model="gpt-4o-mini")
     template = ChatPromptTemplate.from_messages([
         ("system","Answer from the context, if you cannot answer from the context, say 'I dont know'."),

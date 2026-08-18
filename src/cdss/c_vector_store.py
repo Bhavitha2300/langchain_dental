@@ -28,10 +28,10 @@ def load_vector():
         id_list.append(document.metadata["chunk_id"])
     vector_store.add_documents(documents=documents, ids=id_list)
     print("Loaded vector store")
-def delete_collection():
-    vector_store = get_vector_store()
-    vector_store.delete_collection()
-    print("Deleted collection")
+# def delete_collection():
+#     vector_store = get_vector_store()
+#     vector_store.delete_collection()
+#     print("Deleted collection")
 
 if __name__ == "__main__":
     load_vector()
