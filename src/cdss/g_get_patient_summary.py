@@ -1,30 +1,39 @@
-import requests
+from config import load_config
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from cdss.e_fhir import get_fhir_patient_data
 
-FHIR_BASE_URL = "http://localhost:8080/fhir"
+load_config()
 
-def build_patient_context(patient, medications, conditions):
-    first_name = patient["name"][0]["given"][0]
-    last_name = patient["name"][0]["family"]
 
-    medication_list = []
+def get_patient_summary(patient_id: str):
+    fhir_patient_data = get_fhir_patient_data(patient_id)
+    chat_model = ChatOpenAI(model="gpt-4o-mini")
+    template = ChatPromptTemplate.from_messages([
+        ("system",
+         """
+            You are processing FHIR patient data for a dental clinical decision support system.
 
-    for entry in medications.get("entry", []):
-        medication = entry["resource"]["medicationCodeableConcept"]["text"]
-        medication_list.append(medication)
+            Summarize only the clinically relevant information contained in the provided FHIR data.
 
-    condition_list = []
+            Include:
+            - patient demographics
+            - active medical conditions
+            - active medications
+            - planned dental procedures
 
-    for entry in conditions.get("entry", []):
-        condition = entry["resource"]["code"]["text"]
-        condition_list.append(condition)
+            Do not provide treatment recommendations.
+            Do not add information that is not present in the FHIR data.
+            Present the summary in clear Markdown.
+            """
+        ),
+        ("human", "FHIR patient data:\n{fhir_data}")
+    ])
 
-    patient_context = {
-        "patient_id": patient["id"],
-        "name": f"{first_name} {last_name}",
-        "birth_date": patient["birthDate"],
-        "gender": patient["gender"],
-        "medications": medication_list,
-        "conditions": condition_list
-    }
+    chain = template | chat_model
+    response = chain.invoke({ "fhir_data": fhir_patient_data})
+    return response.content
 
-    return patient_context
+if __name__ == "__main__":
+    patient_summary = get_patient_summary("1000")
+    print(patient_summary)
