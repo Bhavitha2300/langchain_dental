@@ -1,17 +1,17 @@
-# SDCEP Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs
+# 1. SDCEP Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs [1]
 
 Source: Scottish Dental Clinical Effectiveness Programme (SDCEP).
 Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs.
 Second Edition. March 2022.
 
-## 1. Assessing Bleeding Risk
+## 1.1 Assessing Bleeding Risk
 
-Before providing dental treatment for a patient taking anticoagulants or antiplatelet drugs, their bleeding risk should be assessed. This involves consideration of both the likely risk of bleeding associated with the required dental procedure and the patient’s individual level of bleeding risk, which can be affected by the anticoagulants or antiplatelet drugs that they are taking, in addition to their other medical conditions and medications. These issues are addressed in Sections 1.1 and 1.2. Guidance on the management of the patient’s dental treatment based on this risk assessment is presented in later sections.
+Before providing dental treatment for a patient taking anticoagulants or antiplatelet drugs, their bleeding risk should be assessed. This involves consideration of both the likely risk of bleeding associated with the required dental procedure and the patient’s individual level of bleeding risk, which can be affected by the anticoagulants or antiplatelet drugs that they are taking, in addition to their other medical conditions and medications. These issues are addressed in Sections 1.1.1 and 1.1.2. Guidance on the management of the patient’s dental treatment based on this risk assessment is presented in later sections.
 
 While the risk of bleeding complications associated with dental treatment for these patients should always be considered, it should be noted that existing evidence and clinical experience suggest that serious adverse bleeding events are rare. The incidence of post-operative bleeding events requiring further haemostatic measures, after dental procedures for patients who had continued their oral anticoagulant therapy perioperatively, has been estimated at approximately 4%. Notably, almost all bleeding events were managed with local haemostatic measures and less than 0.1% of patients continuing their anticoagulant required hospitalisation for treatment.
 
 
-### 1.1 Which Dental Procedures Have the Highest Bleeding Risk?
+### 1.1.1 Which Dental Procedures Have the Highest Bleeding Risk?
 
 Dental procedures can be categorised into those that are unlikely, under normal circumstances, to cause bleeding and those that can be expected to cause some level of bleeding.
 
@@ -23,12 +23,12 @@ By bleeding complications, we mean prolonged or excessive bleeding or bleeding n
 
 Note that the use of the term "higher risk" is not intended to suggest that these are high risk dental treatments. Furthermore, a dental procedure categorised as low or higher risk is still likely to be considered a relatively minor bleeding risk in the wider context of medical surgical procedures.
 
-The procedure categories (1.1.1, 1.1.2, 1.1.3) are intended to be a guide only and because of the wide variation in invasiveness of some treatments, such as those involving flap raising procedures, there will be some overlap between the categories. Bleeding risk assessment for a patient’s dental treatment is likely to require further judgement on an individual case basis taking into consideration the extent and invasiveness of the procedure.
+The procedure categories (1.1.1.1, 1.1.1.2, 1.1.1.3) are intended to be a guide only and because of the wide variation in invasiveness of some treatments, such as those involving flap raising procedures, there will be some overlap between the categories. Bleeding risk assessment for a patient’s dental treatment is likely to require further judgement on an individual case basis taking into consideration the extent and invasiveness of the procedure.
 
 Before performing a dental procedure that is likely to cause bleeding on a patient taking anticoagulants or antiplatelet drugs, the dentist or dental care professional should use their clinical judgement to determine whether they are sufficiently confident and skilled in the procedure and management of the associated peri-operative bleeding.
 
 
-#### 1.1.1 Dental Procedures That Are Unlikely to Cause Bleeding
+#### 1.1.1.1 Dental Procedures That Are Unlikely to Cause Bleeding
 
 - Local anaesthesia by infiltration, intraligamentary or mental nerve block
 - Local anaesthesia by inferior dental block or other regional nerve blocks
@@ -46,7 +46,7 @@ There is no evidence to suggest that an inferior dental block performed on an an
 Although a basic periodontal examination can result in some bleeding from gingival margins, this is considered extremely unlikely to lead to complications.
 
 
-#### 1.1.2 Dental Procedures That Are Likely to Cause Bleeding: Low Risk of Post-operative Bleeding Complications
+#### 1.1.1.2 Dental Procedures That Are Likely to Cause Bleeding: Low Risk of Post-operative Bleeding Complications
 
 - Simple extractions (1-3 teeth, with restricted wound size)
 - Incision and drainage of intra-oral swellings
@@ -57,7 +57,7 @@ Although a basic periodontal examination can result in some bleeding from gingiv
 Simple extractions refers to those that are expected to be straightforward without surgical complications.
 
 
-#### 1.1.3 Dental Procedures That Are Likely to Cause Bleeding: Higher Risk of Post-operative Bleeding Complications
+#### 1.1.1.3 Dental Procedures That Are Likely to Cause Bleeding: Higher Risk of Post-operative Bleeding Complications
 
 - Complex extractions
 - Adjacent extractions that will cause a large wound
@@ -77,14 +77,14 @@ Complex extractions refers to those that may be likely to have surgical complica
 For flap raising procedures, gingival recontouring and biopsies, consideration should be given to the extent and invasiveness of the individual procedure. Some may be less invasive and could be treated as low risk.
 
 
-### 1.2 Which Patients Have the Highest Bleeding Risk?
+### 1.1.2 Which Patients Have the Highest Bleeding Risk?
 
 A patient’s individual risk of bleeding complications is dependent on a variety of factors, including the type and combination of anticoagulants or antiplatelet drugs they are taking, their underlying health conditions and other medications that they may be taking.
 
-The patient’s medical history and details of the prescribed and non-prescribed medication they are taking should be noted at the start of each course of treatment and checked for any changes at each visit (see section 1.3).
+The patient’s medical history and details of the prescribed and non-prescribed medication they are taking should be noted at the start of each course of treatment and checked for any changes at each visit (see section 1.1.3).
 
 
-#### 1.2.1 Bleeding Risks Associated with Different Anticoagulants and Antiplatelet Drugs
+#### 1.1.2.1 Bleeding Risks Associated with Different Anticoagulants and Antiplatelet Drugs
 
 There is currently insufficient evidence to directly compare with any certainty the bleeding risks for dental treatment associated with the different anticoagulants and antiplatelet medications.
 
@@ -97,7 +97,7 @@ Patients who are on dual or combination therapies and are taking more than one a
 Direct comparisons of dual versus single antiplatelet therapy suggest that the risks of both peri-operative and post-operative bleeding with minor oral surgery are higher for patients on dual therapy.
 
 
-#### 1.2.2 Bleeding Risks Associated with Other Medical Conditions
+#### 1.1.2.2 Bleeding Risks Associated with Other Medical Conditions
 
 Certain medical conditions are known to be associated with an increased bleeding risk, due to effects on either coagulation or platelet function, and should be taken into consideration when planning dental treatment for any patient.
 
@@ -167,7 +167,7 @@ Increased bleeding risk due to vascular fragility, particularly in the vascular 
 For medically complex patients such as these, the patient’s general medical practitioner or specialist should be consulted, to establish the extent of the disease in order to assess the likely impact on the bleeding risk for the dental procedure.
 
 
-#### 1.2.3 Bleeding Risks Associated with Prescribed or Non-prescribed Medications
+#### 1.1.2.3 Bleeding Risks Associated with Prescribed or Non-prescribed Medications
 
 In addition to the medical conditions discussed above, a number of different medications can exacerbate a patient’s bleeding risk over and above the effects of the anticoagulants or antiplatelet drugs they are taking.
 
@@ -248,7 +248,7 @@ These include:
 For the management of patients taking these additional medications, the patient’s prescribing clinician, specialist or general medical practitioner could be consulted in order to assess the likely impact on bleeding risk.
 
 
-### 1.3 Advice for Assessing Bleeding Risk
+### 1.1.3 Advice for Assessing Bleeding Risk
 
 The following best practice advice is based on clinical experience and expert opinion.
 
@@ -279,7 +279,7 @@ Ask the patient about their bleeding history, for example:
 
 A patient’s previous experience of bleeding in response to invasive dental or surgical procedures or to trauma may be a useful indicator of the likelihood of bleeding complications from the current dental treatment.
 
-## 2. Managing Bleeding Risk
+## 1.2 Managing Bleeding Risk
 
 Guidance on the management of dental treatment for a patient taking an anticoagulant or antiplatelet drug(s), based on the assessment of the bleeding risk, is presented in the form of general advice in this section, with specific advice for the different drug groups presented in later sections.
 
@@ -288,7 +288,7 @@ The management of intra- and post-operative bleeding is the responsibility of th
 Practitioners should however be aware of the local arrangements for access to emergency care for the very rare occasions where bleeding cannot be controlled in the primary care setting.
 
 
-### 2.1 Haemostatic Measures
+### 1.2.1 Haemostatic Measures
 
 The arrest of bleeding is a core skill for primary dental care and the dental practitioner should have the necessary equipment and skills to perform appropriate local haemostatic measures competently for dental procedures likely to cause bleeding.
 
@@ -334,7 +334,7 @@ Based on these considerations, this guidance does not advise primary care practi
 However, if tranexamic acid is prescribed by the patient’s medical practitioner, then it should be used in addition to local measures.
 
 
-### 2.2 Management of Patients in Remote and Rural Locations
+### 1.2.2 Management of Patients in Remote and Rural Locations
 
 Patients living in remote and rural locations may have to travel for longer to access primary care dental treatment, or secondary care in those very rare circumstances when a severe bleeding complication occurs, and may have difficulty accessing healthcare professionals out of hours.
 
@@ -350,7 +350,7 @@ These may include:
 As with all patients, attitude to risk and the consequences of bleeding complications should be discussed and given due consideration when agreeing treatment.
 
 
-### 2.3 Contacts and Referrals
+### 1.2.3 Contacts and Referrals
 
 If there is a lack of clarity regarding a patient’s medication or their medical condition, in order to assess their bleeding risk and to inform treatment planning, consult with the patient’s prescribing clinician.
 
@@ -378,18 +378,18 @@ This will help avoid unnecessary or inappropriate referral and ensure that the p
 If referring a patient, details of the patient’s anticoagulation medication should be included in the referral.
 
 
-### 2.4 General Advice for Managing Bleeding Risk
+### 1.2.4 General Advice for Managing Bleeding Risk
 
 The following best practice advice is based on clinical experience and expert opinion.
 
-#### 2.4.1 Dental Treatment That Is Unlikely to Cause Bleeding
+#### 1.2.4.1 Dental Treatment That Is Unlikely to Cause Bleeding
 
 For a patient who is taking an anticoagulant or antiplatelet drug(s) and requires dental treatment that is unlikely to cause bleeding:
 
 Treat the patient following standard procedures, taking care to avoid causing bleeding.
 
 
-#### 2.4.2 Dental Treatment That Is Likely to Cause Bleeding
+#### 1.2.4.2 Dental Treatment That Is Likely to Cause Bleeding
 
 For a patient who is taking an anticoagulant or antiplatelet drug(s), and requires dental treatment that is likely to cause bleeding, with either a low or higher risk of bleeding complications:
 
@@ -443,7 +443,7 @@ Do not interrupt anticoagulant or antiplatelet therapy, except under direct writ
 - patients who have had a pulmonary embolism or deep vein thrombosis in the last three months; or
 - patients on anticoagulant therapy for cardioversion.
 
-## 3. Treating a Patient Taking a Direct Oral Anticoagulant
+## 1.3 Treating a Patient Taking a Direct Oral Anticoagulant
 
 Quantitative laboratory tests for assessing coagulation levels in patients taking direct oral anticoagulants (DOACs) are not widely available and the INR test used for warfarin is not suitable for these drugs.
 
@@ -471,7 +471,7 @@ Patients with acute deep vein thrombosis or pulmonary embolism may be taking hig
 It would be advisable to delay any dental procedures likely to cause bleeding until the patient is taking the standard dose.
 
 
-### 3.1 Key Recommendations
+### 1.3.1 Key Recommendations
 
 For a patient who is taking a DOAC and requires a dental procedure with a low risk of bleeding complications:
 
@@ -542,7 +542,7 @@ Patients waiting for cardioversion can require at least 3 weeks of uninterrupted
 Their anticoagulation therapy should not be modified.
 
 
-### 3.2 Management for Procedures with a Low Risk of Bleeding Complications
+### 1.3.2 Management for Procedures with a Low Risk of Bleeding Complications
 
 The available evidence suggests that it is not necessary to interrupt DOAC medication for dental procedures that are likely to cause bleeding but have a low risk of bleeding complications.
 
@@ -566,7 +566,7 @@ In addition:
 - Strongly consider suturing and packing, taking into account all relevant patient factors.
 
 
-### 3.3 Management for Procedures with a Higher Risk of Bleeding Complications
+### 1.3.3 Management for Procedures with a Higher Risk of Bleeding Complications
 
 There is limited evidence on the risk of bleeding complications for more invasive dental procedures in patients taking DOACs.
 
@@ -605,7 +605,7 @@ In addition:
 - Advise the patient when to restart their medication.
 
 
-#### 3.3.1 Restarting Rivaroxaban or Edoxaban
+#### 1.3.3.1 Restarting Rivaroxaban or Edoxaban
 
 For rivaroxaban or edoxaban taken once a day:
 
@@ -618,7 +618,7 @@ If the patient normally takes rivaroxaban or edoxaban in the evening:
 - however, it should be taken no earlier than 4 hours after haemostasis has been achieved.
 
 
-#### 3.3.2 Restarting Apixaban or Dabigatran
+#### 1.3.3.2 Restarting Apixaban or Dabigatran
 
 For apixaban or dabigatran taken twice a day:
 
@@ -626,14 +626,14 @@ For apixaban or dabigatran taken twice a day:
 - however, the dose should be taken no earlier than 4 hours after haemostasis has been achieved.
 
 
-#### 3.3.3 Bleeding After Restarting the DOAC
+#### 1.3.3.3 Bleeding After Restarting the DOAC
 
 Advise the patient to contact the dental practice for advice if bleeding occurs before or after restarting their DOAC.
 
 The patient should avoid missing subsequent doses of their DOAC unless this is absolutely required in an emergency situation to control bleeding.
 
 
-#### 3.3.4 Urgent Higher-Risk Dental Treatment
+#### 1.3.3.4 Urgent Higher-Risk Dental Treatment
 
 Many higher-risk dental procedures are likely to be elective.
 
@@ -641,7 +641,7 @@ However, there may be rare occasions when a higher-risk procedure is required ur
 
 If the patient has already taken their morning dose of DOAC, it is advisable to delay the procedure until later in the day, where possible, to allow anticoagulation levels to decrease.
 
-## 4. Treating a Patient Taking Warfarin or Another Vitamin K Antagonist
+## 1.4 Treating a Patient Taking Warfarin or Another Vitamin K Antagonist
 
 Although the use of warfarin is well established, managing its therapeutic anticoagulation activity can be complicated.
 
@@ -660,7 +660,7 @@ A patient’s warfarin therapy will be adjusted by their medical practitioner or
 Patients taking warfarin will have a record of their INR test results, which they should present when attending for dental treatment.
 
 
-### 4.1 Key Recommendation
+### 1.4.1 Key Recommendation
 
 For a patient who is taking warfarin or another vitamin K antagonist, with an INR below 4, treat without interrupting their anticoagulant medication.
 
@@ -677,7 +677,7 @@ Although the evidence on bleeding risk is of low certainty, this is considered t
 Due to the longer half-life of warfarin, interrupting therapy would potentially leave the patient at sub-therapeutic levels of anticoagulation for longer than interruption of a direct oral anticoagulant.
 
 
-### 4.2 Dental Treatment That Is Likely to Cause Bleeding
+### 1.4.2 Dental Treatment That Is Likely to Cause Bleeding
 
 For dental treatment that is likely to cause bleeding, with either a low or higher risk of bleeding complications:
 
@@ -693,7 +693,7 @@ A stable patient is one who:
 If there is reason to believe that a test result obtained up to 72 hours before dental treatment may not reflect the current level, the patient’s INR should be tested again no more than 24 hours before the dental procedure.
 
 
-### 4.3 INR 4 or Above
+### 1.4.3 INR 4 or Above
 
 If the patient’s INR is 4 or above:
 
@@ -704,7 +704,7 @@ If the patient’s INR is 4 or above:
 If the patient is prescribed an antibiotic for the dental condition, be aware that this might affect their INR level.
 
 
-### 4.4 INR Below 4
+### 1.4.4 INR Below 4
 
 If the patient’s INR is below 4:
 
@@ -718,7 +718,7 @@ In addition:
 - Use local haemostatic measures to achieve haemostasis.
 - Strongly consider suturing and packing, taking into account all relevant patient factors.
 
-## 5. Treating a Patient Taking an Injectable Anticoagulant
+## 1.5 Treating a Patient Taking an Injectable Anticoagulant
 
 The low molecular weight heparins (LMWHs), dalteparin, enoxaparin and tinzaparin, are used for the prophylaxis and treatment of venous thromboembolism and are administered parenterally by subcutaneous injection rather than orally as for the other anticoagulants discussed.
 
@@ -740,7 +740,7 @@ However, the doses can vary for individuals depending on weight and renal functi
 Consequently, there can be overlap between doses used for prophylaxis or treatment and advice from the prescriber of the patient’s LMWH might need to be sought to confirm the type of dose being taken.
 
 
-### 5.1 Licensed Prophylactic and Treatment Doses of LMWHs
+### 1.5.1 Licensed Prophylactic and Treatment Doses of LMWHs
 
 #### Dalteparin
 
@@ -789,7 +789,7 @@ In a 70 kg adult, a treatment dose may be expected to be approximately 12,250 un
 Doses may be adjusted in patients with renal impairment or in patients with body weight below 50 kg or above 100 kg.
 
 
-### 5.2 Key Recommendation
+### 1.5.2 Key Recommendation
 
 For a patient who is taking a prophylactic (low) dose of a low molecular weight heparin, treat without interrupting their anticoagulant medication.
 
@@ -812,7 +812,7 @@ It is a conditional recommendation because of the uncertainty about bleeding ris
 For patients taking treatment doses, consultation with the patient’s prescribing clinician or specialist would usually be required to assess the likely impact of their medication and medical condition on their bleeding risk and establish the appropriate dental treatment management.
 
 
-### 5.3 Management for Dental Treatment Likely to Cause Bleeding
+### 1.5.3 Management for Dental Treatment Likely to Cause Bleeding
 
 For a patient who is taking a LMWH and requires dental treatment that is likely to cause bleeding, with either a low or higher risk of bleeding complications:
 
@@ -822,21 +822,21 @@ Establish whether the patient is taking:
 - a treatment (higher) dose.
 
 
-#### 5.3.1 Patients with Renal Impairment or Extreme Body Weight
+#### 1.5.3.1 Patients with Renal Impairment or Extreme Body Weight
 
 For patients with renal impairment, or body weight below 50 kg or above 100 kg, the dose of LMWH is likely to have been adjusted.
 
 Consultation with the prescribing clinician, such as the specialist or general medical practitioner, may be required to confirm whether the patient is taking a prophylactic or treatment dose.
 
 
-#### 5.3.2 Treatment or Higher Dose
+#### 1.5.3.2 Treatment or Higher Dose
 
 If the patient is taking a treatment (higher) dose, or there is uncertainty about the dose they are taking:
 
 Consult with the prescribing clinician, such as the specialist or general medical practitioner, in order to assess the likely impact on bleeding risk for the dental procedure.
 
 
-#### 5.3.3 Prophylactic or Low Dose
+#### 1.5.3.3 Prophylactic or Low Dose
 
 If the patient is taking a prophylactic (low) dose:
 
@@ -851,14 +851,14 @@ In addition:
 - Strongly consider suturing and packing, taking into account all relevant patient factors.
 
 
-### 5.4 Short-Term LMWH Therapy
+### 1.5.4 Short-Term LMWH Therapy
 
 LMWHs are prescribed for relatively short periods of time following elective orthopaedic surgery, up to 6 weeks.
 
 Where possible, dental treatment likely to cause bleeding should be delayed for these patients until they are no longer taking anticoagulants.
 
 
-### 5.5 Dental Treatment After Stopping LMWH
+### 1.5.5 Dental Treatment After Stopping LMWH
 
 Like the DOACs, the LMWHs have a short onset of action and short half-lives.
 
@@ -867,11 +867,11 @@ In relation to major surgery, typical advice is to interrupt LMWHs 24 hours befo
 It would therefore be reasonable to assume that dental treatment could proceed for a patient who has recently stopped taking a LMWH 24 hours or more previously, unless there are any other concerns.
 
 
-### 5.6 Patients Receiving Heparin During Kidney Dialysis
+### 1.5.6 Patients Receiving Heparin During Kidney Dialysis
 
 For patients given heparin or one of the LMWHs during kidney dialysis, where possible dental treatments likely to cause bleeding should be delayed until the following day.
 
-## 6. Treating a Patient Taking an Antiplatelet Drug(s)
+## 1.6 Treating a Patient Taking an Antiplatelet Drug(s)
 
 Patients taking antiplatelet medications tend to have prolonged bleeding times, which is a consequence of the requirement for platelet aggregation in the formation of the initial platelet plug in primary haemostasis.
 
@@ -896,7 +896,7 @@ Patients with a coronary artery stent will be prescribed dual antiplatelet thera
 It is extremely important that this treatment is not stopped prematurely or interrupted without prior discussion and written advice from the patient’s cardiologist because of the risk of major adverse cardiac events.
 
 
-### 6.1 Key Recommendation
+### 1.6.1 Key Recommendation
 
 For a patient who is taking single or dual antiplatelet drugs, treat without interrupting their antiplatelet medication.
 
@@ -911,14 +911,14 @@ However, the reported incidence of bleeding complications is low, ranging from a
 Although the evidence on bleeding risk is of low certainty, this is considered a strong recommendation because of the potential risk of a serious adverse thromboembolic event if antiplatelet treatment is interrupted.
 
 
-### 6.2 Dental Treatment That Is Likely to Cause Bleeding
+### 1.6.2 Dental Treatment That Is Likely to Cause Bleeding
 
 For dental treatment that is likely to cause bleeding, with either a low or higher risk of bleeding complications:
 
 Treat the patient according to the general advice for managing bleeding risk without interrupting their antiplatelet medication.
 
 
-### 6.3 Patient Taking Aspirin Alone
+### 1.6.3 Patient Taking Aspirin Alone
 
 If the patient is taking aspirin alone:
 
@@ -928,7 +928,7 @@ If the patient is taking aspirin alone:
 - Use local haemostatic measures to achieve haemostasis.
 
 
-### 6.4 Patient Taking Another Single Antiplatelet Drug or Dual Antiplatelet Drugs
+### 1.6.4 Patient Taking Another Single Antiplatelet Drug or Dual Antiplatelet Drugs
 
 If the patient is taking another single antiplatelet drug or dual antiplatelet drugs:
 
@@ -944,7 +944,7 @@ In addition:
 - Use local haemostatic measures to achieve haemostasis.
 - Strongly consider suturing and packing, taking into account all relevant patient factors.
 
-## 7. Treating a Patient Taking an Anticoagulant and Antiplatelet Drug Combination
+## 1.7 Treating a Patient Taking an Anticoagulant and Antiplatelet Drug Combination
 
 For some patients, combinations of anticoagulant and antiplatelet medications are prescribed, including a DOAC or warfarin with aspirin or clopidogrel, or in rare cases, triple drug combinations.
 
@@ -955,7 +955,7 @@ Because of the conditions for which combination therapies are prescribed, includ
 Patients on combination therapies are likely to have a higher bleeding risk and may have additional medical complications.
 
 
-### 7.1 Dental Treatment That Is Likely to Cause Bleeding
+### 1.7.1 Dental Treatment That Is Likely to Cause Bleeding
 
 For a patient who is taking an anticoagulant and antiplatelet drug combination and requires dental treatment that is likely to cause bleeding, with either a low or higher risk of bleeding complications:
 
@@ -963,7 +963,7 @@ Consult with the patient’s prescribing clinician in order to assess the likely
 
 Some patients might only be on these drug combinations for 3 to 4 weeks, so it may be possible to delay dental treatment.
 
-## 8. Drug Interactions Between Anticoagulants or Antiplatelet Drugs and Other Medications
+## 1.8 Drug Interactions Between Anticoagulants or Antiplatelet Drugs and Other Medications
 
 There are a large number of documented interactions between anticoagulants or antiplatelet medications and other prescription drugs.
 
@@ -977,7 +977,7 @@ Advice on management can be found in the BNF and SDCEP Drug Prescribing for Dent
 
 When prescribing drugs to patients who are taking anticoagulants or antiplatelet agents, be aware of potential interactions that might affect coagulation levels.
 
-## 9. Interactions with Drugs Prescribed by Dentists
+## 1.9 Interactions with Drugs Prescribed by Dentists
 
 This section shows possible interactions and effects between anticoagulants or antiplatelet medications and drugs prescribed by dentists.
 
@@ -986,9 +986,9 @@ The information summarises the main interactions and is not exhaustive. The info
 For further information and advice about interactions, refer to the British National Formulary (BNF), the individual drug Summary of Product Characteristics (SPCs), and SDCEP Drug Prescribing for Dentistry guidance.
 
 
-### 9.1 Direct Oral Anticoagulants
+### 1.9.1 Direct Oral Anticoagulants
 
-#### 9.1.1 Apixaban
+#### 1.9.1.1 Apixaban
 
 Possible interactions include:
 
@@ -997,7 +997,7 @@ Possible interactions include:
 - Carbamazepine may reduce the plasma concentration of apixaban.
 
 
-#### 9.1.2 Dabigatran
+#### 1.9.1.2 Dabigatran
 
 Possible interactions include:
 
@@ -1006,7 +1006,7 @@ Possible interactions include:
 - Carbamazepine may reduce the plasma concentration of dabigatran.
 
 
-#### 9.1.3 Rivaroxaban
+#### 1.9.1.3 Rivaroxaban
 
 Possible interactions include:
 
@@ -1015,7 +1015,7 @@ Possible interactions include:
 - Carbamazepine may reduce the plasma concentration of rivaroxaban.
 
 
-#### 9.1.4 Edoxaban
+#### 1.9.1.4 Edoxaban
 
 Possible interactions include:
 
@@ -1024,9 +1024,9 @@ Possible interactions include:
 - Carbamazepine may reduce the plasma concentration of edoxaban.
 
 
-### 9.2 Vitamin K Antagonists
+### 1.9.2 Vitamin K Antagonists
 
-#### 9.2.1 Warfarin, Phenindione and Acenocoumarol
+#### 1.9.2.1 Warfarin, Phenindione and Acenocoumarol
 
 Possible interactions include:
 
@@ -1048,18 +1048,18 @@ If antibiotics are prescribed:
 Miconazole should be avoided in patients taking warfarin or acenocoumarol.
 
 
-### 9.3 Injectable Anticoagulants
+### 1.9.3 Injectable Anticoagulants
 
-#### 9.3.1 Dalteparin, Enoxaparin and Tinzaparin
+#### 1.9.3.1 Dalteparin, Enoxaparin and Tinzaparin
 
 Possible interactions include:
 
 - NSAIDs, including aspirin, ibuprofen and diclofenac, may increase bleeding risk.
 
 
-### 9.4 Antiplatelet Drugs
+### 1.9.4 Antiplatelet Drugs
 
-#### 9.4.1 Aspirin
+#### 1.9.4.1 Aspirin
 
 Possible interactions include:
 
@@ -1067,7 +1067,7 @@ Possible interactions include:
 - Regular use of ibuprofen may reduce the antiplatelet effect of aspirin.
 
 
-#### 9.4.2 Clopidogrel
+#### 1.9.4.2 Clopidogrel
 
 Possible interactions include:
 
@@ -1079,21 +1079,21 @@ Possible interactions include:
 Fluconazole or omeprazole should be avoided in patients taking clopidogrel.
 
 
-#### 9.4.3 Dipyridamole
+#### 1.9.4.3 Dipyridamole
 
 Possible interactions include:
 
 - Aspirin may increase bleeding risk.
 
 
-#### 9.4.4 Prasugrel
+#### 1.9.4.4 Prasugrel
 
 Possible interactions include:
 
 - NSAIDs, including aspirin, ibuprofen and diclofenac, may increase bleeding risk.
 
 
-#### 9.4.5 Ticagrelor
+#### 1.9.4.5 Ticagrelor
 
 Possible interactions include:
 
@@ -1104,7 +1104,7 @@ Possible interactions include:
 Clarithromycin should be avoided in patients taking ticagrelor.
 
 
-### 9.5 Additional Advice on NSAIDs
+### 1.9.5 Additional Advice on NSAIDs
 
 The use of NSAIDs is discouraged in patients with vascular disease because of their antiplatelet action.
 
@@ -1116,7 +1116,7 @@ If an NSAID is required:
 - gastroprotection should be considered.
 
 
-### 9.6 Additional Advice on Carbamazepine
+### 1.9.6 Additional Advice on Carbamazepine
 
 Carbamazepine should be avoided in patients taking:
 
@@ -1128,7 +1128,7 @@ Carbamazepine should be avoided in patients taking:
 Carbamazepine should be used with caution in patients taking edoxaban or avoided if possible.
 
 
-### 9.7 Additional Advice on Macrolide Antibiotics and DOACs
+### 1.9.7 Additional Advice on Macrolide Antibiotics and DOACs
 
 There is a risk of interaction between any DOAC and a macrolide antibiotic, including:
 
@@ -1141,3 +1141,309 @@ The clinical significance of these interactions may vary.
 If erythromycin is prescribed for a patient taking edoxaban, liaison with the patient’s prescriber is required for edoxaban dose reduction.
 
 
+
+# 2. ADA Oral Anticoagulant and Antiplatelet Medications and Dental Procedures [2]
+
+Source: American Dental Association (ADA).
+Oral Anticoagulant and Antiplatelet Medications and Dental Procedures.
+ADA Oral Health Topics.
+Last updated September 28, 2022.
+Jurisdiction: United States.
+
+## 2.1 Key Points
+
+An increasing number of patients are prescribed anticoagulant or antiplatelet therapy, and the number of medications available for these purposes has also increased.
+
+There is strong evidence for the older medications, including warfarin and antiplatelet agents, and more limited evidence for the newer direct-acting oral anticoagulants (DOACs). For most patients, anticoagulant or antiplatelet therapy does not need to be altered before dental intervention.
+
+### 2.1.1 Typical Patient
+
+For the typical patient:
+
+- There is no need to discontinue anticoagulant or antiplatelet medication.
+- Local measures should be used to control bleeding.
+
+### 2.1.2 Patients with Higher Risk of Bleeding
+
+For patients with a higher risk of bleeding, any suggested modification to the medication regimen before dental surgery should be made in consultation with and on the advice of the patient's physician.
+
+
+## 2.2 Anticoagulant and Antiplatelet Medications
+
+### 2.2.1 Anticoagulant
+
+- warfarin (Coumadin)
+
+The ADA describes the evidence supporting dental management with warfarin as strong.
+
+
+### 2.2.2 Antiplatelet Agents
+
+- clopidogrel (Plavix)
+- ticlopidine (Ticlid)
+- prasugrel (Effient)
+- ticagrelor (Brilinta)
+- aspirin
+
+The ADA describes the evidence supporting dental management with these older antiplatelet medications as strong.
+
+
+### 2.2.3 Direct-Acting Oral Anticoagulants
+
+- dabigatran (Pradaxa)
+- rivaroxaban (Xarelto)
+- apixaban (Eliquis)
+- edoxaban (Savaysa; marketed as Lixiana in Europe, Japan, and some other countries)
+
+The ADA describes the available evidence for these newer direct-acting oral anticoagulants as limited.
+
+
+## 2.3 Introduction
+
+Oral anticoagulant and antiplatelet medications are prescribed for patients who are at high risk for, or who have previously experienced, thromboembolic events.
+
+Examples include patients with:
+
+- deep-vein thrombosis (DVT)
+- pulmonary embolism (PE)
+- nonvalvular atrial fibrillation (NVAF)
+
+Nonvalvular atrial fibrillation is a cardiac arrhythmia that predisposes patients to blood clot formation.
+
+Oral anticoagulants include the vitamin K antagonist warfarin and the newer direct-acting oral anticoagulants.
+
+Among the direct-acting oral anticoagulants:
+
+- dabigatran is a direct thrombin inhibitor;
+- apixaban is a factor Xa inhibitor;
+- rivaroxaban is a factor Xa inhibitor; and
+- edoxaban is a factor Xa inhibitor.
+
+Oral antiplatelet medications include:
+
+- clopidogrel
+- ticlopidine
+- prasugrel
+- ticagrelor
+- aspirin
+
+Adverse effects associated with anticoagulant and antiplatelet therapy can include prolonged bleeding and bruising.
+
+Without anticoagulant or antiplatelet therapy, patients who require these medications may have an increased risk of blood clot formation that could result in:
+
+- thromboembolism
+- stroke
+- myocardial infarction
+
+The serious risks associated with stopping or reducing anticoagulant or antiplatelet therapy must therefore be balanced against the potential consequences of prolonged bleeding following dental treatment.
+
+Dental bleeding can generally be controlled using local measures such as:
+
+- mechanical pressure
+- hemostatic agents, including absorbable gelatin or oxidized cellulose
+- suturing
+- antifibrinolytic agents such as tranexamic acid
+
+
+## 2.4 Evidence: Direct-Acting Oral Anticoagulants
+
+Four direct-acting oral anticoagulants are approved for use in the United States for indications that include prevention or treatment of deep-vein thrombosis and pulmonary embolism, or reduction of the risk of stroke and systemic embolism in patients with nonvalvular atrial fibrillation:
+
+- dabigatran
+- apixaban
+- rivaroxaban
+- edoxaban
+
+Compared with traditional oral anticoagulant therapy such as warfarin, these agents:
+
+- act on specific targets in the coagulation pathway;
+- are administered in fixed doses;
+- have more predictable pharmacokinetics;
+- have shorter half-lives;
+- require little or no routine laboratory monitoring; and
+- have fewer drug and food interactions.
+
+There is no direct prospective-trial evidence comparing different peri-procedural management strategies for dental patients taking direct-acting oral anticoagulants and evaluating patient outcomes.
+
+However, based on the available limited evidence, in most cases there is no need to alter the anticoagulant regimen before most dental interventions.
+
+
+### 2.4.1 Dental Interventions That May Not Require DOAC Discontinuation
+
+A 2015 consensus guideline from the European Heart Rhythm Association, with a later executive summary, identified several interventions that do not necessarily require discontinuation of newer oral anticoagulants.
+
+These include:
+
+- extraction of 1 to 3 teeth
+- periodontal surgery
+- incision of an abscess
+- dental implant placement
+
+These interventions were identified in the EHRA guidance and its subsequent executive summary. [3][4]
+
+### 2.4.2 Continuing Versus Discontinuing DOAC Therapy
+
+A 2019 systematic review and meta-analysis evaluated management of direct oral anticoagulants for invasive oral procedures.
+
+The review included 21 studies, but no randomized controlled trials were identified.
+
+Six studies directly compared patients who continued DOAC therapy with patients whose DOAC therapy was discontinued before dental procedures.
+
+The review found no important difference in postoperative bleeding between patients who continued and those who discontinued direct oral anticoagulant therapy.
+
+However, the findings should be interpreted cautiously because the available evidence was of low quality and included relatively small numbers of patients. [5]
+
+
+### 2.4.3 Low-to-Moderate Bleeding-Risk Dental Procedures
+
+A 2018 systematic review examined management of patients taking direct-acting oral anticoagulants who required dental procedures associated with low-to-moderate bleeding risk.
+
+Procedures classified as low bleeding risk included:
+
+- administration of local anesthetic
+- simple restorative procedures
+- supragingival scaling
+- single-tooth extraction
+
+Procedures classified as moderate bleeding risk included:
+
+- extraction of 2 to 4 teeth
+- localized gingival surgery involving 5 or fewer teeth
+
+Five studies were included in the evidence review.
+
+Among patients taking direct-acting oral anticoagulants and undergoing procedures with low-to-moderate bleeding risk, bleeding rates were low whether the anticoagulant was continued or temporarily held around the procedure.
+
+When bleeding occurred, it was generally mild and could be controlled using local hemostatic measures. [6]
+
+
+### 2.4.4 More Conservative Approaches
+
+Two narrative reviews discussed more conservative management approaches that may be considered in patients with a higher risk of bleeding or when the planned procedure is associated with increased perioperative bleeding risk.
+
+One suggested approach is maximizing the amount of time between the patient's last anticoagulant dose and the dental intervention. [7][8]
+
+For patients considered to have a higher risk of bleeding, the ADA also notes that possible approaches may include:
+
+- postponing the daily anticoagulant dose until after the dental procedure;
+- scheduling the dental intervention as late as possible after the patient's most recent anticoagulant dose; or
+- temporarily interrupting anticoagulant therapy for approximately 24 to 48 hours.
+
+Any suggested modification to the patient's anticoagulant regimen should be made in consultation with and on the advice of the patient's physician. [2]
+
+
+## 2.5 Evidence: Warfarin and Antiplatelet Agents
+
+Warfarin and antiplatelet medications such as clopidogrel, ticlopidine, prasugrel, ticagrelor, and aspirin are commonly used in patients who:
+
+- have experienced deep-vein thrombosis or pulmonary embolism;
+- have experienced myocardial infarction;
+- have undergone cardiac stent placement; or
+- have nonvalvular atrial fibrillation.
+
+There is general agreement, supported by strong evidence, that treatment regimens involving these older anticoagulant and antiplatelet medications generally should not be altered before dental procedures.
+
+
+### 2.5.1 Warfarin
+
+A 2009 systematic review and meta-analysis found no increased risk of bleeding when regular warfarin doses were continued compared with discontinuing or modifying warfarin in patients undergoing single or multiple tooth extractions. [9]
+
+The American Academy of Neurology has recommended that patients taking aspirin or warfarin for stroke prevention who undergo dental procedures continue taking their medications. [10]
+
+A 2015 systematic review addressing dental extractions in patients taking warfarin concluded that patients whose International Normalized Ratio (INR) was within the therapeutic range of 3.0 or less could continue their regular warfarin regimen before extraction. [11]
+
+A 2016 Clinical Practice Statement from the American Academy of Oral Medicine concluded that moderately invasive oral surgery, defined as uncomplicated tooth extraction, is safe at an INR of approximately 3.5. Some experts cited in that statement considered treatment safe at an INR of up to 4.0. [12]
+
+A 2008 systematic review and meta-analysis found that although hemorrhage and thromboembolism risks were reduced at an INR range of 2 to 3, moderately higher INR values appeared to be safe and more effective than subtherapeutic anticoagulation. [13]
+
+
+## 2.6 Single or Dual Antiplatelet Therapy
+
+The American Heart Association, American College of Cardiology, Society for Cardiovascular Angiography and Interventions, American College of Surgeons, and American Dental Association published a consensus opinion addressing coronary stents and antiplatelet therapy.
+
+The consensus states that healthcare professionals performing invasive or surgical procedures, including dentists, who are concerned about peri-procedural or postoperative bleeding should contact the patient's cardiologist before discontinuing antiplatelet medication.
+
+Because antiplatelet therapy is important after coronary stent placement to reduce the risk of stent thrombosis, these medications should not be discontinued prematurely. [14]
+
+A 2020 systematic review and meta-analysis found clinically similar bleeding rates after minor oral surgery among patients receiving dual antiplatelet therapy, single antiplatelet therapy, or no antiplatelet therapy. Bleeding that occurred was managed with local measures, and the authors concluded that interruption of dual antiplatelet therapy before minor oral surgery was not advised. [15]
+
+A 2013 systematic review found no clinically significant increase in postoperative bleeding complications following invasive dental procedures among patients receiving either single or dual antiplatelet therapy. [16]
+
+## 2.7 Other Patient Considerations
+
+Some patients taking one or more anticoagulant medications may have additional medical conditions or may be receiving other treatments or medications that increase their risk of prolonged bleeding after dental treatment.
+
+Examples include:
+
+- liver impairment
+- alcoholism
+- kidney failure
+- thrombocytopenia
+- hemophilia
+- other hematologic disorders
+- cytotoxic medications such as cancer chemotherapy
+
+In these situations, dental practitioners may wish to consult the patient's physician to determine whether dental care can safely be delivered in a primary care office.
+
+Any suggested modification to the patient's medication regimen before dental surgery should be made in consultation with and on the advice of the patient's physician.
+
+
+## 2.8 Summary
+
+For most patients taking older anticoagulants such as warfarin or antiplatelet medications such as clopidogrel, ticlopidine, prasugrel, ticagrelor, or aspirin, treatment generally should not be altered before dental procedures.
+
+The risks associated with stopping or reducing these medications, including thromboembolism, stroke, and myocardial infarction, generally outweigh the consequences of prolonged dental bleeding, which can usually be controlled using local measures.
+
+For patients with comorbid medical conditions or other therapies that increase the risk of prolonged bleeding, the dentist may wish to consult the patient's physician to determine whether treatment can safely be provided in a primary dental office.
+
+Any suggested change to anticoagulant or antiplatelet therapy before dental surgery should be made in consultation with and on the advice of the patient's physician.
+
+For most patients receiving direct-acting oral anticoagulants, including dabigatran, rivaroxaban, apixaban, or edoxaban, limited evidence and general consensus indicate that no change in anticoagulant therapy is required for most dental interventions when usual local measures are used to control bleeding.
+
+For patients considered to have a higher risk of bleeding because of comorbid conditions or more extensive procedures, possible approaches may include:
+
+- postponing the daily anticoagulant dose until after the procedure;
+- scheduling the dental intervention as late as possible after the most recent anticoagulant dose; or
+- temporarily interrupting anticoagulant therapy for approximately 24 to 48 hours.
+
+Such changes should be considered only in consultation with and on the advice of the patient's physician.
+
+Further research is needed to establish definitive peri-procedural management strategies, particularly for patients considered to have a higher risk of bleeding.
+
+
+
+
+
+# References
+
+[1] Scottish Dental Clinical Effectiveness Programme. (2022). *Management of dental patients taking anticoagulants or antiplatelet drugs* (2nd ed.). NHS Education for Scotland.
+
+[2] American Dental Association. (2022, September 28). *Oral anticoagulant and antiplatelet medications and dental procedures*. https://www.ada.org/resources/ada-library/oral-health-topics/oral-anticoagulant-and-antiplatelet-medications-and-dental-procedures
+
+[3] Heidbuchel, H., Verhamme, P., Alings, M., et al. (2015). Updated European Heart Rhythm Association practical guide on the use of non-vitamin K antagonist anticoagulants in patients with non-valvular atrial fibrillation. *Europace, 17*(10), 1467–1507.
+
+[4] Heidbuchel, H., Verhamme, P., Alings, M., et al. (2017). Updated European Heart Rhythm Association practical guide on the use of non-vitamin-K antagonist anticoagulants in patients with non-valvular atrial fibrillation: Executive summary. *European Heart Journal, 38*(27), 2137–2149.
+
+[5] Manfredi, M., Dave, B., Percudani, D., et al. (2019). World Workshop on Oral Medicine VII: Direct anticoagulant agents management for invasive oral procedures: A systematic review and meta-analysis. *Oral Diseases, 25*(Suppl. 1), 157–173.
+
+[6] Lusk, K. A., Snoga, J. L., Benitez, R. M., & Sarbacker, G. B. (2018). Management of direct-acting oral anticoagulants surrounding dental procedures with low-to-moderate risk of bleeding. *Journal of Pharmacy Practice, 31*(2), 202–207.
+
+[7] Thean, D., & Alberghini, M. (2016). Anticoagulant therapy and its impact on dental patients: A review. *Australian Dental Journal, 61*(2), 149–156.
+
+[8] Elad, S., Marshall, J., Meyerowitz, C., & Connolly, G. (2016). Novel anticoagulants: General overview and practical considerations for dental practitioners. *Oral Diseases, 22*(1), 23–32.
+
+[9] Nematullah, A., Alabousi, A., Blanas, N., Douketis, J. D., & Sutherland, S. E. (2009). Dental surgery for patients on anticoagulant therapy with warfarin: A systematic review and meta-analysis. *Journal of the Canadian Dental Association, 75*(1), 41.
+
+[10] Armstrong, M. J., Gronseth, G., Anderson, D. C., et al. (2013). Summary of evidence-based guideline: Periprocedural management of antithrombotic medications in patients with ischemic cerebrovascular disease. *Neurology, 80*(22), 2065–2069.
+
+[11] Weltman, N. J., Al-Attar, Y., Cheung, J., et al. (2015). Management of dental extractions in patients taking warfarin as anticoagulant treatment: A systematic review. *Journal of the Canadian Dental Association, 81*, f20.
+
+[12] American Academy of Oral Medicine. (2016). Clinical practice statement: Management of patients on warfarin therapy. *Oral Surgery, Oral Medicine, Oral Pathology and Oral Radiology, 122*(6), 702–704.
+
+[13] Oake, N., Jennings, A., Forster, A. J., et al. (2008). Anticoagulation intensity and outcomes among patients prescribed oral anticoagulant therapy: A systematic review and meta-analysis. *CMAJ, 179*(3), 235–244.
+
+[14] Grines, C. L., Bonow, R. O., Casey, D. E., Jr., et al. (2007). Prevention of premature discontinuation of dual antiplatelet therapy in patients with coronary artery stents: A science advisory. *Journal of the American Dental Association, 138*(5), 652–655.
+
+[15] Ockerman, A., Bornstein, M. M., Leung, Y. Y., et al. (2020). Incidence of bleeding after minor oral surgery in patients on dual antiplatelet therapy: A systematic review and meta-analysis. *International Journal of Oral and Maxillofacial Surgery, 49*(1), 90–98.
+
+[16] Napeñas, J. J., Oost, F. C., DeGroot, A., et al. (2013). Review of postoperative bleeding risk in dental patients on antiplatelet therapy. *Oral Surgery, Oral Medicine, Oral Pathology and Oral Radiology, 115*(4), 491–499.
