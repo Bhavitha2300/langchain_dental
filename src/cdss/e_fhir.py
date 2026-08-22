@@ -32,9 +32,7 @@ def get_service_requests(patient_id: str):
     return response.json()
 
 
-def main():
-    patient_id = "1000"
-
+def get_fhir_patient_data(patient_id: str):
     patient = get_patient(patient_id)
     medications = get_medications(patient_id)
     conditions = get_conditions(patient_id)
@@ -47,6 +45,11 @@ def main():
         "service_requests": service_requests
     }
 
+    return fhir_patient_data
+
+def main():
+    patient_id = "1000"
+    fhir_patient_data = get_fhir_patient_data(patient_id)
     print(fhir_patient_data)
 
 
