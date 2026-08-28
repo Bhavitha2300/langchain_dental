@@ -31,6 +31,5 @@ def preview_chunks():
 
 
 if __name__ == "__main__":
-    chunks()
     preview_chunks()
 
