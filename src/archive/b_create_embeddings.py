@@ -1,6 +1,6 @@
 from config import load_config
 from langchain_openai import OpenAIEmbeddings
-from a_split_markdown import chunks
+from cdss.a_split_markdown import chunks
 
 def embed():
     embed_model = OpenAIEmbeddings(model="text-embedding-3-small")

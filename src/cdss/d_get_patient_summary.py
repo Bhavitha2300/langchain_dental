@@ -1,7 +1,7 @@
 from config import load_config
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
-from cdss.e_fhir import get_fhir_patient_data
+from cdss.c_fhir import get_fhir_patient_data
 
 load_config()
 

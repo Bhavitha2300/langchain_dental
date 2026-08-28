@@ -1,5 +1,5 @@
-from cdss.g_get_patient_summary import get_patient_summary
-from cdss.c_vector_store import get_vector_store
+from cdss.d_get_patient_summary import get_patient_summary
+from cdss.b_vector_store import get_vector_store
 
 
 def retrieve_guidelines(patient_id: str):
