@@ -2,7 +2,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter, MarkdownHea
 from pathlib import Path
 
 data_dir = Path(__file__).resolve().parent.parent.parent / "data"
-markdown_file = data_dir / "sdcep_guidelines.md"
+markdown_file = data_dir / "guidelines.md"
 
 _headers_to_split_on=[
     ("#", "h1"),

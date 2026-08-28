@@ -1,5 +1,43 @@
 # 1. SDCEP Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs [1]
 
+# 2. ADA Oral Anticoagulant and Antiplatelet Medications and Dental Procedures [2]
+
+# 3. CHEST Perioperative Management of Antithrombotic Therapy [17]
+
+# 4. Venous Thromboembolism: DVT and Pulmonary Embolism 
+
+# 5. Valvular Heart Disease and Mechanical Prosthetic Valves 
+
+# 6. Acute Coronary Syndromes, PCI, and Coronary Stents 
+
+# 7. Chronic Coronary Disease
+
+# 8. Ischemic Stroke and Transient Ischemic Attack
+
+# 9. Peripheral Artery Disease
+
+# 10. Atrial Fibrillation 
+
+# 11. Drug-Specific Information
+## 11.1 Apixaban
+## 11.2 Rivaroxaban
+## 11.3 Dabigatran
+## 11.4 Edoxaban
+## 11.5 Warfarin
+## 11.6 Aspirin
+## 11.7 Clopidogrel
+## 11.8 Ticagrelor
+## 11.9 Prasugrel
+## 11.10 Enoxaparin
+
+
+
+
+
+
+
+# 1. SDCEP Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs [1]
+
 Source: Scottish Dental Clinical Effectiveness Programme (SDCEP).
 Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs.
 Second Edition. March 2022.
@@ -1148,7 +1186,6 @@ Source: American Dental Association (ADA).
 Oral Anticoagulant and Antiplatelet Medications and Dental Procedures.
 ADA Oral Health Topics.
 Last updated September 28, 2022.
-Jurisdiction: United States.
 
 ## 2.1 Key Points
 
@@ -1412,6 +1449,577 @@ Further research is needed to establish definitive peri-procedural management st
 
 
 
+# 3. Clinical Indications for Anticoagulant and Antiplatelet Therapy
+
+## 3.1 Atrial Fibrillation [17]
+
+Source: American College of Cardiology/American Heart Association/American College of Clinical Pharmacy/Heart Rhythm Society (ACC/AHA/ACCP/HRS).
+2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation.
+Published in the Journal of the American College of Cardiology in 2024.
+
+Atrial fibrillation (AF) is associated with an increased risk of stroke. Prevention of stroke is an important component of AF management.
+
+### 3.1.1 Assessment of Thromboembolic Risk
+
+Patients with AF should be evaluated for their annual risk of thromboembolic events using a validated clinical risk score, such as CHA2DS2-VASc.
+
+**Class 1 recommendation; Level of Evidence B-NR.**
+
+The CHA2DS2-VASc score includes the following clinical factors:
+
+- congestive heart failure;
+- hypertension;
+- age 75 years or older, assigned 2 points;
+- diabetes mellitus;
+- prior stroke, transient ischemic attack, or thromboembolism, assigned 2 points;
+- vascular disease;
+- age 65 to 74 years; and
+- female sex.
+
+For patients with AF who have an estimated annual thromboembolic risk of 2% or greater per year, such as a CHA2DS2-VASc score of 2 or greater in men or 3 or greater in women, anticoagulation is recommended to prevent stroke and systemic thromboembolism.
+
+**Class 1 recommendation; Level of Evidence A.**
+
+For patients with AF who have an estimated annual thromboembolic risk of at least 1% but less than 2% per year, equivalent to a CHA2DS2-VASc score of 1 in men or 2 in women, anticoagulation is reasonable to prevent stroke and systemic thromboembolism.
+
+**Class 2a recommendation; Level of Evidence A.**
+
+
+### 3.1.2 Atrial Fibrillation Pattern and Stroke Prevention
+
+For patients diagnosed with AF who have an estimated annual risk of stroke or thromboembolic events of 2% or greater, selection of therapy to reduce stroke risk should be based on the risk of thromboembolism regardless of whether the AF pattern is:
+
+- paroxysmal;
+- persistent;
+- long-standing persistent; or
+- permanent.
+
+**Class 1 recommendation; Level of Evidence B-R.**
+
+The need for and choice of stroke risk reduction therapy should be reevaluated periodically to reassess:
+
+- stroke risk;
+- bleeding risk;
+- net clinical benefit; and
+- appropriate dosing.
+
+**Class 1 recommendation; Level of Evidence B-NR.**
+
+
+### 3.1.3 Selection of Oral Anticoagulant Therapy
+
+For patients with AF who do not have a history of moderate-to-severe rheumatic mitral stenosis or a mechanical heart valve and who are candidates for anticoagulation, direct oral anticoagulants (DOACs) are recommended over warfarin to reduce the risk of:
+
+- mortality;
+- stroke;
+- systemic embolism; and
+- intracranial hemorrhage.
+
+**Class 1 recommendation; Level of Evidence A.**
+
+Warfarin remains the first-line anticoagulant therapy for patients with AF and:
+
+- moderate-to-severe rheumatic mitral stenosis; or
+- mechanical heart valves.
+
+
+### 3.1.4 Atrial Fibrillation with Mitral Stenosis
+
+For patients with rheumatic mitral stenosis, or mitral stenosis of moderate or greater severity, and a history of AF, long-term anticoagulation with warfarin is recommended over DOACs, independent of the CHA2DS2-VASc score, to prevent cardiovascular events including stroke or death.
+
+**Class 1 recommendation; Level of Evidence B-R.**
+
+
+### 3.1.5 Antiplatelet Therapy and Stroke Prevention in Atrial Fibrillation
+
+For patients with AF who are candidates for anticoagulation and who do not have another indication for antiplatelet therapy, aspirin alone or aspirin in combination with clopidogrel is not recommended as an alternative to anticoagulation for reducing stroke risk.
+
+**Class 3: Harm; Level of Evidence B-R.**
+
+For patients with AF who do not have risk factors for stroke, aspirin monotherapy for prevention of thromboembolic events provides no benefit.
+
+**Class 3: No Benefit; Level of Evidence B-NR.**
+
+Patients with AF may have a separate indication for antiplatelet therapy, such as coronary artery disease or vascular disease. In the absence of another indication for antiplatelet therapy, antiplatelet therapy should not be used for stroke-risk reduction in place of anticoagulation.
+
+
+### 3.1.6 Factors Relevant to Bleeding Risk
+
+Patients with AF should be evaluated for factors that specifically indicate a higher risk of bleeding, including:
+
+- previous bleeding; and
+- use of medications that increase bleeding risk.
+
+The purpose of identifying these factors is to identify possible interventions that may prevent bleeding during anticoagulation.
+
+**Class 1 recommendation; Level of Evidence B-NR.**
+
+Bleeding risk scores should not be used in isolation to determine eligibility for oral anticoagulation in patients considered to be at high risk for stroke. Instead, bleeding risk assessment should be used to identify and modify bleeding risk factors and to inform medical decision-making.
+
+**Class 3: No Benefit; Level of Evidence B-NR.**
+
+
+### 3.1.7 Patient Factors Relevant to Oral Anticoagulant Management
+
+Multiple factors should be considered when selecting an oral anticoagulant for a patient with AF. Major factors identified by the guideline include:
+
+- efficacy;
+- safety;
+- insurance coverage;
+- renal and hepatic function;
+- drug interaction screening;
+- medication adherence; and
+- patient preferences.
+
+DOAC dosing in patients with AF should be selected based on:
+
+- age;
+- renal function;
+- body weight; and
+- concomitant medications.
+
+Hepatic function should also be evaluated when determining the appropriateness of DOAC therapy.
+
+## 3.2 Venous Thromboembolism: Deep Vein Thrombosis and Pulmonary Embolism [18]
+
+Source: Stevens et al. (2024), CHEST (American College of Chest Physicians).
+Antithrombotic Therapy for VTE Disease: Compendium and Review of CHEST Guidelines 2012–2021.
+Published in CHEST in 2024.
+
+Source note: This 2024 compendium collects guidance statements considered relevant to current clinical care from the 2012 CHEST antithrombotic guideline and its 2016 and 2021 updates. The compendium itself is not an officially endorsed CHEST guideline; it serves as a unified collection of the contemporary guidance statements from the preceding CHEST guidelines.
+
+
+### 3.2.1 Phases of Anticoagulant Therapy
+
+CHEST organizes anticoagulant therapy for venous thromboembolism (VTE) into three phases:
+
+- **Initiation phase (0–21 days):** the initial provision of anticoagulants following VTE diagnosis.
+- **Treatment phase (3 months):** the period after initiation that completes treatment for the acute VTE event.
+- **Extended phase (3 months to no planned stop date):** anticoagulant therapy given at full or reduced dose for secondary prevention.
+
+
+### 3.2.2 Classification of Precipitating Factors for VTE
+
+CHEST classifies VTE according to the presence or absence of precipitating factors as:
+
+- VTE provoked by a **major transient risk factor**, present within 3 months before VTE diagnosis;
+- VTE provoked by a **minor transient risk factor**, present within 2 months before VTE diagnosis;
+- VTE provoked by a **persistent risk factor**; or
+- **unprovoked VTE**.
+
+
+### 3.2.3 Treatment-Phase Anticoagulation for Acute VTE
+
+For patients with acute VTE who do not have a contraindication to anticoagulation, CHEST recommends a minimum 3-month treatment phase of anticoagulation.
+
+**CHEST Statement 10.0 (2021): Strong Recommendation, Moderate-Certainty Evidence.**
+
+At the conclusion of the treatment phase, patients should be assessed for whether extended-phase anticoagulation is needed.
+
+For patients with acute VTE, defined in this recommendation as deep vein thrombosis (DVT) of the leg or pulmonary embolism (PE), CHEST recommends:
+
+- apixaban;
+- dabigatran;
+- edoxaban; or
+- rivaroxaban
+
+over a vitamin K antagonist (VKA) for treatment-phase anticoagulation during the first 3 months.
+
+**CHEST Statement 11.0 (2021): Strong Recommendation, Moderate-Certainty Evidence.**
+
+The DOACs are listed alphabetically in the CHEST compendium. Their order does not indicate a preference for one DOAC over another.
+
+
+### 3.2.4 Initiation of DOAC Therapy
+
+When a DOAC is selected for treatment of VTE, CHEST notes that initiation differs according to the agent:
+
+- apixaban and rivaroxaban are initiated using an initial higher-dose regimen; and
+- dabigatran and edoxaban are initiated after an initial course of parenteral low-molecular-weight heparin (LMWH).
+
+The initiation phase is followed by the treatment-phase dose of the selected DOAC.
+
+
+### 3.2.5 Extended-Phase Anticoagulation
+
+The recommendation for extended-phase anticoagulation depends on the clinical context in which the VTE occurred.
+
+For patients with VTE diagnosed in the setting of a **major transient risk factor**, CHEST recommends against offering extended-phase anticoagulation.
+
+**CHEST Statement 12.0 (2021): Strong Recommendation, Moderate-Certainty Evidence.**
+
+For patients with VTE diagnosed in the setting of a **minor transient risk factor**, CHEST suggests against offering extended-phase anticoagulation.
+
+**CHEST Statement 12.1 (2021): Weak Recommendation, Moderate-Certainty Evidence.**
+
+For patients with VTE diagnosed in the **absence of transient provocation (unprovoked VTE)** or VTE provoked by a **persistent risk factor**, CHEST recommends offering extended-phase anticoagulation with a DOAC.
+
+**CHEST Statement 12.2 (2021): Strong Recommendation, Moderate-Certainty Evidence.**
+
+
+### 3.2.6 Choice of Anticoagulant During Extended-Phase Therapy
+
+For patients who are offered extended-phase anticoagulation, CHEST suggests reduced-dose apixaban or rivaroxaban over full-dose apixaban or rivaroxaban.
+
+**CHEST Statement 13.0 (2021): Weak Recommendation, Very Low-Certainty Evidence.**
+
+For patients with unprovoked VTE or VTE provoked by a persistent risk factor who cannot receive a DOAC, CHEST suggests extended-phase anticoagulation with a vitamin K antagonist.
+
+**CHEST Statement 13.2 (2021): Weak Recommendation, Moderate-Certainty Evidence.**
+
+
+### 3.2.7 VTE Associated With Cancer
+
+For patients with acute VTE in the setting of cancer (cancer-associated thrombosis [CAT]), CHEST recommends an oral factor Xa inhibitor:
+
+- apixaban;
+- edoxaban; or
+- rivaroxaban
+
+over LMWH for the initiation and treatment phases of anticoagulant therapy.
+
+**CHEST Statement 11.1 (2021): Strong Recommendation, Moderate-Certainty Evidence.**
+
+Choice of anticoagulant in cancer-associated thrombosis is sensitive to patient factors including:
+
+- drug-drug interactions;
+- tolerance of oral medication; and
+- cancer-specific treatment variables.
+
+For patients with VTE and active cancer who do not have a high bleeding risk, CHEST recommends extended anticoagulant therapy with no scheduled stop date rather than stopping after 3 months.
+
+**CHEST Statement 12.3 (2016): Strong Recommendation, Moderate-Certainty Evidence.**
+
+For patients with VTE and active cancer who have a high bleeding risk, CHEST suggests extended anticoagulant therapy with no scheduled stop date rather than stopping after 3 months.
+
+**CHEST Statement 12.3 (2016): Weak Recommendation, Moderate-Certainty Evidence.**
+
+
+### 3.2.8 VTE and Antiphospholipid Antibody Syndrome
+
+For patients with confirmed antiphospholipid antibody syndrome (APS) who are being managed with anticoagulant therapy, CHEST suggests adjusted-dose vitamin K antagonist therapy, with a target INR of 2.5, over DOAC therapy during the treatment phase.
+
+**CHEST Statement 20.0 (2021): Weak Recommendation, Low-Certainty Evidence.**
+
+The CHEST panel notes that evidence showing lower efficacy of DOACs involved patients with triple-positive serologic profiles and that management of patients with other APS antibody profiles is less clear.
+
+
+
+## 3.3 Acute Coronary Syndromes, PCI, and Coronary Stents in the ACS Setting [19]
+
+Source: American College of Cardiology/American Heart Association/American College of Emergency Physicians/National Association of EMS Physicians/Society for Cardiovascular Angiography and Interventions (ACC/AHA/ACEP/NAEMSP/SCAI).
+2025 ACC/AHA/ACEP/NAEMSP/SCAI Guideline for the Management of Patients With Acute Coronary Syndromes.
+Published in Circulation in 2025.
+
+
+### 3.3.1 Acute Coronary Syndrome
+
+Acute coronary syndrome (ACS) is typically caused by disruption, through rupture or erosion, of an unstable coronary artery atherosclerotic plaque with associated partial or complete coronary artery thrombosis and/or microemboli. This can result in reduced blood flow to the myocardium and myocardial ischemia.
+
+ACS includes three related clinical conditions:
+
+- unstable angina;
+- non-ST-segment elevation myocardial infarction (NSTEMI); and
+- ST-segment elevation myocardial infarction (STEMI).
+
+The 2025 ACS guideline primarily focuses on ACS resulting from atherosclerotic plaque rupture or erosion and subsequent thrombosis.
+
+
+### 3.3.2 Antiplatelet Therapy in Acute Coronary Syndrome
+
+For patients with ACS, an initial oral loading dose of aspirin followed by daily low-dose aspirin is recommended to reduce death and major adverse cardiovascular events (MACE).
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+For patients with ACS, an oral P2Y12 inhibitor should be administered in addition to aspirin to reduce MACE.
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+Oral P2Y12 inhibitors addressed in the guideline include:
+
+- clopidogrel;
+- prasugrel; and
+- ticagrelor.
+
+The guideline notes that adding a P2Y12 inhibitor to aspirin reduces recurrent major adverse cardiovascular events but increases bleeding risk.
+
+
+### 3.3.3 P2Y12 Inhibitor Selection in ACS and PCI
+
+For patients with NSTE-ACS undergoing percutaneous coronary intervention (PCI), prasugrel or ticagrelor is recommended to reduce MACE and stent thrombosis.
+
+**Class of Recommendation 1; Level of Evidence B-R.**
+
+For patients with NSTE-ACS, clopidogrel is recommended when prasugrel or ticagrelor:
+
+- are unavailable;
+- cannot be tolerated; or
+- are contraindicated.
+
+**Class of Recommendation 1; Level of Evidence B-R.**
+
+For patients with STEMI managed with primary PCI, prasugrel or ticagrelor should be administered to reduce MACE and stent thrombosis.
+
+**Class of Recommendation 1; Level of Evidence B-R.**
+
+For patients with STEMI managed with primary PCI, clopidogrel is recommended when prasugrel or ticagrelor:
+
+- are unavailable;
+- cannot be tolerated; or
+- are contraindicated.
+
+**Class of Recommendation 1; Level of Evidence C-LD.**
+
+
+### 3.3.4 Duration of Dual Antiplatelet Therapy After ACS
+
+For patients with ACS who are not at high bleeding risk, dual antiplatelet therapy (DAPT) with aspirin and an oral P2Y12 inhibitor should be administered for at least 1 year to reduce MACE.
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+The guideline identifies a minimum duration of 1 year of DAPT as the default strategy for patients with ACS who are not at high bleeding risk.
+
+
+### 3.3.5 Patients With ACS Who Also Require Oral Anticoagulation
+
+Patients with ACS may also have an indication for oral anticoagulant therapy, including:
+
+- atrial fibrillation;
+- venous thromboembolism; or
+- prosthetic heart valves.
+
+Triple antithrombotic therapy consists of:
+
+- aspirin;
+- a P2Y12 inhibitor; and
+- an oral anticoagulant.
+
+The guideline notes that bleeding risk is increased with triple antithrombotic therapy.
+
+For patients with ACS who require oral anticoagulant therapy, aspirin should be discontinued after 1 to 4 weeks of triple antithrombotic therapy, with continued use of a P2Y12 inhibitor, preferably clopidogrel, and an oral anticoagulant to reduce bleeding risk.
+
+**Class of Recommendation 1; Level of Evidence B-R.**
+
+
+## 3.4 Valvular Heart Disease and Prosthetic Heart Valves [20]
+
+Source: American College of Cardiology/American Heart Association (ACC/AHA).
+2020 ACC/AHA Guideline for the Management of Patients With Valvular Heart Disease.
+Published in Circulation in 2021.
+
+
+### 3.4.1 Mechanical Prosthetic Valves and Anticoagulation
+
+For patients with a mechanical prosthetic valve, anticoagulation with a vitamin K antagonist (VKA) is recommended.
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+The guideline states that all patients with mechanical valves require lifelong anticoagulant therapy with a VKA to reduce the risk of valve thrombosis and thromboembolic events.
+
+The INR goal depends on the type and position of the mechanical valve and the presence of additional thromboembolic risk factors.
+
+
+### 3.4.2 INR Targets for Mechanical Prosthetic Valves
+
+For patients with a mechanical bileaflet or current-generation single-tilting disk aortic valve replacement (AVR) and no risk factors for thromboembolism, VKA anticoagulation to achieve an INR of 2.5 is recommended.
+
+**Class of Recommendation 1; Level of Evidence B-NR.**
+
+For patients with a mechanical AVR and additional thromboembolic risk factors, or with an older-generation prosthesis, VKA anticoagulation to achieve an INR of 3.0 is indicated.
+
+**Class of Recommendation 1; Level of Evidence B-NR.**
+
+Thromboembolic risk factors identified by the guideline include:
+
+- atrial fibrillation;
+- previous thromboembolism;
+- left ventricular dysfunction; and
+- a hypercoagulable state.
+
+An older-generation prosthesis, such as a ball-in-cage valve, is also associated with the recommendation for the higher INR target.
+
+For patients with a mechanical mitral valve replacement, VKA anticoagulation to achieve an INR of 3.0 is indicated.
+
+**Class of Recommendation 1; Level of Evidence B-NR.**
+
+
+### 3.4.3 On-X Mechanical Aortic Valve
+
+For patients with a mechanical On-X aortic valve replacement and no thromboembolic risk factors, use of a VKA targeted to a lower INR of 1.5 to 2.0 may be reasonable beginning at least 3 months after surgery, with continuation of aspirin 75 to 100 mg daily.
+
+**Class of Recommendation 2b; Level of Evidence B-R.**
+
+
+### 3.4.4 Direct Oral Anticoagulants and Mechanical Prosthetic Valves
+
+For patients with a mechanical valve prosthesis, anticoagulation with the direct thrombin inhibitor dabigatran is contraindicated.
+
+**Class of Recommendation 3: Harm; Level of Evidence B-R.**
+
+For patients with a mechanical valve prosthesis, the use of anti-Xa direct oral anticoagulants has not been assessed and is not recommended.
+
+**Class of Recommendation 3: Harm; Level of Evidence C-EO.**
+
+Vitamin K antagonists remain the anticoagulant therapy used for patients with mechanical heart valves.
+
+
+### 3.4.5 Antithrombotic Therapy After Bioprosthetic Valve Replacement
+
+For patients with a bioprosthetic transcatheter aortic valve implantation (TAVI), aspirin 75 to 100 mg daily is reasonable in the absence of another indication for oral anticoagulation.
+
+**Class of Recommendation 2a; Level of Evidence B-R.**
+
+For patients with a bioprosthetic surgical aortic valve replacement (SAVR) or bioprosthetic mitral valve replacement, aspirin 75 to 100 mg daily is reasonable in the absence of another indication for oral anticoagulation.
+
+**Class of Recommendation 2a; Level of Evidence B-NR.**
+
+For patients with a bioprosthetic SAVR or mitral valve replacement who are at low risk of bleeding, VKA anticoagulation to achieve an INR of 2.5 is reasonable for at least 3 months and for as long as 6 months after surgical valve replacement.
+
+**Class of Recommendation 2a; Level of Evidence B-NR.**
+
+The guideline notes that many patients with a surgically implanted bioprosthetic aortic or mitral valve will not require lifelong anticoagulation in the absence of an independent indication for anticoagulation, such as atrial fibrillation.
+
+
+### 3.4.6 Atrial Fibrillation in Patients With Valvular Heart Disease
+
+For patients with atrial fibrillation and native valvular heart disease, except rheumatic mitral stenosis, or patients who received a bioprosthetic valve more than 3 months previously, a non-vitamin K oral anticoagulant (NOAC) is an effective alternative to VKA anticoagulation and should be administered on the basis of the patient's CHA2DS2-VASc score.
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+For patients with atrial fibrillation and rheumatic mitral stenosis, long-term VKA oral anticoagulation is recommended.
+
+**Class of Recommendation 1; Level of Evidence C-EO.**
+
+For patients with new-onset atrial fibrillation within 3 months after surgical or transcatheter bioprosthetic valve replacement, anticoagulation with a VKA is reasonable.
+
+**Class of Recommendation 2a; Level of Evidence B-NR.**
+
+For patients with mechanical heart valves, with or without atrial fibrillation, who require long-term VKA anticoagulation to prevent valve thrombosis, NOACs are not recommended.
+
+**Class of Recommendation 3: Harm; Level of Evidence B-R.**
+
+
+### 3.4.7 Mechanical Prosthetic Valves and Minor Dental Procedures
+
+For patients with mechanical heart valves who are undergoing minor procedures, including dental extractions where bleeding can be readily controlled, continuation of VKA anticoagulation with a therapeutic INR is recommended.
+
+**Class of Recommendation 1; Level of Evidence C-EO.**
+
+The guideline also states that antithrombotic therapy should not be stopped for procedures in which bleeding is unlikely or would be inconsequential, including:
+
+- dental cleaning; and
+- simple treatment for dental caries.
+
+
+
+## 3.5 Ischemic Stroke and Transient Ischemic Attack [21]
+
+Source: American Heart Association/American Stroke Association (AHA/ASA).
+2021 Guideline for the Prevention of Stroke in Patients With Stroke and Transient Ischemic Attack.
+Published in Stroke in 2021.
+
+Source scope: This guideline addresses secondary prevention of ischemic stroke and transient ischemic attack (TIA). It does not address acute management of ischemic stroke.
+
+The guideline notes that secondary prevention strategies often depend on the subtype and etiology of the ischemic stroke or TIA.
+
+In general, with very few exceptions, patients with TIA and patients with ischemic stroke are treated similarly for purposes of secondary prevention.
+
+
+### 3.5.1 Antithrombotic Therapy After Noncardioembolic Ischemic Stroke or TIA
+
+For patients with noncardioembolic ischemic stroke or TIA, antiplatelet therapy is indicated in preference to oral anticoagulation to reduce the risk of recurrent ischemic stroke and other cardiovascular events while minimizing the risk of bleeding.
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+For patients with noncardioembolic ischemic stroke or TIA, the following antiplatelet regimens are indicated for secondary prevention of ischemic stroke:
+
+- aspirin 50 to 325 mg daily;
+- clopidogrel 75 mg daily; or
+- aspirin 25 mg combined with extended-release dipyridamole 200 mg twice daily.
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+
+### 3.5.2 Short-Term Dual Antiplatelet Therapy After Minor Ischemic Stroke or High-Risk TIA
+
+For patients with a recent minor noncardioembolic ischemic stroke, defined as a National Institutes of Health Stroke Scale (NIHSS) score of 3 or less, or a high-risk TIA, defined as an ABCD2 score of 4 or greater, dual antiplatelet therapy with aspirin and clopidogrel should be initiated early.
+
+The guideline specifies initiation:
+
+- ideally within 12 to 24 hours of symptom onset; and
+- at least within 7 days of symptom onset.
+
+Dual antiplatelet therapy with aspirin and clopidogrel should be continued for 21 to 90 days and then followed by single antiplatelet therapy to reduce the risk of recurrent ischemic stroke.
+
+**Class of Recommendation 1; Level of Evidence A (Systematic Review).**
+
+
+### 3.5.3 Ticagrelor Plus Aspirin in Selected Patients
+
+For patients with a recent event within 24 hours who have:
+
+- minor to moderate stroke with an NIHSS score of 5 or less;
+- high-risk TIA with an ABCD2 score of 6 or greater; or
+- symptomatic intracranial or extracranial stenosis of 30% or greater in an artery that could account for the event,
+
+dual antiplatelet therapy with ticagrelor plus aspirin for 30 days may be considered to reduce the risk of recurrent stroke within 30 days.
+
+The guideline states that this regimen may also increase the risk of serious bleeding events, including intracranial hemorrhage.
+
+**Class of Recommendation 2b; Level of Evidence B-R (Systematic Review).**
+
+
+### 3.5.4 Long-Term Dual or Triple Antiplatelet Therapy
+
+For patients with noncardioembolic ischemic stroke or TIA, continuous use of dual antiplatelet therapy with aspirin and clopidogrel for more than 90 days, or the use of triple antiplatelet therapy, is associated with an excess risk of hemorrhage.
+
+**Class of Recommendation 3: Harm; Level of Evidence A (Systematic Review).**
+
+The guideline notes that there may be non-stroke indications for dual antiplatelet therapy beyond 90 days, such as recent drug-eluting coronary stent placement. These indications should be distinguished from dual antiplatelet therapy being used specifically for secondary stroke prevention.
+
+
+### 3.5.5 Ischemic Stroke or TIA Associated With Atrial Fibrillation
+
+For patients with nonvalvular atrial fibrillation and stroke or TIA, oral anticoagulation is recommended to reduce the risk of recurrent stroke.
+
+Oral anticoagulant options identified in the guideline include:
+
+- apixaban;
+- dabigatran;
+- edoxaban;
+- rivaroxaban; and
+- warfarin.
+
+**Class of Recommendation 1; Level of Evidence A.**
+
+For patients with stroke or TIA and atrial fibrillation who do not have moderate-to-severe mitral stenosis or a mechanical heart valve, apixaban, dabigatran, edoxaban, or rivaroxaban is recommended in preference to warfarin to reduce the risk of recurrent stroke.
+
+**Class of Recommendation 1; Level of Evidence B-R.**
+
+For patients with atrial fibrillation and stroke or TIA, oral anticoagulation is indicated to reduce the risk of recurrent stroke regardless of whether the atrial fibrillation pattern is:
+
+- paroxysmal;
+- persistent; or
+- permanent.
+
+**Class of Recommendation 1; Level of Evidence B-R.**
+
+
+### 3.5.6 Embolic Stroke of Undetermined Source
+
+The guideline defines embolic stroke of undetermined source (ESUS) as a nonlacunar stroke without an obvious source after a minimum standard evaluation to exclude known stroke etiologies.
+
+For patients with ESUS, treatment with direct oral anticoagulants is not recommended to reduce the risk of secondary stroke.
+
+**Class of Recommendation 3: No Benefit; Level of Evidence B-R.**
+
+For patients with ESUS, treatment with ticagrelor is not recommended to reduce the risk of secondary stroke.
+
+**Class of Recommendation 3: No Benefit; Level of Evidence B-NR.**
+
+
+
+
 
 
 # References
@@ -1447,3 +2055,14 @@ Further research is needed to establish definitive peri-procedural management st
 [15] Ockerman, A., Bornstein, M. M., Leung, Y. Y., et al. (2020). Incidence of bleeding after minor oral surgery in patients on dual antiplatelet therapy: A systematic review and meta-analysis. *International Journal of Oral and Maxillofacial Surgery, 49*(1), 90–98.
 
 [16] Napeñas, J. J., Oost, F. C., DeGroot, A., et al. (2013). Review of postoperative bleeding risk in dental patients on antiplatelet therapy. *Oral Surgery, Oral Medicine, Oral Pathology and Oral Radiology, 115*(4), 491–499.
+
+[17] Joglar, J. A., Chung, M. K., Armbruster, A. L., Benjamin, E. J., Chyou, J. Y., Cronin, E. M., Deswal, A., Eckhardt, L. L., Goldberger, Z. D., Gopinathannair, R., Gorenek, B., Hess, P. L., Hlatky, M. A., Hogan, G., Ibeh, C., Indik, J. H., Kido, K., Kusumoto, F., Link, M. S., … Van Wagoner, D. R. (2024). 2023 ACC/AHA/ACCP/HRS guideline for the diagnosis and management of atrial fibrillation: A report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines. *Journal of the American College of Cardiology, 83*(1), 109–279. https://doi.org/10.1016/j.jacc.2023.08.017
+
+[18] Stevens, S. M., Woller, S. C., Baumann Kreuziger, L., Doerschug, K., Geersing, G.-J., Klok, F. A., King, C. S., Murin, S., Vintch, J. R. E., Wells, P. S., Wasan, S., & Moores, L. K. (2024). Antithrombotic therapy for VTE disease: Compendium and review of CHEST guidelines 2012–2021. *CHEST, 166*(2), 388–404. https://doi.org/10.1016/j.chest.2024.03.003
+
+[19] Rao, S. V., O’Donoghue, M. L., Ruel, M., Rab, T., Tamis-Holland, J. E., Alexander, J. H., Baber, U., Baker, H., Cohen, M. G., Cruz-Ruiz, M., Davis, L. L., de Lemos, J. A., DeWald, T. A., Elgendy, I. Y., Feldman, D. N., Goyal, A., Isiadinso, I., Menon, V., Morrow, D. A., … Williams, M. S. (2025). 2025 ACC/AHA/ACEP/NAEMSP/SCAI guideline for the management of patients with acute coronary syndromes: A report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines. *Circulation, 151*, e771–e862. https://doi.org/10.1161/CIR.0000000000001309
+
+[20] Otto, C. M., Nishimura, R. A., Bonow, R. O., Carabello, B. A., Erwin, J. P., III, Gentile, F., Jneid, H., Krieger, E. V., Mack, M., McLeod, C., O’Gara, P. T., Rigolin, V. H., Sundt, T. M., III, Thompson, A., & Toly, C. (2021). 2020 ACC/AHA guideline for the management of patients with valvular heart disease: A report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines. *Circulation, 143*, e72–e227. https://doi.org/10.1161/CIR.0000000000000923
+
+[21] Kleindorfer, D. O., Towfighi, A., Chaturvedi, S., Cockroft, K. M., Gutierrez, J., Lombardi-Hill, D., Kamel, H., Kernan, W. N., Kittner, S. J., Leira, E. C., Lennon, O., Meschia, J. F., Nguyen, T. N., Pollak, P. M., Santangeli, P., Sharrief, A. Z., Smith, S. C., Jr., Turan, T. N., & Williams, L. S. (2021). 2021 guideline for the prevention of stroke in patients with stroke and transient ischemic attack: A guideline from the American Heart Association/American Stroke Association. *Stroke, 52*, e364–e467. https://doi.org/10.1161/STR.0000000000000375
+
