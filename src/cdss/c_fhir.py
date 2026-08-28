@@ -13,21 +13,21 @@ def get_patient(patient_id: str):
 
 def get_medications(patient_id: str):
     url = f"{FHIR_BASE_URL}/MedicationRequest?patient={patient_id}"
-    response = requests.get(url)
+    response = requests.get(url,params={"patient": patient_id})
     response.raise_for_status()
     return response.json()
 
 
 def get_conditions(patient_id: str):
     url = f"{FHIR_BASE_URL}/Condition?patient={patient_id}"
-    response = requests.get(url)
+    response = requests.get(url,params={"patient": patient_id})
     response.raise_for_status()
     return response.json()
 
 
 def get_service_requests(patient_id: str):
     url = f"{FHIR_BASE_URL}/ServiceRequest?patient={patient_id}"
-    response = requests.get(url)
+    response = requests.get(url,params={"patient": patient_id})
     response.raise_for_status()
     return response.json()
 
