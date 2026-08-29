@@ -1,43 +1,5 @@
 # 1. SDCEP Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs [1]
 
-# 2. ADA Oral Anticoagulant and Antiplatelet Medications and Dental Procedures [2]
-
-# 3. CHEST Perioperative Management of Antithrombotic Therapy [17]
-
-# 4. Venous Thromboembolism: DVT and Pulmonary Embolism 
-
-# 5. Valvular Heart Disease and Mechanical Prosthetic Valves 
-
-# 6. Acute Coronary Syndromes, PCI, and Coronary Stents 
-
-# 7. Chronic Coronary Disease
-
-# 8. Ischemic Stroke and Transient Ischemic Attack
-
-# 9. Peripheral Artery Disease
-
-# 10. Atrial Fibrillation 
-
-# 11. Drug-Specific Information
-## 11.1 Apixaban
-## 11.2 Rivaroxaban
-## 11.3 Dabigatran
-## 11.4 Edoxaban
-## 11.5 Warfarin
-## 11.6 Aspirin
-## 11.7 Clopidogrel
-## 11.8 Ticagrelor
-## 11.9 Prasugrel
-## 11.10 Enoxaparin
-
-
-
-
-
-
-
-# 1. SDCEP Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs [1]
-
 Source: Scottish Dental Clinical Effectiveness Programme (SDCEP).
 Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs.
 Second Edition. March 2022.

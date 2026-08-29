@@ -47,11 +47,14 @@ def get_fhir_patient_data(patient_id: str):
 
     return fhir_patient_data
 
-def main():
-    patient_id = "1000"
+def preview_patient_summary():
+    patient_id = "1155"
     fhir_patient_data = get_fhir_patient_data(patient_id)
     print(fhir_patient_data)
 
 
 if __name__ == "__main__":
-    main()
+    preview_patient_summary()
+
+
+# ids = 1000, 1151, 1155,
