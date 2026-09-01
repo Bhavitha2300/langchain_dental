@@ -1,3 +1,5 @@
+# d_get_patient_summary.py
+
 from config import load_config
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -19,9 +21,9 @@ def get_patient_summary(patient_id: str):
 
             Include:
             - patient demographics - Relevant demographic information available in the Patient resource.
-            - active medical conditions - Active conditions found in the retrieved Condition resources.
-            - active medications - Active medications found in the retrieved MedicationRequest resources.
-            - planned dental procedures - Active planned dental procedures found in the retrieved ServiceRequest resources.
+            - active medical conditions - Conditions found in the retrieved Condition resources.
+            - active medications - Medications found in the retrieved MedicationRequest resources.
+            - planned dental procedures - Planned dental procedures found in the retrieved ServiceRequest resources.
 
             Rules:
             - Do not provide treatment recommendations.

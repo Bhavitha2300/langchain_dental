@@ -1,4 +1,7 @@
+# c_fhir.py
+
 import requests
+import pprint
 
 
 FHIR_BASE_URL = "http://localhost:8080/fhir"
@@ -39,22 +42,49 @@ def get_fhir_patient_data(patient_id: str):
     service_requests = get_service_requests(patient_id)
 
     fhir_patient_data = {
-        "patient": patient,
-        "medication_requests": medications,
-        "conditions": conditions,
-        "service_requests": service_requests
+        "name": patient["name"][0]["given"][0],
+        "gender": patient.get("gender", ""),
+        "birth_date": patient.get("birthDate", ""),
+        "conditions": [],
+        "medications": [],
+        "planned_procedures": []
     }
+
+    for entry in conditions.get("entry", []):
+        condition = entry["resource"]
+
+        fhir_patient_data["conditions"].append({
+            "condition": condition["code"].get("text", ""),
+            "status": condition.get("clinicalStatus", {}).get("coding", [{}])[0].get("code", "")
+        })
+
+    for entry in medications.get("entry", []):
+        medication = entry["resource"]
+
+        fhir_patient_data["medications"].append({
+            "medication": medication.get("medicationCodeableConcept", {}).get("text", ""),
+            "status": medication.get("status", "")
+        })
+
+    for entry in service_requests.get("entry", []):
+        service_request = entry["resource"]
+
+        fhir_patient_data["planned_procedures"].append({
+            "procedure": service_request.get("code", {}).get("text", ""),
+            "status": service_request.get("status", "")
+        })
 
     return fhir_patient_data
 
-def preview_patient_summary():
-    patient_id = "1155"
+def preview_patient_data():
+    patient_id = "1000"
     fhir_patient_data = get_fhir_patient_data(patient_id)
-    print(fhir_patient_data)
+    return fhir_patient_data
 
 
 if __name__ == "__main__":
-    preview_patient_summary()
+    # preview_patient_data()
+    pprint.pprint(preview_patient_data())
 
 
 # ids = 1000, 1151, 1155,
