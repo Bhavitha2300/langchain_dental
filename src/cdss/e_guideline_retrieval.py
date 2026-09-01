@@ -1,3 +1,5 @@
+# e_guideline_retrieval.py
+
 from cdss.d_get_patient_summary import get_patient_summary
 from cdss.b_vector_store import get_vector_store
 
@@ -36,21 +38,26 @@ def retrieve_guidelines(patient_id: str, question: str):
     retriever = vector_store.as_retriever(
         search_kwargs = {
             "k": 10
+            # "filter": {"$or":[
+            #     {"h1": "1. SDCEP Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs [1]"},
+            #     {"h2": "3.1 Atrial Fibrillation [17]"}
+            #                   ]}
         }
     )
     raw_documents = retriever.invoke(template)
     guideline_context = formatting_guideline_docs(raw_documents)
     return patient_summary, guideline_context
 
-# def preview_guidelines():
-#     patient_id = "1000"
-#     question = "What are the guideline-based antithrombotic management considerations for this patient's planned dental procedure?"
-#
-#     patient_summary, guideline_context = retrieve_guidelines(patient_id, question)
-#     print(patient_summary)
-#
-#     print(guideline_context)
+
+def preview_guidelines():
+    patient_id = "1000"
+    question = "What are the guideline-based antithrombotic management considerations for this patient's planned dental procedure?"
+
+    patient_summary, guideline_context = retrieve_guidelines(patient_id, question)
+    print(patient_summary)
+
+    print(guideline_context)
 
 
 if __name__ == "__main__":
-    retrieve_guidelines()
+    preview_guidelines()

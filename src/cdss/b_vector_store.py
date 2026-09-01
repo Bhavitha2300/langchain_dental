@@ -1,3 +1,5 @@
+# b_vector_store.py
+
 from config import load_config
 from langchain_openai import OpenAIEmbeddings
 from cdss.a_split_markdown import chunks, MARKDOWN_FILE
