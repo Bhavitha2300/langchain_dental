@@ -41,8 +41,14 @@ def get_fhir_patient_data(patient_id: str):
     conditions = get_conditions(patient_id)
     service_requests = get_service_requests(patient_id)
 
+    name_data = patient.get("name", [{}])[0]
+    first_name = name_data.get("given", [""])[0]
+    last_name = name_data.get("family", "")
+    full_name = f"{first_name} {last_name}".strip() or "Unknown"
+
+
     fhir_patient_data = {
-        "name": patient["name"][0]["given"][0],
+        "name": full_name,
         "gender": patient.get("gender", ""),
         "birth_date": patient.get("birthDate", ""),
         "conditions": [],
@@ -52,7 +58,6 @@ def get_fhir_patient_data(patient_id: str):
 
     for entry in conditions.get("entry", []):
         condition = entry["resource"]
-
         fhir_patient_data["conditions"].append({
             "condition": condition["code"].get("text", ""),
             "status": condition.get("clinicalStatus", {}).get("coding", [{}])[0].get("code", "")
@@ -60,7 +65,6 @@ def get_fhir_patient_data(patient_id: str):
 
     for entry in medications.get("entry", []):
         medication = entry["resource"]
-
         fhir_patient_data["medications"].append({
             "medication": medication.get("medicationCodeableConcept", {}).get("text", ""),
             "status": medication.get("status", "")
@@ -68,7 +72,6 @@ def get_fhir_patient_data(patient_id: str):
 
     for entry in service_requests.get("entry", []):
         service_request = entry["resource"]
-
         fhir_patient_data["planned_procedures"].append({
             "procedure": service_request.get("code", {}).get("text", ""),
             "status": service_request.get("status", "")
