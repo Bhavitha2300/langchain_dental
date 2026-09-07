@@ -1,0 +1,2655 @@
+document_id: sdcep_anticoagulants_antiplatelet_2022
+
+title: Management of Dental Patients Taking Anticoagulants or Antiplatelet Drugs
+
+source:
+  organization: Scottish Dental Clinical Effectiveness Programme
+  edition: Second Edition
+  publication_year: 2022
+  isbn: "978-1-905829-36-1"
+  website: "https://www.sdcep.org.uk"
+
+sections:
+
+  # ============================================================
+  # SCOPE
+  # ============================================================
+
+  - aspect: guidance_scope
+    title: Scope of the Guidance
+
+    subsections:
+
+      - subaspect: applicable_patient_group
+        title: Patients Covered by the Guidance
+        source_section: "1.1"
+        record_type: background_information
+
+        content: |
+          This guidance applies to patients who are taking anticoagulant
+          or antiplatelet drugs and present for outpatient dental treatment.
+
+          Management of dental patients who are taking anticoagulants or
+          antiplatelet drugs and are being treated as inpatients within a
+          medical hospital setting is beyond the scope of this guidance.
+
+      - subaspect: statement_of_intent
+        title: Statement of Intent
+        source_section: "1.4"
+        record_type: background_information
+
+        content: |
+          The guidance is based on consideration of available evidence,
+          expert opinion and other resources.
+
+          The information presented does not override the healthcare
+          professional's right and duty to make decisions appropriate to
+          each patient, with the patient's valid consent.
+
+          Significant departures from the guidance, and the reasons for
+          them, should be documented in the patient's clinical record.
+
+
+  # ============================================================
+  # ANTICOAGULANTS AND ANTIPLATELET DRUGS
+  # ============================================================
+
+  - aspect: anticoagulants_and_antiplatelet_drugs
+    title: Anticoagulants and Antiplatelet Drugs
+
+    subsections:
+
+      - subaspect: direct_oral_anticoagulants
+        title: Direct Oral Anticoagulants
+        source_section: "2.2"
+        record_type: medication_information
+
+        medication_classes:
+          - doac
+
+        medications:
+          - apixaban
+          - dabigatran
+          - rivaroxaban
+          - edoxaban
+
+        content: |
+          The direct oral anticoagulants included in this guidance are
+          apixaban, dabigatran, rivaroxaban and edoxaban.
+
+          Dabigatran is a direct inhibitor of thrombin.
+
+          Apixaban, rivaroxaban and edoxaban inhibit Factor Xa.
+
+      - subaspect: vitamin_k_antagonists
+        title: Vitamin K Antagonists
+        source_section: "2.2"
+        record_type: medication_information
+
+        medication_classes:
+          - vitamin_k_antagonist
+
+        medications:
+          - warfarin
+          - acenocoumarol
+          - phenindione
+
+        content: |
+          Warfarin and the other vitamin K antagonists included in this
+          guidance are warfarin, acenocoumarol and phenindione.
+
+          These drugs inhibit vitamin K-dependent modification of
+          prothrombin and other coagulation factors.
+
+      - subaspect: injectable_anticoagulants
+        title: Injectable Anticoagulants
+        source_section: "2.2"
+        record_type: medication_information
+
+        medication_classes:
+          - unfractionated_heparin
+          - low_molecular_weight_heparin
+
+        medications:
+          - unfractionated heparin
+          - dalteparin
+          - enoxaparin
+          - tinzaparin
+
+        content: |
+           Parenteral anticoagulants include unfractionated heparin and the
+           low molecular weight heparins dalteparin, enoxaparin and tinzaparin.
+
+           These medicines are administered intravenously or by subcutaneous
+           injection and may be encountered in dental patients.
+
+      - subaspect: antiplatelet_drugs
+        title: Antiplatelet Drugs
+        source_section: "2.2"
+        record_type: medication_information
+
+        medication_classes:
+          - antiplatelet
+
+        medications:
+          - aspirin
+          - clopidogrel
+          - dipyridamole
+          - prasugrel
+          - ticagrelor
+
+        content: |
+          Antiplatelet drugs discussed in this guidance include aspirin,
+          clopidogrel, dipyridamole, prasugrel and ticagrelor.
+
+
+  # ============================================================
+  # PROCEDURE BLEEDING CLASSIFICATION
+  # ============================================================
+
+  - aspect: procedure_bleeding_risk
+    title: Bleeding Risks for Dental Procedures
+
+    subsections:
+
+      - subaspect: procedures_unlikely_to_cause_bleeding
+        title: Dental Procedures Unlikely to Cause Bleeding
+        record_type: procedure_classification
+        source_section: "3.1"
+        source_table: "Table 1"
+
+        bleeding_likelihood: unlikely_to_cause_bleeding
+
+        procedures:
+          - local_anaesthesia_by_infiltration
+          - intraligamentary_local_anaesthesia
+          - mental_nerve_block
+          - inferior_dental_block
+          - other_regional_nerve_blocks
+          - basic_periodontal_examination
+          - supragingival_removal_of_plaque_calculus_and_stain
+          - direct_or_indirect_restorations_with_supragingival_margins
+          - orthograde_endodontics
+          - impressions_and_other_prosthetic_procedures
+          - fitting_and_adjustment_of_orthodontic_appliances
+
+        content: |
+          SDCEP classifies these procedures as unlikely, under normal
+          circumstances, to cause bleeding.
+
+          Patients taking anticoagulant or antiplatelet drugs who require
+          procedures in this category can be treated according to standard
+          practice, taking care to avoid causing bleeding.
+          
+          A basic periodontal examination may cause some bleeding from the
+          gingival margins, but this is considered extremely unlikely to
+          result in bleeding complications.
+
+      - subaspect: inferior_dental_block
+        title: Inferior Dental Block in Anticoagulated Patients
+        record_type: background_information
+        source_section: "3.1"
+        source_table: "Table 1"
+
+        procedures:
+          - inferior_dental_block
+
+        content: |
+          There is no evidence to suggest that an inferior dental block
+          performed on an anticoagulated patient poses a significant risk
+          of bleeding.
+
+          For patients taking warfarin, if there are indications of an
+          unstable INR or other signs of excessive anticoagulation, an INR
+          should be requested before the procedure to ensure it is below 4
+          before proceeding.
+
+      - subaspect: local_anaesthesia_delivery
+        title: Local Anaesthesia Delivery
+        source_section: "3.1"
+        source_table: "Table 1"
+        record_type: clinical_recommendation
+
+        procedures:
+          - local_anaesthesia
+          - regional_nerve_block
+
+        content: |
+          Local anaesthesia should be delivered using an aspirating syringe
+          and should include a vasoconstrictor unless contraindicated.
+          
+          Other methods of local anaesthetic delivery are preferred over
+          regional nerve blocks, whether or not the patient is taking an
+          anticoagulant.
+
+      - subaspect: procedures_low_risk_of_postoperative_bleeding_complications
+        title: Procedures With Low Risk of Post-operative Bleeding Complications
+        record_type: procedure_classification
+        source_section: "3.1"
+        source_table: "Table 1"
+
+        bleeding_likelihood: likely_to_cause_bleeding
+        postoperative_bleeding_risk: low
+
+        procedures:
+          - simple_extraction_1_to_3_teeth_with_restricted_wound_size
+          - incision_and_drainage_of_intraoral_swellings
+          - detailed_six_point_full_periodontal_examination
+          - root_surface_debridement
+          - direct_or_indirect_restorations_with_subgingival_margins
+
+        content: |
+          These procedures are classified as likely to cause bleeding but
+          with a low risk of post-operative bleeding complications.
+
+          Simple extractions in this category involve 1 to 3 teeth with a
+          restricted wound size.
+
+          SDCEP defines simple extractions as those expected to be
+          straightforward without surgical complications.
+
+      - subaspect: procedures_higher_risk_of_postoperative_bleeding_complications
+        title: Procedures With Higher Risk of Post-operative Bleeding Complications
+        record_type: procedure_classification
+        source_section: "3.1"
+        source_table: "Table 1"
+
+        bleeding_likelihood: likely_to_cause_bleeding
+        postoperative_bleeding_risk: higher
+
+        procedures:
+          - complex_extractions
+          - adjacent_extractions_causing_large_wound
+          - more_than_3_extractions_at_once
+          - elective_surgical_extractions
+          - periodontal_surgery
+          - preprosthetic_surgery
+          - periradicular_surgery
+          - crown_lengthening
+          - dental_implant_surgery
+          - gingival_recontouring
+          - biopsies
+
+        content: |
+          These procedures are classified as likely to cause bleeding and
+          as having a higher risk of post-operative bleeding complications.
+
+          Complex extractions are those that may be likely to have surgical
+          complications.
+
+          Flap-raising procedures include elective surgical extractions,
+          periodontal surgery, preprosthetic surgery, periradicular surgery,
+          crown lengthening and dental implant surgery.
+
+          For flap-raising procedures, gingival recontouring and biopsies,
+          consideration should be given to the extent and invasiveness of
+          the individual procedure. Some may be less invasive and could be
+          treated as low risk.
+
+      - subaspect: interpretation_of_low_and_higher_risk_categories
+        title: Interpretation of Procedure Risk Categories
+        record_type: background_information
+        source_section: "3.1"
+
+        content: |
+          The term "higher risk" is not intended to indicate that these are
+          high-risk dental treatments.
+
+          A procedure categorised as having low or higher risk of
+          post-operative bleeding complications is still likely to represent
+          a relatively minor bleeding risk in the wider context of medical
+          surgical procedures.
+
+          Table 1 is intended as a guide.
+
+          Bleeding risk assessment may require individual clinical judgement,
+          taking into account the extent and invasiveness of the procedure.
+
+
+  # ============================================================
+  # PATIENT BLEEDING RISK
+  # ============================================================
+
+  - aspect: patient_bleeding_risk
+    title: Patient Factors Associated With Bleeding Risk
+
+    subsections:
+
+      - subaspect: anticoagulant_and_antiplatelet_therapy
+        title: Bleeding Risk Associated With Antithrombotic Therapy
+        record_type: background_information
+        source_section: "3.2.1"
+
+        content: |
+          There is currently insufficient evidence to directly compare with
+          any certainty the bleeding risks for dental treatment associated
+          with the different anticoagulants and antiplatelet medications.
+
+          Patients who are on dual or combination therapies and are taking
+          more than one anticoagulant or antiplatelet drug are likely to have
+          a higher bleeding risk than those on single drug therapies.
+
+      - subaspect: chronic_renal_failure
+        title: Chronic Renal Failure
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        conditions:
+          - chronic_renal_failure
+        risk_type: increased_bleeding_risk
+
+        content: |
+          Chronic renal failure is associated with increased bleeding risk
+          due to associated platelet dysfunction.
+
+      - subaspect: liver_disease
+        title: Liver Disease
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        conditions:
+          - liver_disease
+        risk_type: increased_bleeding_risk
+
+        content: |
+          Liver disease is associated with increased bleeding risk due to
+          reduced production of coagulation factors and reduction in platelet
+          number and function due to splenomegaly.
+
+          Alcohol excess can also result in direct bone marrow toxicity and
+          reduced platelet numbers.
+
+      - subaspect: haematological_malignancy_or_myelodysplastic_disorder
+        title: Haematological Malignancy or Myelodysplastic Disorder
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        conditions:
+          - haematological_malignancy_or_myelodysplastic_disorder
+        risk_type: increased_bleeding_risk
+
+        content: |
+          Haematological malignancy or myelodysplastic disorder is associated
+          with increased bleeding risk due to impaired coagulation or platelet
+          function, even in remission.
+
+      - subaspect: chemotherapy_or_radiotherapy
+        title: Recent or Current Chemotherapy or Radiotherapy
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        clinical_contexts:
+          - recent_or_current_chemotherapy_or_radiotherapy
+        risk_type: increased_bleeding_risk
+
+        content: |
+          Recent or current chemotherapy or radiotherapy is associated with
+          increased bleeding risk due to pancytopenia including reduced
+          platelet numbers.
+
+          This includes patients who have received chemotherapy less than
+          three months ago, or total body irradiation less than six months ago.
+
+      - subaspect: advanced_heart_failure
+        title: Advanced Heart Failure
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        conditions:
+          - advanced_heart_failure
+        risk_type: increased_bleeding_risk
+
+        content: |
+          Advanced heart failure is associated with increased bleeding risk
+          due to resulting liver failure.
+
+      - subaspect: inherited_coagulation_disorders
+        title: Inherited Coagulation Disorders
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        condition_group: inherited_coagulation_disorders
+        risk_type: increased_bleeding_risk
+
+        examples:
+          - haemophilia
+          - von_willebrand_disease
+
+        content: |
+          Inherited coagulation disorders, including all types of haemophilia
+          and von Willebrand's disease, are associated with increased bleeding
+          risk due to defective or reduced levels of coagulation factors.
+
+      - subaspect: platelet_disorders
+        title: Acquired or Inherited Platelet Disorders
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        condition_group: acquired_or_inherited_platelet_disorders
+        risk_type: increased_bleeding_risk
+
+        examples:
+          - immune_thrombocytopenia
+
+        content: |
+          Acquired or inherited platelet disorders, including immune
+          thrombocytopenia (ITP), are associated with increased bleeding risk
+          due to reduced platelet numbers or abnormal platelet function.
+
+      - subaspect: connective_tissue_disorders
+        title: Connective Tissue Disorders
+        record_type: risk_factor
+        source_section: "3.2.2"
+        source_table: "Table 2"
+
+        condition_group: connective_tissue_disorders
+        risk_type: increased_bleeding_risk
+
+        examples:
+          - ehlers_danlos_syndrome
+
+        content: |
+          Connective tissue disorders, including Ehlers-Danlos Syndrome (EDS),
+          are associated with increased bleeding risk due to vascular fragility,
+          particularly in the vascular subtype, and platelet function
+          abnormalities in some patients.
+
+      - subaspect: medically_complex_patients
+        title: Consultation for Medically Complex Patients
+        record_type: clinical_recommendation
+        recommendation_type: consultation
+        source_section: "3.2.2"
+
+        content: |
+          For medically complex patients such as these, the patient's general
+          medical practitioner or specialist should be consulted to establish
+          the extent of the disease in order to assess the likely impact on
+          the bleeding risk for the dental procedure.
+
+
+  # ============================================================
+  # OTHER MEDICATIONS THAT MAY AFFECT BLEEDING
+  # ============================================================
+
+  - aspect: medications_affecting_bleeding_risk
+    title: Prescribed and Non-prescribed Medications Associated With Bleeding Risk
+
+    subsections:
+
+      - subaspect: multiple_antithrombotic_therapy
+        title: Other Anticoagulants or Antiplatelet Drugs
+        record_type: risk_factor
+        source_section: "3.2.3"
+        source_table: "Table 3"
+
+        content: |
+          Patients taking dual, multiple or combined antiplatelet or
+          anticoagulant therapies are likely to have a higher risk of bleeding
+          complications than those taking single-drug regimens.
+
+          Non-prescribed aspirin can convert prescribed monotherapy into
+          dual therapy.
+
+      - subaspect: cytotoxic_or_bone_marrow_suppressing_drugs
+        title: Cytotoxic Drugs or Drugs Associated With Bone Marrow Suppression
+        record_type: risk_factor
+        source_section: "3.2.3"
+        source_table: "Table 3"
+
+        medications:
+          - leflunomide
+          - hydroxychloroquine
+          - sulfasalazine
+          - penicillamine
+          - gold
+          - methotrexate
+          - azathioprine
+          - mycophenolate
+
+        content: |
+          These drugs can reduce platelet numbers and/or impair liver
+          function, affecting the production of coagulation factors.
+
+      - subaspect: biologic_immunosuppression
+        title: Biologic Immunosuppression Therapies
+        record_type: risk_factor
+        source_section: "3.2.3"
+        source_table: "Table 3"
+
+        medications:
+          - infliximab
+          - adalimumab
+          - etanercept
+          - tocilizumab
+          - certolizumab
+          - abatacept
+          - anakinra
+
+        content: |
+          These therapies can cause thrombocytopenia and/or impair liver
+          function.
+
+      - subaspect: nsaids_and_bleeding_risk
+        title: Non-steroidal Anti-inflammatory Drugs
+        record_type: risk_factor
+        source_section: "3.2.3"
+        source_table: "Table 3"
+
+        medication_classes:
+          - nsaid
+
+        medications:
+          - aspirin
+          - ibuprofen
+          - diclofenac
+          - naproxen
+
+        content: |
+          Non-steroidal anti-inflammatory drugs can impair platelet function
+          to various extents.
+
+      - subaspect: ssri_and_snri
+        title: SSRIs and SNRIs
+        record_type: risk_factor
+        source_section: "3.2.3"
+        source_table: "Table 3"
+
+        medication_classes:
+          - ssri
+          - snri
+
+        content: |
+          SSRIs and SNRIs have the potential to impair platelet aggregation.
+
+          Although this is unlikely to be clinically significant in isolation,
+          these drugs may increase bleeding time when combined with other
+          antiplatelet drugs.
+
+      - subaspect: carbamazepine_bleeding_risk
+        title: Carbamazepine
+        record_type: risk_factor
+        source_section: "3.2.3"
+        source_table: "Table 3"
+
+        medications:
+          - carbamazepine
+
+        content: |
+          Carbamazepine can affect both liver function and bone marrow
+          production of platelets.
+
+          Patients most at risk are those recently started on carbamazepine
+          or following dose adjustment.
+
+      - subaspect: herbal_and_complementary_medicines
+        title: Herbal and Complementary Medicines
+        record_type: risk_factor
+        source_section: "3.2.3"
+
+        substances:
+          - st_johns_wort
+          - ginkgo_biloba
+          - garlic
+
+        content: |
+          Some herbal and complementary medicines may affect bleeding risk,
+          either alone or in combination with anticoagulant or antiplatelet
+          drugs.
+
+          Examples identified by the guidance are St. John's Wort,
+          Ginkgo biloba and garlic.
+
+
+  # ============================================================
+  # ASSESSING BLEEDING RISK
+  # ============================================================
+
+  - aspect: bleeding_risk_assessment
+    title: Advice for Assessing Bleeding Risk
+
+    subsections:
+
+      - subaspect: assess_planned_dental_treatment
+        title: Assess the Planned Dental Treatment
+        record_type: clinical_recommendation
+        recommendation_type: risk_assessment
+        source_section: "3.3"
+
+        content: |
+          Assess whether the required dental treatment is likely to cause
+          bleeding and, if so, whether it has a low or higher risk of
+          bleeding complications.
+
+      - subaspect: assess_antithrombotic_and_other_medications
+        title: Assess Antithrombotic and Other Medications
+        record_type: clinical_recommendation
+        recommendation_type: risk_assessment
+        source_section: "3.3"
+
+        content: |
+          Ask the patient about their current or planned use of anticoagulants
+          or antiplatelet drugs and other prescribed and non-prescribed
+          medications when taking or confirming their medical history.
+
+          Some patients may not know that their medication is an anticoagulant
+          or antiplatelet drug.
+
+          Other medications can also affect a patient's bleeding risk.
+
+          Be aware that patients may take non-prescribed medications such as
+          aspirin or other NSAIDs, which may be associated with a higher
+          bleeding risk.
+
+      - subaspect: assess_treatment_duration
+        title: Assess Duration of Antithrombotic Treatment
+        record_type: clinical_recommendation
+        recommendation_type: risk_assessment
+        source_section: "3.3"
+
+        content: |
+          Ask the patient whether their anticoagulant or antiplatelet treatment
+          is lifelong or for a limited time.
+
+          If the patient is taking time-limited medication, it may be possible
+          to delay dental treatment until they have stopped taking the drug
+          or drugs.
+
+      - subaspect: assess_medical_conditions
+        title: Assess Medical Conditions
+        record_type: clinical_recommendation
+        recommendation_type: risk_assessment
+        source_section: "3.3"
+
+        content: |
+          Ask the patient about any medical conditions that they have.
+
+          Some patients may have conditions such as kidney or liver disease
+          or bone marrow disorders that can affect coagulation and platelet
+          function.
+
+      - subaspect: assess_bleeding_history
+        title: Assess Bleeding History
+        record_type: clinical_recommendation
+        recommendation_type: risk_assessment
+        source_section: "3.3"
+
+        content: |
+          Ask the patient about their bleeding history, including incidences
+          of bleeding requiring retreatment or a hospital visit, prolonged
+          bleeding from other wounds, spontaneous bleeding and easy bruising.
+
+          A patient's previous experience of bleeding in response to invasive
+          dental or surgical procedures or trauma may be a useful indicator
+          of the likelihood of bleeding complications from the current dental
+          treatment.
+
+
+  # ============================================================
+  # GENERAL BLEEDING MANAGEMENT
+  # ============================================================
+
+  - aspect: general_bleeding_management
+    title: General Advice for Managing Bleeding Risk
+
+    subsections:
+
+      - subaspect: treatment_unlikely_to_cause_bleeding
+        title: Treatment Unlikely to Cause Bleeding
+        record_type: clinical_recommendation
+        recommendation_type: peri_procedural_management
+        source_section: "4.4"
+
+        bleeding_likelihood: unlikely_to_cause_bleeding
+
+        content: |
+          For a patient taking an anticoagulant or antiplatelet drug who
+          requires dental treatment unlikely to cause bleeding, treat
+          according to standard procedures, taking care to avoid causing
+          bleeding.
+
+      - subaspect: time_limited_antithrombotic_treatment
+        title: Time-limited Anticoagulant or Antiplatelet Treatment
+        record_type: clinical_recommendation
+        recommendation_type: treatment_timing
+        source_section: "4.4"
+
+        bleeding_likelihood: likely_to_cause_bleeding
+
+        medication_action: delay_non_urgent_invasive_procedure_where_possible
+
+        content: |
+          If the patient is taking a time-limited course of anticoagulant or
+          antiplatelet medication, delay non-urgent invasive dental procedures
+          where possible until the medication has been discontinued.
+
+      - subaspect: acute_dvt_or_pe_high_dose_doac
+        title: Acute DVT or Pulmonary Embolism and Initial High-dose DOAC Therapy
+        record_type: clinical_recommendation
+        recommendation_type: treatment_timing
+        source_section: "4.4"
+
+        conditions:
+          - deep_vein_thrombosis
+          - pulmonary_embolism
+
+        medication_classes:
+          - doac
+
+        medications:
+          - apixaban
+          - rivaroxaban
+
+        bleeding_likelihood: likely_to_cause_bleeding
+        medication_context: initial_high_dose_therapy
+        medication_action: delay_procedure_where_possible_until_standard_dose
+
+        content: |
+          Patients with acute deep vein thrombosis or pulmonary embolism may
+          be taking high-dose apixaban or rivaroxaban during the first 1 to
+          3 weeks of treatment.
+
+          Dental procedures likely to cause bleeding should, where possible,
+          be delayed until the patient is taking the standard dose.
+
+      - subaspect: additional_medical_or_medication_risk
+        title: Additional Medical Conditions or Medications Affecting Bleeding
+        record_type: clinical_recommendation
+        recommendation_type: consultation
+        source_section: "4.4"
+
+        patient_bleeding_risk_factor: increased_bleeding_risk
+
+        content: |
+          If the patient has another relevant medical condition or is taking
+          other medication that may increase bleeding risk, consult the
+          prescribing clinician, specialist or general medical practitioner
+          if additional information is required to assess the likely impact
+          on bleeding risk.
+
+      - subaspect: schedule_treatment
+        title: Treatment Timing
+        record_type: clinical_recommendation
+        recommendation_type: treatment_timing
+        source_section: "4.4"
+
+        content: |
+          Plan treatment for early in the day and week where possible so
+          there is time to manage prolonged bleeding or rebleeding should
+          it occur.
+
+      - subaspect: atraumatic_treatment
+        title: Atraumatic Treatment and Haemostasis
+        record_type: clinical_recommendation
+        recommendation_type: haemostatic_management
+        source_section: "4.4"
+
+        content: |
+          Perform the procedure as atraumatically as possible.
+
+          Use appropriate local haemostatic measures.
+
+          Only discharge the patient once haemostasis has been achieved.
+
+      - subaspect: analgesic_advice
+        title: Pain Relief
+        record_type: clinical_recommendation
+        recommendation_type: analgesic_advice
+        source_section: "4.4"
+
+        medications:
+          - paracetamol
+
+        content: |
+          Advise the patient to take paracetamol, unless contraindicated,
+          for pain relief rather than NSAIDs such as aspirin, ibuprofen,
+          diclofenac or naproxen.
+
+      - subaspect: post_treatment_advice
+        title: Post-treatment Advice
+        record_type: clinical_recommendation
+        recommendation_type: post_treatment_advice
+        source_section: "4.4"
+
+        content: |
+          Provide the patient with post-treatment advice and emergency
+          contact details.
+
+      - subaspect: therapy_that_should_not_be_interrupted
+        title: Situations Where Therapy Should Not Be Interrupted
+        record_type: clinical_recommendation
+        recommendation_type: medication_management
+        source_section: "4.4"
+
+        medication_action: do_not_interrupt_except_under_direct_written_instruction_from_cardiologist
+
+        clinical_contexts:
+          - prosthetic_metal_heart_valve
+          - coronary_stent
+          - pulmonary_embolism_within_last_3_months
+          - deep_vein_thrombosis_within_last_3_months
+          - anticoagulant_therapy_for_cardioversion
+
+        content: |
+          Do not interrupt anticoagulant or antiplatelet therapy except under
+          direct written instruction from the patient's cardiologist for:
+
+          - patients with prosthetic metal heart valves or coronary stents;
+          - patients who have had a pulmonary embolism or deep vein thrombosis
+            in the last three months;
+          - patients receiving anticoagulant therapy for cardioversion.
+
+
+  # ============================================================
+  # HAEMOSTATIC MEASURES
+  # ============================================================
+
+  - aspect: haemostatic_measures
+    title: Haemostatic Measures
+
+    subsections:
+
+      - subaspect: local_haemostatic_measures
+        title: Local Haemostatic Measures
+        record_type: clinical_recommendation
+        recommendation_type: haemostatic_management
+        source_section: "4.1"
+
+        content: |
+          For all patients taking anticoagulants or antiplatelet drugs,
+          haemostasis should be achieved using local measures before the
+          patient is discharged.
+
+          Serious consideration should be given to suturing and packing,
+          taking into account relevant patient factors including:
+
+          - the drug or drug combination being taken;
+          - medical conditions that may affect bleeding;
+          - other medications that may affect bleeding; and
+          - travel time to emergency care.
+
+      - subaspect: haemostatic_equipment
+        title: Haemostatic Equipment
+        record_type: clinical_recommendation
+        recommendation_type: haemostatic_management
+        source_section: "4.1"
+
+        content: |
+          The dental practitioner should have available:
+
+          - absorbent gauze;
+          - haemostatic packing material such as oxidized cellulose or
+            collagen sponge;
+          - a suture kit including needle holders, tissue forceps, suture
+            material and scissors.
+
+      - subaspect: haemostatic_material_acceptability
+        title: Patient Acceptability of Haemostatic Materials
+        source_section: "4.1"
+        record_type: clinical_recommendation
+
+        content: |
+          Some haemostatic materials contain animal-based protein and may not
+          be acceptable to all patients for ethical, cultural or religious reasons.
+
+          Practices should ensure that non-animal-based products are available
+          and should establish the patient's preferences before treatment.
+
+      - subaspect: aspirin_and_suturing
+        title: Aspirin Alone and Suturing
+        record_type: background_information
+        source_section: "4.1"
+
+        medications:
+          - aspirin
+
+        content: |
+          Patients taking aspirin alone are unlikely to have a higher risk
+          of post-operative bleeding complications than non-anticoagulated
+          patients and may not require suturing.
+
+      - subaspect: tranexamic_acid_mouthwash
+        title: Tranexamic Acid Mouthwash
+        record_type: clinical_recommendation
+        recommendation_type: haemostatic_management
+        source_section: "4.1"
+
+        medications:
+          - tranexamic_acid
+
+        content: |
+          The guidance does not advise primary care practitioners to
+          prescribe tranexamic acid for dental procedures.
+
+          If tranexamic acid is prescribed by the patient's medical
+          practitioner, it should be used in addition to local haemostatic
+          measures.
+          
+
+  # ===========================================================
+  # REMOTE AND RURAL PATIENT MANAGEMENT
+  # ============================================================
+
+  - aspect: remote_and_rural_management
+    title: Management of Patients in Remote and Rural Locations
+
+    subsections:
+
+      - subaspect: remote_and_rural_bleeding_management
+        title: Additional Considerations for Remote and Rural Patients
+        source_section: "4.2"
+        record_type: clinical_recommendation
+
+        clinical_contexts:
+          - remote_or_rural_location
+
+        content: |
+          Consider the individual circumstances of patients in remote and
+          rural locations, including travel time to primary or secondary
+          care and possible difficulty accessing out-of-hours care.
+
+          Particular emphasis should be placed on measures to avoid
+          complications, including limiting the initial treatment area,
+          staging treatment and using haemostatic measures.
+
+          Extended post-operative monitoring before discharge is advisable.
+          The consequences of bleeding complications should be considered
+          and discussed when agreeing treatment.
+
+
+  # ============================================================
+  # CONTACTS AND REFERRALS
+  # ============================================================
+
+  - aspect: consultation_and_referral
+    title: Contacts and Referrals
+
+    subsections:
+
+      - subaspect: unclear_medication_or_medical_condition
+        title: Lack of Clarity About Medication or Medical Condition
+        record_type: clinical_recommendation
+        recommendation_type: consultation
+        source_section: "4.3"
+
+        content: |
+          If there is a lack of clarity regarding a patient's medication
+          or medical condition when assessing bleeding risk and planning
+          treatment, consult with the patient's prescribing clinician.
+
+          This may be the patient's haematologist or cardiologist rather
+          than their general medical practitioner.
+          
+          Consultation should take place in advance of dental treatment,
+          with interim non-invasive measures used to relieve pain if required.
+
+      - subaspect: exceptional_cases
+        title: Exceptional Cases and Secondary Care
+        record_type: clinical_recommendation
+        recommendation_type: referral
+        source_section: "4.3"
+
+        content: |
+          If there is concern about whether a patient can be treated safely
+          in primary care, contact a colleague in secondary care to discuss
+          the most appropriate management before referral.
+
+          If a patient is referred, details of their anticoagulation
+          medication should be included in the referral.
+
+
+  # ============================================================
+  # DOAC MANAGEMENT
+  # ============================================================
+
+  - aspect: doac_management
+    title: Treating a Patient Taking a Direct Oral Anticoagulant
+
+    subsections:
+
+      - subaspect: doac_general_information
+        title: DOAC General Information
+        source_section: "5"
+        record_type: background_information
+
+        medication_classes:
+          - doac
+
+        medications:
+          - apixaban
+          - dabigatran
+          - rivaroxaban
+          - edoxaban
+
+        content: |
+          The INR test used for warfarin is not suitable for assessing
+          coagulation levels in patients taking DOACs.
+
+          Routine monitoring is considered less important for DOACs than
+          for warfarin because DOACs generally provide more predictable
+          anticoagulation.
+
+      - subaspect: doac_dosing_frequency
+        title: Typical DOAC Dosing Frequency
+        source_section: "5"
+        record_type: medication_information
+
+
+        content: |
+          Apixaban and dabigatran are taken twice a day.
+
+          Rivaroxaban and edoxaban are most commonly taken once a day,
+          either in the morning or at night.
+
+      - subaspect: doac_low_risk_procedure
+        title: DOAC Management for Procedures With Low Risk of Post-operative Bleeding Complications
+        source_section: "5.1"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - doac
+
+        medications:
+          - apixaban
+          - dabigatran
+          - rivaroxaban
+          - edoxaban
+
+        postoperative_bleeding_risk: low
+
+        medication_action: continue_without_interruption
+        recommendation_strength: conditional
+        evidence_certainty: very_low
+
+        content: |
+          For a patient taking a DOAC who requires a dental procedure with
+          a low risk of bleeding complications, treat without interrupting
+          the anticoagulant medication.
+
+          Treat according to the general advice for managing bleeding risk
+          without advising the patient to miss or delay a dose.
+
+          In addition:
+
+          - plan treatment for early in the day;
+          - limit the initial treatment area;
+          - use local haemostatic measures to achieve haemostasis;
+          - strongly consider suturing and packing, taking into account
+            relevant patient factors.
+
+      - subaspect: doac_higher_risk_apixaban_dabigatran
+        title: Apixaban or Dabigatran for Procedures With Higher Risk of Post-operative Bleeding Complications
+        source_section: "5.2"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - doac
+
+        medications:
+          - apixaban
+          - dabigatran
+
+        postoperative_bleeding_risk: higher
+
+        medication_action: miss_morning_dose
+        recommendation_strength: conditional
+        evidence_certainty: very_low
+
+        content: |
+          For a patient taking apixaban or dabigatran who requires dental
+          treatment with a higher risk of bleeding complications, advise
+          the patient to miss the morning dose on the day of dental
+          treatment.
+
+          Treat according to the general advice for managing bleeding risk.
+
+          In addition:
+
+          - plan treatment for early in the day;
+          - consider carrying out treatment in a staged manner where
+            possible;
+          - use local haemostatic measures;
+          - strongly consider suturing and packing.
+
+      - subaspect: doac_higher_risk_rivaroxaban_edoxaban
+        title: Rivaroxaban or Edoxaban for Procedures With Higher Risk of Post-operative Bleeding Complications
+        source_section: "5.2"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - doac
+
+        medications:
+          - rivaroxaban
+          - edoxaban
+
+        postoperative_bleeding_risk: higher
+
+        medication_action: delay_morning_dose
+        recommendation_strength: conditional
+        evidence_certainty: very_low
+
+        content: |
+          For a patient taking rivaroxaban or edoxaban who requires dental
+          treatment with a higher risk of bleeding complications, advise
+          the patient to delay the morning dose on the day of dental
+          treatment.
+
+          If the patient normally takes once-daily rivaroxaban or edoxaban
+          in the evening, there is no need to modify the medication schedule
+          before dental treatment.
+
+          Treat according to the general advice for managing bleeding risk.
+
+          In addition:
+
+          - plan treatment for early in the day;
+          - consider staged treatment where possible;
+          - use local haemostatic measures;
+          - strongly consider suturing and packing.
+
+      - subaspect: restart_rivaroxaban_or_edoxaban
+        title: Restarting Rivaroxaban or Edoxaban
+        source_section: "5.2"
+        record_type: clinical_recommendation
+
+        medications:
+          - rivaroxaban
+          - edoxaban
+
+        medication_action: restart_after_haemostasis
+
+        content: |
+          For rivaroxaban or edoxaban taken once daily, a delayed morning
+          dose may be taken 4 hours after haemostasis has been achieved.
+
+          The next dose should be taken as usual the following morning.
+
+          If the medication is normally taken in the evening, it can be
+          taken at the usual time on the day of treatment provided this is
+          no earlier than 4 hours after haemostasis has been achieved.
+
+      - subaspect: restart_apixaban_or_dabigatran
+        title: Restarting Apixaban or Dabigatran
+        source_section: "5.2"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - doac
+
+        medications:
+          - apixaban
+          - dabigatran
+
+        medication_action: restart_evening_dose_after_haemostasis
+
+        content: |
+          After missing the morning dose of apixaban or dabigatran, the
+          patient should take the evening dose at the usual time provided
+          this is no earlier than 4 hours after haemostasis has been
+          achieved.
+
+      - subaspect: bleeding_around_doac_restart
+        title: Bleeding Before or After Restarting a DOAC
+        source_section: "5.2"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - doac
+
+        content: |
+          Advise the patient to contact the dental practice if bleeding
+          occurs before or after restarting the DOAC.
+
+          The patient should avoid missing subsequent DOAC doses unless this
+          is absolutely required in an emergency situation to control
+          bleeding.
+
+      - subaspect: urgent_higher_risk_procedure_after_morning_doac
+        title: Urgent Higher-risk Procedure After Morning DOAC Dose
+        source_section: "5.2"
+        record_type: clinical_recommendation
+
+        postoperative_bleeding_risk: higher
+
+        content: |
+          If a higher-risk dental procedure is required urgently and the
+          patient has already taken their morning DOAC dose, it is advisable,
+          where possible, to delay the procedure until later in the day to
+          allow anticoagulation levels to decrease.
+
+      - subaspect: cardioversion_and_doac
+        title: Cardioversion and Uninterrupted Anticoagulation
+        source_section: "5"
+        record_type: clinical_recommendation
+
+        clinical_contexts:
+          - cardioversion
+
+        medication_action: do_not_modify_anticoagulation
+
+        content: |
+          Patients waiting for cardioversion can require at least 3 weeks
+          of uninterrupted anticoagulation before the procedure.
+
+          Their anticoagulation therapy should not be modified.
+
+
+  # ============================================================
+  # WARFARIN / VKA MANAGEMENT
+  # ============================================================
+
+  - aspect: vitamin_k_antagonist_management
+    title: Treating a Patient Taking Warfarin or Another Vitamin K Antagonist
+
+    subsections:
+
+      - subaspect: inr_testing_before_dental_treatment
+        title: INR Testing Before Dental Treatment
+        source_section: "6"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - vitamin_k_antagonist
+
+        medications:
+          - warfarin
+          - acenocoumarol
+          - phenindione
+
+        content: |
+          For dental treatment likely to cause bleeding, ensure that the
+          patient's INR has been checked ideally no more than 24 hours
+          before the procedure.
+
+          If the patient has a stable INR, checking the INR no more than
+          72 hours before the procedure is acceptable.
+
+          A stable patient is one who does not require weekly monitoring
+          and has not had any INR measurements above 4 during the preceding
+          two months.
+
+      - subaspect: inr_below_4
+        title: Vitamin K Antagonist With INR Below 4
+        source_section: "6"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - vitamin_k_antagonist
+
+        medications:
+          - warfarin
+          - acenocoumarol
+          - phenindione
+
+        inr_category: below_4
+
+        medication_action: continue_without_interruption
+        recommendation_strength: strong
+        evidence_certainty: low
+
+        content: |
+          For a patient taking warfarin or another vitamin K antagonist
+          with an INR below 4, treat without interrupting the anticoagulant
+          medication.
+
+          For dental treatment likely to cause bleeding:
+
+          - treat according to the general advice for managing bleeding risk;
+          - consider limiting the initial treatment area;
+          - for procedures with a higher risk of post-operative bleeding
+            complications, consider staged treatment where possible;
+          - use local haemostatic measures;
+          - strongly consider suturing and packing.
+
+      - subaspect: inr_4_or_above
+        title: Vitamin K Antagonist With INR 4 or Above
+        source_section: "6"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - vitamin_k_antagonist
+
+        inr_category: 4_or_above
+
+        medication_action: delay_invasive_dental_treatment
+
+        content: |
+          If the patient's INR is 4 or above, inform the patient's
+          anticoagulation service or general medical practitioner and delay
+          invasive dental treatment until the INR has been reduced to below 4.
+
+          For urgent treatment, refer the patient to secondary dental care.
+
+      - subaspect: antibiotics_and_inr
+        title: Antibiotics and INR
+        source_section: "6"
+        record_type: drug_interaction
+
+        medication_classes:
+          - vitamin_k_antagonist
+
+        content: |
+          If a patient taking a vitamin K antagonist is prescribed an
+          antibiotic for the dental condition, be aware that the antibiotic
+          may affect the patient's INR level.
+
+
+  # ============================================================
+  # INJECTABLE ANTICOAGULANTS
+  # ============================================================
+
+  - aspect: injectable_anticoagulant_management
+    title: Treating a Patient Taking an Injectable Anticoagulant
+
+    subsections:
+
+      - subaspect: lmwh_agents
+        title: Low Molecular Weight Heparins
+        source_section: "7"
+        record_type: medication_information
+
+        medication_classes:
+          - low_molecular_weight_heparin
+
+        medications:
+          - dalteparin
+          - enoxaparin
+          - tinzaparin
+
+        content: |
+          The low molecular weight heparins discussed in the guidance are
+          dalteparin, enoxaparin and tinzaparin.
+
+          LMWHs may be administered once or twice daily at either
+          prophylactic or treatment doses.
+
+      - subaspect: lmwh_prophylactic_dose
+        title: Prophylactic Low-dose LMWH
+        source_section: "7"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - low_molecular_weight_heparin
+        dose_category: prophylactic_low
+
+        medication_action: continue_without_interruption
+        recommendation_strength: conditional
+        evidence_certainty: very_low
+
+        content: |
+          For a patient taking a prophylactic low dose of a low molecular
+          weight heparin, treat without interrupting the anticoagulant
+          medication.
+
+          For dental treatment likely to cause bleeding:
+
+          - treat according to the general advice for managing bleeding risk;
+          - consider limiting the initial treatment area;
+          - for procedures with a higher risk of post-operative bleeding
+            complications, consider staged treatment;
+          - use local haemostatic measures;
+          - strongly consider suturing and packing.
+
+      - subaspect: lmwh_treatment_dose_or_uncertain_dose
+        title: Treatment-dose LMWH or Uncertain Dose
+        source_section: "7"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - low_molecular_weight_heparin
+        dose_category: treatment_higher_or_uncertain
+
+        content: |
+          If the patient is taking a treatment dose of LMWH, or there is
+          uncertainty about the dose, consult the prescribing clinician to
+          assess the likely impact on bleeding risk for the dental procedure.
+
+      - subaspect: lmwh_adjusted_dose
+        title: LMWH Dose Adjustment
+        source_section: "7"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - low_molecular_weight_heparin
+
+        content: |
+          LMWH doses may be adjusted according to factors including renal
+          impairment and body weight.
+
+          For patients with renal impairment or body weight below 50 kg or
+          above 100 kg, consultation with the prescribing clinician may be
+          required to determine whether the dose is prophylactic or treatment
+          dose.
+
+      - subaspect: short_term_lmwh
+        title: Short-term LMWH Therapy
+        source_section: "7"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - low_molecular_weight_heparin
+
+        content: |
+          LMWHs may be prescribed for relatively short periods following
+          elective orthopaedic surgery.
+
+          Where possible, dental treatment likely to cause bleeding should
+          be delayed until these patients are no longer taking the
+          anticoagulant.
+
+      - subaspect: kidney_dialysis_and_heparin
+        title: Heparin or LMWH During Kidney Dialysis
+        source_section: "7"
+        record_type: clinical_recommendation
+
+        clinical_contexts:
+          - kidney_dialysis
+
+        content: |
+          For patients given heparin or an LMWH during kidney dialysis,
+          where possible dental treatments likely to cause bleeding should
+          be delayed until the following day.
+
+
+  # ============================================================
+  # ANTIPLATELET MANAGEMENT
+  # ============================================================
+
+  - aspect: antiplatelet_management
+    title: Treating a Patient Taking Antiplatelet Drug Therapy
+
+    subsections:
+
+      - subaspect: single_or_dual_antiplatelet_therapy
+        title: Single or Dual Antiplatelet Therapy
+        source_section: "8"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - antiplatelet
+
+        medication_action: continue_without_interruption
+        recommendation_strength: strong
+        evidence_certainty: low
+
+        content: |
+          For a patient taking single or dual antiplatelet drugs, treat
+          without interrupting the antiplatelet medication.
+
+      - subaspect: aspirin_alone
+        title: Aspirin Alone
+        source_section: "8"
+        record_type: clinical_recommendation
+
+        medications:
+          - aspirin
+
+        content: |
+          For dental treatment likely to cause bleeding:
+
+          - treat according to the general advice for managing bleeding risk
+            without interrupting aspirin;
+          - consider limiting the initial treatment area;
+          - for procedures with a higher risk of post-operative bleeding
+            complications, consider staged treatment;
+          - use local haemostatic measures to achieve haemostasis.
+
+      - subaspect: other_single_or_dual_antiplatelet_therapy
+        title: Other Single Antiplatelet or Dual Antiplatelet Therapy
+        source_section: "8"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - antiplatelet
+
+        content: |
+          For a patient taking another single antiplatelet drug or dual
+          antiplatelet therapy:
+
+          - bleeding may be prolonged for up to an hour;
+          - this should be considered when planning treatment time;
+          - limit the initial treatment area;
+          - for procedures with a higher risk of post-operative bleeding
+            complications, consider staged treatment;
+          - use local haemostatic measures;
+          - strongly consider suturing and packing.
+
+      - subaspect: coronary_stent_and_antiplatelet_therapy
+        title: Coronary Stent and Antiplatelet Therapy
+        source_section: "8"
+        record_type: clinical_recommendation
+
+        clinical_contexts:
+          - coronary_stent
+
+        medication_action: do_not_interrupt_without_cardiologist_advice
+
+        content: |
+          Patients with a coronary artery stent may be prescribed dual
+          antiplatelet therapy.
+
+          This treatment should not be stopped prematurely or interrupted
+          without prior discussion and written advice from the patient's
+          cardiologist because of the risk of major adverse cardiac events.
+
+
+  # ============================================================
+  # COMBINATION ANTICOAGULANT + ANTIPLATELET THERAPY
+  # ============================================================
+
+  - aspect: anticoagulant_antiplatelet_combination
+    title: Anticoagulant and Antiplatelet Drug Combination
+
+    subsections:
+
+      - subaspect: combination_therapy_bleeding_risk
+        title: Combination Therapy
+        source_section: "9"
+        record_type: risk_factor
+
+        therapy_type: anticoagulant_and_antiplatelet_combination
+
+        content: |
+          Combination therapies may include a DOAC or warfarin with aspirin
+          or clopidogrel, or, rarely, triple-drug combinations.
+
+          Patients taking combination therapies are likely to have a higher
+          bleeding risk and may have additional medical complications.
+
+      - subaspect: dental_treatment_with_combination_therapy
+        title: Dental Treatment Likely to Cause Bleeding During Combination Therapy
+        source_section: "9"
+        record_type: clinical_recommendation
+
+        therapy_type: anticoagulant_and_antiplatelet_combination
+        bleeding_likelihood: likely_to_cause_bleeding
+
+        content: |
+          For a patient taking an anticoagulant and antiplatelet drug
+          combination who requires dental treatment likely to cause bleeding,
+          consult with the patient's prescribing clinician to assess the
+          likely impact of the particular drug combination and the patient's
+          medical condition on bleeding risk.
+
+          Some patients may only be taking these combinations for 3 to
+          4 weeks, so delaying dental treatment may sometimes be possible.
+
+
+  # ============================================================
+  # DRUG INTERACTIONS
+  # ============================================================
+
+  - aspect: drug_interactions
+    title: Interactions With Drugs Prescribed by Dentists
+
+    subsections:
+
+      - subaspect: interaction_scope
+        title: Scope of Drug Interaction Information
+        source_section: "10 and Appendix 4"
+        record_type: background_information
+
+        content: |
+          The guidance considers interactions between anticoagulants or
+          antiplatelet medications and drugs available in the BNF Dental
+          Practitioner's Formulary.
+
+          The interaction information is not exhaustive and is subject to
+          change.
+
+      - subaspect: apixaban_interactions
+        title: Apixaban Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - apixaban
+
+        interactions:
+          - interacting_drug: aspirin
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: clarithromycin
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: erythromycin
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: azithromycin
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: carbamazepine
+            possible_effect: plasma_concentration_of_apixaban_may_be_reduced
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk with apixaban.
+
+          Clarithromycin, erythromycin and azithromycin may increase
+          bleeding risk.
+
+          Carbamazepine may reduce the plasma concentration of apixaban.
+
+      - subaspect: dabigatran_interactions
+        title: Dabigatran Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - dabigatran
+
+        interactions:
+          - interacting_drug: aspirin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: clarithromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: erythromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: azithromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: carbamazepine
+            possible_effect: plasma_concentration_of_dabigatran_may_be_reduced
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk with dabigatran.
+
+          Clarithromycin, erythromycin and azithromycin may increase
+          bleeding risk.
+
+          Carbamazepine may reduce the plasma concentration of dabigatran.
+
+      - subaspect: rivaroxaban_interactions
+        title: Rivaroxaban Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - rivaroxaban
+
+        interactions:
+          - interacting_drug: aspirin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: clarithromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: erythromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: carbamazepine
+            possible_effect: plasma_concentration_of_rivaroxaban_may_be_reduced
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk with rivaroxaban.
+
+          Clarithromycin and erythromycin may increase bleeding risk.
+
+          Carbamazepine may reduce the plasma concentration of rivaroxaban.
+
+      - subaspect: edoxaban_interactions
+        title: Edoxaban Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - edoxaban
+
+        interactions:
+          - interacting_drug: aspirin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: clarithromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: erythromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: azithromycin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: carbamazepine
+            possible_effect: plasma_concentration_of_edoxaban_may_be_reduced
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk with edoxaban.
+
+          Clarithromycin, erythromycin and azithromycin may increase
+          bleeding risk.
+
+          Carbamazepine may reduce the plasma concentration of edoxaban.
+
+      - subaspect: vitamin_k_antagonist_interactions
+        title: Warfarin, Phenindione and Acenocoumarol Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medication_classes:
+          - vitamin_k_antagonist
+
+        medications:
+          - warfarin
+          - phenindione
+          - acenocoumarol
+
+        interactions:
+          - interacting_drug: metronidazole
+            possible_effect: anticoagulant_effect_notably_increased
+
+          - interacting_drug: penicillins
+            possible_effect: anticoagulant_effect_may_be_enhanced_in_a_minority_of_patients
+
+          - interacting_drug: macrolides
+            possible_effect: anticoagulant_effect_may_be_enhanced_in_a_minority_of_patients
+
+          - interacting_drug: clindamycin
+            possible_effect: anticoagulant_effect_may_be_enhanced_in_a_minority_of_patients
+
+          - interacting_drug: tetracyclines
+            possible_effect: anticoagulant_effect_may_be_enhanced_in_a_minority_of_patients
+
+          - interacting_drug: aspirin
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+
+          - interacting_drug: carbamazepine
+            possible_effect: reduced_anticoagulant_effect
+
+          - interacting_drug: miconazole
+            possible_effect: clinically_important_increase_in_anticoagulation_effect
+
+          - interacting_drug: fluconazole
+            possible_effect: clinically_important_increase_in_anticoagulation_effect
+
+        content: |
+          Metronidazole can notably increase the anticoagulant effect.
+
+          Other antibiotics including penicillins, macrolides, clindamycin
+          and tetracyclines may enhance the anticoagulant effect in a
+          minority of patients.
+
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk.
+
+          Carbamazepine may reduce the anticoagulant effect.
+
+          Miconazole and fluconazole can cause an established and clinically
+          important increase in anticoagulation effect.
+
+      - subaspect: antibiotics_in_patients_taking_vka
+        title: Antibiotics in Patients Taking Vitamin K Antagonists
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medication_classes:
+          - vitamin_k_antagonist
+
+        content: |
+          Fever or infection can affect coagulation or drug metabolism.
+
+          The expectation of an interaction with a vitamin K antagonist
+          should not exclude use of an antibiotic if it is clinically
+          appropriate.
+
+          If an antibiotic is prescribed, advise the patient that the INR
+          might increase and inform the patient's general practitioner or
+          anticoagulation service so that increased INR monitoring can be
+          considered.
+
+      - subaspect: miconazole_with_warfarin_or_acenocoumarol
+        title: Miconazole With Warfarin or Acenocoumarol
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - warfarin
+          - acenocoumarol
+
+        interacting_medications:
+          - miconazole
+
+        medication_action: avoid_miconazole
+
+        content: |
+          Miconazole should be avoided in patients taking warfarin or
+          acenocoumarol.
+
+      - subaspect: lmwh_nsaid_interactions
+        title: Injectable Anticoagulants and NSAIDs
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - dalteparin
+          - enoxaparin
+          - tinzaparin
+
+        interacting_medications:
+          - aspirin
+          - ibuprofen
+          - diclofenac
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk in patients taking dalteparin, enoxaparin or
+          tinzaparin.
+
+      - subaspect: aspirin_interactions
+        title: Aspirin Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - aspirin
+
+        interactions:
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk_and_regular_use_may_reduce_aspirin_antiplatelet_effect
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+
+        content: |
+          Ibuprofen and diclofenac may increase bleeding risk.
+
+          Regular ibuprofen use may also reduce the antiplatelet effect of
+          aspirin.
+
+      - subaspect: clopidogrel_interactions
+        title: Clopidogrel Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - clopidogrel
+
+        interactions:
+          - interacting_drug: aspirin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: erythromycin
+            possible_effect: may_reduce_antiplatelet_effect
+          - interacting_drug: fluconazole
+            possible_effect: may_reduce_antiplatelet_effect
+          - interacting_drug: omeprazole
+            possible_effect: may_reduce_antiplatelet_effect
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk.
+
+          Erythromycin, fluconazole and omeprazole may reduce the
+          antiplatelet effect of clopidogrel.
+
+          Fluconazole and omeprazole should be avoided in patients taking
+          clopidogrel.
+
+      - subaspect: dipyridamole_interactions
+        title: Dipyridamole Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - dipyridamole
+        interacting_medications:
+          - aspirin
+
+        content: |
+          Aspirin may increase bleeding risk when taken with dipyridamole.
+
+      - subaspect: prasugrel_interactions
+        title: Prasugrel Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - prasugrel
+
+        interacting_medications:
+          - aspirin
+          - ibuprofen
+          - diclofenac
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk in patients taking prasugrel.
+
+      - subaspect: ticagrelor_interactions
+        title: Ticagrelor Interactions
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medications:
+          - ticagrelor
+
+        interactions:
+          - interacting_drug: aspirin
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: ibuprofen
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: diclofenac
+            possible_effect: may_increase_bleeding_risk
+          - interacting_drug: clarithromycin
+            possible_effect: plasma_concentration_of_ticagrelor_may_be_increased
+          - interacting_drug: azithromycin
+            possible_effect: plasma_concentration_of_ticagrelor_may_be_increased
+          - interacting_drug: carbamazepine
+            possible_effect: plasma_concentration_of_ticagrelor_may_be_reduced
+
+        content: |
+          NSAIDs including aspirin, ibuprofen and diclofenac may increase
+          bleeding risk.
+
+          Clarithromycin and azithromycin may increase the plasma
+          concentration of ticagrelor.
+
+          Carbamazepine may reduce the plasma concentration of ticagrelor.
+
+          Clarithromycin should be avoided in patients taking ticagrelor.
+
+      - subaspect: carbamazepine_with_selected_antithrombotic_drugs
+        title: Carbamazepine With Selected Antithrombotic Drugs
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        interacting_medications:
+          - carbamazepine
+
+        content: |
+          Carbamazepine should be avoided in patients taking ticagrelor,
+          apixaban, dabigatran or rivaroxaban.
+
+          Carbamazepine should be used with caution in patients taking
+          edoxaban or avoided if possible.
+
+      - subaspect: macrolides_and_doacs
+        title: Macrolide Antibiotics and DOACs
+        source_section: "Appendix 4"
+        record_type: drug_interaction
+
+        medication_classes:
+          - doac
+
+        interacting_medications:
+          - clarithromycin
+          - erythromycin
+          - azithromycin
+
+        content: |
+          There is a risk of interaction between any DOAC and macrolide
+          antibiotics including clarithromycin, erythromycin and azithromycin,
+          although the clinical significance may vary.
+
+          If erythromycin is prescribed for a patient taking edoxaban,
+          liaison with the patient's prescriber is required for edoxaban
+          dose reduction.
+
+
+  # ============================================================
+  # MEDICATION NAMES / NORMALIZATION
+  # Directly from Appendix 2
+  # ============================================================
+
+  - aspect: medication_names
+    title: Anticoagulant and Antiplatelet Drug Names
+
+    subsections:
+
+      - subaspect: apixaban_names
+        title: Apixaban
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - apixaban
+        medication_classes:
+          - doac
+
+        trade_names:
+          - Eliquis
+
+        content: |
+          Appendix 2 lists Eliquis as a UK trade name for apixaban.
+
+      - subaspect: dabigatran_names
+        title: Dabigatran
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - dabigatran
+        medication_classes:
+          - doac
+
+        trade_names:
+          - Pradaxa
+
+        other_names:
+          - Pradax
+          - Prazaxa
+
+        content: |
+          Appendix 2 lists Pradaxa as a UK trade name for dabigatran.
+
+          Pradax and Prazaxa are listed as other non-UK names.
+
+      - subaspect: rivaroxaban_names
+        title: Rivaroxaban
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - rivaroxaban
+        medication_classes:
+          - doac
+
+        trade_names:
+          - Xarelto
+
+        other_names:
+          - Runaplax
+          - Rivadia
+
+        content: |
+          Appendix 2 lists Xarelto as a UK trade name for rivaroxaban.
+          
+          Runaplax and Rivadia are listed as other non-UK names.
+
+      - subaspect: edoxaban_names
+        title: Edoxaban
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - edoxaban
+        medication_classes:
+          - doac
+
+        trade_names:
+          - Lixiana
+
+        other_names:
+          - Savaysa
+          - Roteas
+
+        content: |
+          Appendix 2 lists Lixiana as a UK trade name for edoxaban.
+          
+          Savaysa and Roteas are listed as other non-UK names.
+
+      - subaspect: warfarin_names
+        title: Warfarin
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - warfarin
+        medication_classes:
+          - vitamin_k_antagonist
+
+        trade_names:
+          - Marevan
+
+        other_names:
+          - Coumadin
+          - Jantoven
+          - Uniwarfin
+          - Aldocumar
+
+        content: |
+          Appendix 2 lists Marevan as a UK trade name for warfarin.
+          
+          Coumadin, Jantoven, Uniwarfin and Aldocumar are listed as other
+          non-UK names. Appendix 2 notes that many other trade names are used.
+
+      - subaspect: phenindione_names
+        title: Phenindione
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - phenindione
+        medication_classes:
+          - vitamin_k_antagonist
+
+        trade_names:
+          - Dindevan
+
+        other_names:
+          - Phenyline
+          - Pindione
+
+        content: |
+          Appendix 2 lists Dindevan as a UK trade name for phenindione.
+          
+          Phenyline and Pindione are listed as other non-UK names.
+
+
+      - subaspect: acenocoumarol_names
+        title: Acenocoumarol
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - acenocoumarol
+        medication_classes:
+          - vitamin_k_antagonist
+
+        trade_names:
+          - Sinthrome
+
+        other_names:
+          - Sintrom
+          - Sinkumar
+          - Syncumar
+
+        content: |
+          Appendix 2 lists Sinthrome as a UK trade name for acenocoumarol.
+          
+          Sintrom, Sinkumar and Syncumar are listed as other non-UK names.
+
+      - subaspect: dalteparin_names
+        title: Dalteparin
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - dalteparin
+        medication_classes:
+          - low_molecular_weight_heparin
+
+        trade_names:
+          - Fragmin
+
+        other_names:
+          - Fragmine
+          - Dalpin
+          - Daltehep
+          - Boxol
+
+        content: |
+          Appendix 2 lists Fragmin as a UK trade name for dalteparin.
+          
+          Fragmine, Dalpin, Daltehep and Boxol are listed as other non-UK names.
+
+      - subaspect: enoxaparin_names
+        title: Enoxaparin
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - enoxaparin
+        medication_classes:
+          - low_molecular_weight_heparin
+
+        trade_names:
+          - Clexane
+          - Inhixia
+          - Arovi
+
+        other_names:
+          - Lovenox
+          - Xaparin
+          - Klexane
+
+        content: |
+          Appendix 2 lists Clexane, Inhixia and Arovi as UK trade names
+          for enoxaparin.
+          
+          Lovenox, Xaparin and Klexane are listed as other non-UK names.
+
+      - subaspect: tinzaparin_names
+        title: Tinzaparin
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - tinzaparin
+        medication_classes:
+          - low_molecular_weight_heparin
+
+        trade_names:
+          - Innohep
+
+        other_names:
+          - Logiparin
+
+        content: |
+          Appendix 2 lists Innohep as a UK trade name for tinzaparin.
+          
+          Logiparin is listed as another non-UK name.
+
+      - subaspect: aspirin_names
+        title: Aspirin
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - aspirin
+        medication_classes:
+          - antiplatelet
+
+        alternative_names:
+          - acetylsalicylic acid
+          - ASA
+
+        trade_names:
+          - Nu-Seals
+          - Microprin
+          - caprin
+
+        combination_trade_names:
+          - Molita Modified Release
+
+        content: |
+          Appendix 2 identifies acetylsalicylic acid and ASA as alternative
+          names for aspirin.
+          
+          Nu-Seals, Microprin and caprin are listed as UK trade names.
+          Molita Modified Release is listed as a product combining aspirin
+          with dipyridamole.
+          
+          Appendix 2 notes that aspirin has numerous brand names.
+
+      - subaspect: clopidogrel_names
+        title: Clopidogrel
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - clopidogrel
+        medication_classes:
+          - antiplatelet
+
+        trade_names:
+          - Plavix
+          - Grepid
+
+        other_names:
+          - Iscover
+
+        content: |
+          Appendix 2 lists Plavix and Grepid as UK trade names for clopidogrel.
+          
+          Iscover is listed as another non-UK name. Appendix 2 notes that
+          many other trade names are used.
+
+      - subaspect: dipyridamole_names
+        title: Dipyridamole
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - dipyridamole
+        medication_classes:
+          - antiplatelet
+
+        trade_names:
+          - Attia Modified Release
+          - Ofcram PR
+
+        combination_trade_names:
+          - Asasantin Retard
+          - Molita Modified Release
+
+        content: |
+          Appendix 2 lists Attia Modified Release and Ofcram PR as UK
+          trade names for dipyridamole.
+          
+          Asasantin Retard and Molita Modified Release are listed as products
+          combining dipyridamole with aspirin.
+
+      - subaspect: prasugrel_names
+        title: Prasugrel
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - prasugrel
+        medication_classes:
+          - antiplatelet
+
+        trade_names:
+          - Efient
+
+        other_names:
+          - Effient
+          - Prasita
+
+        content: |
+          Appendix 2 lists Efient as a UK trade name for prasugrel.
+          
+          Effient and Prasita are listed as other non-UK names.
+
+      - subaspect: ticagrelor_names
+        title: Ticagrelor
+        source_section: "Appendix 2"
+        record_type: medication_information
+
+        medications:
+          - ticagrelor
+        medication_classes:
+          - antiplatelet
+
+        trade_names:
+          - Brilique
+
+        other_names:
+          - Brilinta
+          - Possia
+
+        content: |
+          Appendix 2 lists Brilique as a UK trade name for ticagrelor.
+          
+          Brilinta and Possia are listed as other non-UK names.
+
+
+  # ============================================================
+  # INDICATIONS FOR ANTICOAGULANT OR ANTIPLATELET THERAPY
+  # Appendix 3 explicitly states this list is not comprehensive.
+  # ============================================================
+
+  - aspect: indications_for_anticoagulant_or_antiplatelet_therapy
+    title: Indications for Anticoagulant or Antiplatelet Therapy
+
+    subsections:
+
+      - subaspect: appendix_3_scope
+        title: Scope of Indication Information
+        source_section: "Appendix 3"
+        record_type: background_information
+
+        content: |
+          The list of indications in Appendix 3 is not comprehensive.
+
+          It is intended as a guide to reflect current use of these drugs in
+          the UK population at the time of publication.
+
+          Conditions for which newer drugs are licensed are subject to change.
+
+      - subaspect: stroke_or_tia_without_atrial_fibrillation
+        title: Stroke or TIA in the Absence of Atrial Fibrillation
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        conditions:
+          - stroke_or_transient_ischaemic_attack_without_atrial_fibrillation
+
+        commonly_used_treatments:
+          - single_antiplatelet
+          - dual_antiplatelet
+
+        commonly_used_medications:
+          - clopidogrel
+
+        treatment_duration: lifelong
+
+        content: |
+          For stroke or transient ischaemic attack in the absence of atrial
+          fibrillation, Appendix 3 lists single or dual antiplatelet therapy,
+          often clopidogrel, as commonly used treatment.
+
+          Warfarin is used occasionally.
+
+      - subaspect: atrial_fibrillation
+        title: Stroke Prevention in Patients With Atrial Fibrillation
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        conditions:
+          - atrial_fibrillation
+
+        commonly_used_treatments:
+          - doac
+
+        treatment_duration: lifelong
+
+        content: |
+          For stroke prevention in patients with atrial fibrillation,
+          Appendix 3 lists a DOAC as commonly used treatment.
+
+          Warfarin is used occasionally and single or dual antiplatelet
+          therapy is used rarely.
+
+      - subaspect: dvt_and_pulmonary_embolism
+        title: Thromboembolic Disease Including DVT and Pulmonary Embolism
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        conditions:
+          - deep_vein_thrombosis
+          - pulmonary_embolism
+
+        commonly_used_treatments:
+          - doac
+          - warfarin
+          - injectable_anticoagulant
+
+        content: |
+          For thromboembolic disease including deep vein thrombosis and
+          pulmonary embolism, Appendix 3 lists DOACs, warfarin or injectable
+          anticoagulants as commonly used treatments.
+
+          Treatment is usually 6 weeks to 6 months.
+
+          Prophylaxis can be lifelong.
+
+          Treatment can be lifelong in cases of recurrence or an ongoing
+          untreatable risk factor such as malignancy.
+
+      - subaspect: recent_significant_surgery
+        title: Recent Significant Surgery
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        clinical_contexts:
+        - recent_significant_surgery
+
+        commonly_used_treatments:
+        - injectable_anticoagulant
+        - doac
+        - doac_with_aspirin
+
+        treatment_duration: usually_2_to_6_weeks
+
+        content: |
+          Following recent significant surgery, Appendix 3 lists an injectable
+          anticoagulant or a DOAC, with or without aspirin, as commonly used
+          treatment. Treatment is usually continued for 2 to 6 weeks.
+          
+      - subaspect: heart_surgery_or_prosthetic_heart_valve
+        title: Heart Surgery or Prosthetic Replacement Heart Valve
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        clinical_contexts:
+        - heart_surgery
+        - prosthetic_replacement_heart_valve
+
+        commonly_used_treatments:
+        - vitamin_k_antagonist
+        - single_antiplatelet
+
+        treatment_duration: long_term
+
+        content: |
+            Following heart surgery, especially prosthetic replacement heart-valve
+            surgery, Appendix 3 lists warfarin or another vitamin K antagonist, or
+            single antiplatelet therapy, as commonly used long-term treatment.
+
+            Warfarin or a similar medicine is used for mechanical valves. Aspirin
+            may be used for some tissue valves. A DOAC is used occasionally and
+            may be used with or without aspirin for a tissue valve with atrial
+            fibrillation.
+          
+      - subaspect: coronary_heart_disease
+        title: Coronary Heart Disease
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        conditions:
+          - stable_angina
+          - unstable_angina
+          - myocardial_infarction
+
+        commonly_used_treatments:
+        - single_antiplatelet
+        - dual_antiplatelet
+        - doac_with_antiplatelet
+
+        content: |
+          Appendix 3 lists antiplatelet therapy for coronary heart disease,
+          including stable angina, unstable angina and myocardial infarction.
+
+          Dual antiplatelet therapy may be used for 6 to 12 months following
+          angioplasty, stent insertion or myocardial infarction, followed by
+          single therapy with aspirin or clopidogrel.
+
+          A DOAC may be combined with single or dual antiplatelet therapy after
+          a recent myocardial infarction in a patient with atrial fibrillation.
+
+      - subaspect: coronary_stent_indication
+        title: Coronary Stent
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        clinical_contexts:
+          - coronary_stent
+
+        commonly_used_treatments:
+          - single_antiplatelet
+          - dual_antiplatelet
+
+        content: |
+          For coronary stents, Appendix 3 lists single or dual antiplatelet
+          therapy.
+
+          Dual therapy may be used for up to 12 months, followed by
+          lifelong monotherapy.
+
+      - subaspect: kidney_failure_requiring_dialysis
+        title: Kidney Failure Requiring Dialysis
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        conditions:
+          - kidney_failure_requiring_dialysis
+
+        commonly_used_treatments:
+          - heparin
+          - injectable_anticoagulant
+
+        treatment_duration: on_day_of_dialysis
+
+        content: |
+          Appendix 3 lists heparin or injectable anticoagulants for kidney
+          failure requiring dialysis, used on the day of dialysis.
+
+      - subaspect: pregnancy_with_vte_risk_factors
+        title: Pregnancy With Associated Risk Factors for Venous Thromboembolism
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        treatment_duration: until_delivery_or_six_weeks_after_delivery_for_obesity
+
+        clinical_contexts:
+          - pregnancy_with_vte_risk_factors
+
+        commonly_used_treatments:
+          - aspirin
+          - injectable_anticoagulant
+
+        content: |
+          Appendix 3 lists aspirin, or injectable anticoagulants in some
+          high-risk cases, for pregnancy with associated risk factors for
+          venous thromboembolism.
+
+      - subaspect: dvt_in_pregnancy
+        title: Treatment of DVT in Pregnancy
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        treatment_duration: at_least_six_weeks_after_delivery_and_at_least_three_months_total
+
+        conditions:
+          - deep_vein_thrombosis
+        clinical_contexts:
+          - pregnancy
+
+        commonly_used_treatments:
+          - injectable_anticoagulant
+
+        content: |
+          Appendix 3 lists injectable anticoagulant treatment for DVT in
+          pregnancy.
+          
+          Treatment continues until at least six weeks after delivery and
+          for at least three months in total.
+
+      - subaspect: peripheral_vascular_disease
+        title: Peripheral Vascular or Peripheral Arterial Disease
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        conditions:
+          - peripheral_vascular_disease
+          - peripheral_arterial_disease
+
+        commonly_used_treatments:
+          - single_antiplatelet
+          - dual_antiplatelet
+          - rivaroxaban_with_aspirin
+
+        treatment_duration: lifelong
+
+        content: |
+            Appendix 3 lists single or dual antiplatelet therapy, or rivaroxaban
+            with aspirin, for peripheral vascular or peripheral arterial disease.
+
+      - subaspect: apical_ventricular_mural_thrombus
+        title: Apical, Ventricular or Mural Thrombus
+        source_section: "Appendix 3"
+        record_type: indication_information
+
+        conditions:
+          - apical_ventricular_or_mural_thrombus
+
+        commonly_used_treatments:
+          - warfarin
+
+        content: |
+          Appendix 3 lists warfarin for apical, ventricular or mural
+          thrombus, generally for 6 to 12 months with review after
+          echocardiography.
+
+          Treatment may be combined with dual antiplatelet therapy after
+          a recent heart attack.
+
+          A DOAC is used occasionally.
