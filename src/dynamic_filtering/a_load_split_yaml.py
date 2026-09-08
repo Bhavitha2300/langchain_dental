@@ -136,7 +136,7 @@ def load_documents():
             document = Document(page_content=page_content, metadata=metadata)
             documents.append(document)
 
-    recursive_character_text_splitter =RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=80)
+    recursive_character_text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=80)
     split_documents = recursive_character_text_splitter.split_documents(documents=documents)
 
     return split_documents
