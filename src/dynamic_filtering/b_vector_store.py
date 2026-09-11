@@ -4,7 +4,6 @@ from config import load_config
 from langchain_openai import OpenAIEmbeddings
 from dynamic_filtering.a_load_split_yaml import KNOWLEDGE_BASE_FILE, load_documents
 from langchain_postgres import PGVector
-import uuid
 
 load_config()
 
@@ -16,7 +15,7 @@ def get_vector_store():
     store_vector = PGVector(
         embeddings=embed_model,
         collection_name=COLLECTION_NAME,
-        connection=DB_CONNECTION,
+        connection=DB_CONNECTION
     )
     return store_vector
 
@@ -24,8 +23,12 @@ def load_vector():
     vector_store = get_vector_store()
     documents = load_documents()
     id_list = []
-    for document in documents:
-        chunk_id = f"cdss-{uuid.uuid4()}"
+    for index, document in enumerate(documents):
+        chunk_id = (
+            f"yaml-cdss-v2-"
+            f"{document.metadata.get('document_id', 'guideline')}-"
+            f"{index}"
+        )
         document.metadata["chunk_id"] = chunk_id
         document.metadata["source"]= KNOWLEDGE_BASE_FILE.name
         id_list.append(chunk_id)
