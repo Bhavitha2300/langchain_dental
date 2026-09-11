@@ -1,0 +1,140 @@
+value_set_version: "1.0"
+last_verified: "2026-09-11"
+
+description: |
+  Value sets used to connect coded FHIR patient data to the
+  clinical categories used by the SDCEP guideline.
+
+terminology_systems:
+
+  rxnorm: "http://www.nlm.nih.gov/research/umls/rxnorm"
+  snomed_ct: "http://snomed.info/sct"
+
+
+# ============================================================
+# MEDICATION VALUE SETS
+# RxNorm ingredient concepts, not individual strengths or brands
+# ============================================================
+
+medication_value_sets:
+
+  doac:
+
+    - medication_key: apixaban
+      code: "1364430"
+      display: apixaban
+
+    - medication_key: dabigatran
+      code: "1546356"
+      display: dabigatran
+
+    - medication_key: rivaroxaban
+      code: "1114195"
+      display: rivaroxaban
+
+    - medication_key: edoxaban
+      code: "1599538"
+      display: edoxaban
+
+
+  vitamin_k_antagonist:
+
+    - medication_key: warfarin
+      code: "11289"
+      display: warfarin
+
+    - medication_key: acenocoumarol
+      code: "154"
+      display: acenocoumarol
+
+    - medication_key: phenindione
+      code: "8130"
+      display: phenindione
+
+
+  unfractionated_heparin:
+
+    - medication_key: heparin
+      code: "5224"
+      display: heparin
+
+
+  low_molecular_weight_heparin:
+
+    - medication_key: dalteparin
+      code: "67109"
+      display: dalteparin
+
+    - medication_key: enoxaparin
+      code: "67108"
+      display: enoxaparin
+
+    - medication_key: tinzaparin
+      code: "69646"
+      display: tinzaparin
+
+
+  antiplatelet:
+
+    - medication_key: aspirin
+      code: "1191"
+      display: aspirin
+
+    - medication_key: clopidogrel
+      code: "32968"
+      display: clopidogrel
+
+    - medication_key: dipyridamole
+      code: "3521"
+      display: dipyridamole
+
+    - medication_key: prasugrel
+      code: "613391"
+      display: prasugrel
+
+    - medication_key: ticagrelor
+      code: "1116632"
+      display: ticagrelor
+
+
+# ============================================================
+# CONDITION VALUE SETS
+# ECL includes the named SNOMED concept and its descendants
+# ============================================================
+
+condition_value_sets:
+
+  atrial_fibrillation:
+    root_code: "49436004"
+    display: Atrial fibrillation
+    ecl: "<< 49436004"
+
+
+# ============================================================
+# BASE PROCEDURE VALUE SETS
+# These identify the procedure but do not determine bleeding risk
+# ============================================================
+
+procedure_value_sets:
+
+  tooth_extraction:
+    root_code: "55162003"
+    display: Tooth extraction
+    ecl: "<< 55162003"
+
+    required_clinical_information:
+      - extraction_complexity
+      - number_of_teeth
+      - wound_size
+      - flap_raising
+
+
+# ============================================================
+# SAFETY BEHAVIOUR
+# ============================================================
+
+unmapped_behavior:
+
+  medication: require_terminology_review
+  condition: retain_in_patient_context
+  procedure: require_clinician_confirmation
