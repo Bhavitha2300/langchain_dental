@@ -1,7 +1,6 @@
 # a_load_split_yaml.py
 
 from pathlib import Path
-
 import yaml
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -144,9 +143,6 @@ def load_documents():
 
 def preview_documents():
     documents = load_documents()
-
-    print(f"Total documents: {len(documents)}")
-    print()
 
     for document in documents:
         print("Metadata:")

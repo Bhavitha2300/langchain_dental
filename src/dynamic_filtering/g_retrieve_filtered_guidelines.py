@@ -6,67 +6,99 @@ from dynamic_filtering.f_assess_patient_context import (assess_patient_context)
 
 
 def build_metadata_filter(assessed_context: dict):
-    clinical_assessment = assessed_context.get("clinical_assessment",{})
-    medication_classes = clinical_assessment.get("medication_classes",[])
-    procedure_assessments = clinical_assessment.get("procedure_assessments",[])
-    medications = assessed_context.get("medications",[])
+    clinical_assessment = assessed_context.get(
+        "clinical_assessment",
+        {}
+    )
 
-    if not medication_classes:
-        return None
+    procedure_assessments = clinical_assessment.get(
+        "procedure_assessments",
+        []
+    )
 
-    medication_class = medication_classes[0]
+    medications = assessed_context.get("medications", [])
 
-    ingredient_name = ""
+    filter_list = []
+    added_combinations = []
 
     for medication in medications:
-        if (
-            medication.get("medication_class")
-            == medication_class
-        ):
-            ingredient_name = medication.get("ingredient_name","")
-            break
+        medication_class = medication.get(
+            "medication_class",
+            ""
+        )
 
-    if not ingredient_name:
+        ingredient_name = medication.get(
+            "ingredient_name",
+            ""
+        )
+
+        if not medication_class or not ingredient_name:
+            continue
+
+        ingredient_name = (
+            ingredient_name.strip()
+            .lower()
+            .replace("-", "_")
+            .replace(" ", "_")
+        )
+
+        for procedure in procedure_assessments:
+            classification_status = procedure.get(
+                "classification_status",
+                ""
+            )
+
+            bleeding_risk = procedure.get(
+                "postoperative_bleeding_risk",
+                ""
+            )
+
+            if classification_status != "classified":
+                continue
+
+            if not bleeding_risk:
+                continue
+
+            combination = (
+                medication_class,
+                ingredient_name,
+                bleeding_risk
+            )
+
+            if combination in added_combinations:
+                continue
+
+            added_combinations.append(combination)
+
+            filter_list.append({
+                "$and": [
+                    {
+                        "medication_classes": {
+                            "$ilike": f'%"{medication_class}"%'
+                        }
+                    },
+                    {
+                        "medications": {
+                            "$ilike": f'%"{ingredient_name}"%'
+                        }
+                    },
+                    {
+                        "postoperative_bleeding_risk": {
+                            "$eq": bleeding_risk
+                        }
+                    }
+                ]
+            })
+
+    if not filter_list:
         return None
 
-    bleeding_risk = ""
+    if len(filter_list) == 1:
+        return filter_list[0]
 
-    for procedure in procedure_assessments:
-        if (
-            procedure.get("classification_status")
-            == "classified"
-        ):
-            bleeding_risk = procedure.get("postoperative_bleeding_risk","")
-            break
-
-    if not bleeding_risk:
-        return None
-
-    metadata_filter = {
-        "$and": [
-            {
-                "medication_classes": {
-                    "$ilike": (
-                        f'%"{medication_class}"%'
-                    )
-                }
-            },
-            {
-                "medications": {
-                    "$ilike": (
-                        f'%"{ingredient_name}"%'
-                    )
-                }
-            },
-            {
-                "postoperative_bleeding_risk": {
-                    "$eq": bleeding_risk
-                }
-            }
-        ]
+    return {
+        "$or": filter_list
     }
-
-    return metadata_filter
 
 
 def retrieve_filtered_guidelines(
