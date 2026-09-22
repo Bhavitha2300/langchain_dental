@@ -9,6 +9,223 @@ source:
   isbn: "978-1-905829-36-1"
   website: "https://www.sdcep.org.uk"
 
+
+procedure_assessment_rules:
+
+  tooth_extraction:
+
+    clinician_inputs:
+
+      extraction_complexity:
+        question: What is the expected extraction complexity?
+
+        options:
+          - value: simple
+            label: Simple extraction
+
+          - value: complex
+            label: Complex extraction
+
+          - value: surgical
+            label: Surgical extraction
+
+          - value: ""
+            label: Unsure - requires clinician review
+
+      wound_size:
+        question: What is the expected wound size?
+
+        options:
+          - value: restricted
+            label: Restricted wound size
+
+          - value: large
+            label: Large wound size
+
+          - value: ""
+            label: Unsure - requires clinician review
+
+    required_information:
+      - number_of_teeth
+      - extraction_complexity
+      - wound_size
+
+    missing_information_result:
+      procedure_type: tooth_extraction
+      classification_status: needs_clinician_confirmation
+      procedure_category: ""
+      postoperative_bleeding_risk: ""
+
+    rules:
+
+      - rule_id: complex_or_surgical_extraction
+
+        extraction_complexity:
+          - complex
+          - surgical
+
+        result:
+          procedure_type: tooth_extraction
+          classification_status: classified
+          procedure_category: higher_risk_extraction
+          postoperative_bleeding_risk: higher
+
+      - rule_id: more_than_three_extractions
+
+        minimum_teeth: 4
+
+        result:
+          procedure_type: tooth_extraction
+          classification_status: classified
+          procedure_category: more_than_3_extractions_at_once
+          postoperative_bleeding_risk: higher
+
+      - rule_id: simple_extraction_one_to_three_teeth
+
+        extraction_complexity:
+          - simple
+
+        minimum_teeth: 1
+        maximum_teeth: 3
+
+        wound_size:
+          - restricted
+
+        result:
+          procedure_type: tooth_extraction
+          classification_status: classified
+          procedure_category: simple_extraction_1_to_3_teeth_with_restricted_wound_size
+          postoperative_bleeding_risk: low
+
+      - rule_id: large_wound_requires_confirmation
+
+        wound_size:
+          - large
+
+        result:
+          procedure_type: tooth_extraction
+          classification_status: requires_clinician_review
+          procedure_category: ""
+          postoperative_bleeding_risk: ""
+          missing_information:
+            - whether_extractions_are_adjacent
+
+    no_matching_rule_result:
+      procedure_type: tooth_extraction
+      classification_status: requires_clinician_review
+      procedure_category: ""
+      postoperative_bleeding_risk: ""
+      missing_information: []
+
+  incision_and_drainage_of_intraoral_swellings:
+
+    result:
+      procedure_type: incision_and_drainage_of_intraoral_swellings
+      classification_status: classified
+      procedure_category: incision_and_drainage_of_intraoral_swellings
+      postoperative_bleeding_risk: low
+      missing_information: [ ]
+
+
+  detailed_six_point_full_periodontal_examination:
+
+    result:
+      procedure_type: detailed_six_point_full_periodontal_examination
+      classification_status: classified
+      procedure_category: detailed_six_point_full_periodontal_examination
+      postoperative_bleeding_risk: low
+      missing_information: [ ]
+
+
+  root_surface_debridement:
+
+    result:
+      procedure_type: root_surface_debridement
+      classification_status: classified
+      procedure_category: root_surface_debridement
+      postoperative_bleeding_risk: low
+      missing_information: [ ]
+
+
+  direct_or_indirect_restorations_with_subgingival_margins:
+
+    result:
+      procedure_type: direct_or_indirect_restorations_with_subgingival_margins
+      classification_status: classified
+      procedure_category: restoration_with_subgingival_margins
+      postoperative_bleeding_risk: low
+      missing_information: [ ]
+
+
+  periodontal_surgery:
+
+    result:
+      procedure_type: periodontal_surgery
+      classification_status: classified
+      procedure_category: periodontal_surgery
+      postoperative_bleeding_risk: higher
+      missing_information: [ ]
+
+
+  preprosthetic_surgery:
+
+    result:
+      procedure_type: preprosthetic_surgery
+      classification_status: classified
+      procedure_category: preprosthetic_surgery
+      postoperative_bleeding_risk: higher
+      missing_information: [ ]
+
+
+  periradicular_surgery:
+
+    result:
+      procedure_type: periradicular_surgery
+      classification_status: classified
+      procedure_category: periradicular_surgery
+      postoperative_bleeding_risk: higher
+      missing_information: [ ]
+
+
+  crown_lengthening:
+
+    result:
+      procedure_type: crown_lengthening
+      classification_status: classified
+      procedure_category: crown_lengthening
+      postoperative_bleeding_risk: higher
+      missing_information: [ ]
+
+
+  dental_implant_surgery:
+
+    result:
+      procedure_type: dental_implant_surgery
+      classification_status: classified
+      procedure_category: dental_implant_surgery
+      postoperative_bleeding_risk: higher
+      missing_information: [ ]
+
+  gingival_recontouring:
+
+    result:
+      procedure_type: gingival_recontouring
+      classification_status: classified
+      procedure_category: gingival_recontouring
+      postoperative_bleeding_risk: higher
+      missing_information: [ ]
+
+
+  biopsies:
+
+    result:
+      procedure_type: biopsies
+      classification_status: classified
+      procedure_category: oral_biopsy
+      postoperative_bleeding_risk: higher
+      missing_information: [ ]
+
+
 sections:
 
   # ============================================================
