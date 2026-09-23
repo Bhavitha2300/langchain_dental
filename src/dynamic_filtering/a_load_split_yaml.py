@@ -129,8 +129,7 @@ def load_documents():
     Section: {section_title}
     Subsection: {subsection.get("title", "")}
 
-    {content}
-                """.strip()
+    {content}""".strip()
 
             document = Document(page_content=page_content, metadata=metadata)
             documents.append(document)

@@ -4,7 +4,7 @@ from pathlib import Path
 import pprint
 import requests
 import yaml
-from dynamic_filtering.d_normalize_patient_context import normalize_patient_context
+from dynamic_filtering.c_fhir import get_fhir_patient_data
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 VALUE_SETS_FILE = DATA_DIR / "sdcep_value_sets.yaml"
@@ -53,14 +53,14 @@ def find_medication_class(ingredient_code: str,value_sets: dict):
 
 
 def enrich_patient_context(patient_id: str):
-    normalized_context = normalize_patient_context(patient_id)
+    normalized_context = get_fhir_patient_data(patient_id)
     value_sets = load_value_sets()
 
     for medication in normalized_context.get("medications",[]):
         rxnorm_code = medication.get("rxnorm_code", "")
 
         if not rxnorm_code:
-            medication["terminology_status"] = ("rxnorm_code_missing")
+            medication["terminology_status"] = ("rxnorm_code_missing_in_patient_data")
             continue
 
         try:
@@ -89,7 +89,7 @@ def enrich_patient_context(patient_id: str):
 
 
 def preview_enriched_context():
-    patient_id = "1000"
+    patient_id = "1256"
     enriched_context = enrich_patient_context(patient_id)
     pprint.pprint(enriched_context)
 

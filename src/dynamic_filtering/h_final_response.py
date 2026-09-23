@@ -14,7 +14,6 @@ def format_guideline_documents(documents):
 
     for document in documents:
         metadata = document.metadata
-
         source_information = (
             f"Guideline: {metadata.get('document_title', '')}\n"
             f"Organization: {metadata.get('source_organization', '')}\n"
@@ -26,15 +25,13 @@ def format_guideline_documents(documents):
             f"Evidence certainty: "
             f"{metadata.get('evidence_certainty', '')}\n"
             f"Medication action: "
-            f"{metadata.get('medication_action', '')}\n"
-        )
+            f"{metadata.get('medication_action', '')}\n")
 
         guideline_context += (
             f"{source_information}\n"
             f"Guideline content:\n"
             f"{document.page_content}\n\n"
-            f"{'--' * 40}\n"
-        )
+            f"{'--' * 40}\n")
 
     return guideline_context
 
@@ -53,106 +50,54 @@ def final_response(
     )
 
     if retrieval_result["status"] != "retrieved":
-        return (
-            "A guideline recommendation cannot be generated "
-            "because the procedure requires additional clinician "
-            "confirmation."
-        )
+        return ("A guideline recommendation cannot be generated because the procedure requires additional clinician confirmation.")
 
     documents = retrieval_result["documents"]
 
     if not documents:
-        return (
-            "No guideline recommendation matching the patient's "
-            "medication class and procedure bleeding risk was found."
-        )
+        return ("No guideline recommendation matching the patient's medication class and procedure bleeding risk was found.")
 
     patient_context = retrieval_result["patient_context"]
 
-    # Include only information needed for this clinical question.
     relevant_patient_context = {
         "conditions": patient_context.get("conditions", []),
         "medications": patient_context.get("medications", []),
-        "planned_procedures": patient_context.get(
-            "planned_procedures",
-            []
-        ),
-        "clinical_assessment": patient_context.get(
-            "clinical_assessment",
-            {}
-        )
+        "planned_procedures": patient_context.get("planned_procedures",[]),
+        "clinical_assessment": patient_context.get("clinical_assessment",{})
     }
 
-    patient_context_json = json.dumps(
-        relevant_patient_context,
-        indent=2
-    )
+    patient_context_json = json.dumps(relevant_patient_context,indent=2)
+    guideline_context = format_guideline_documents(documents)
+    chat_model = ChatOpenAI(model="gpt-4o-mini")
+    prompt = ChatPromptTemplate.from_messages([(
+            "system", """
+                    You are a dental clinical decision support system.
+                    Answer the clinical question using only:
+                    1. The structured patient context.
+                    2. The deterministic clinical assessment.
+                    3. The retrieved SDCEP guideline content.
 
-    guideline_context = format_guideline_documents(
-        documents
-    )
-
-    chat_model = ChatOpenAI(
-        model="gpt-4o-mini",
-        temperature=0
-    )
-
-    prompt = ChatPromptTemplate.from_messages([
-        (
-            "system",
-            """
-You are a dental clinical decision support system.
-
-Answer the clinical question using only:
-
-1. The structured patient context.
-2. The deterministic clinical assessment.
-3. The retrieved SDCEP guideline content.
-
-Rules:
-
-- Do not add medical information that is not provided.
-- Do not create or guess medication, diagnosis or procedure codes.
-- Do not change the procedure bleeding-risk classification.
-- Do not create a medication recommendation that is not stated
-  in the retrieved guideline.
-- Do not state that the recommendation ensures or guarantees
-  safety, effectiveness or prevention of bleeding.
-- Explain that the result is decision support and requires
-  clinician judgement.
-- Clearly state the patient's relevant medication, medication
-  class and planned procedure.
-- Clearly state the assessed postoperative bleeding risk.
-- Explain the guideline-supported medication action.
-- Include the practical management considerations found in the
-  retrieved guideline.
-- Mention the guideline name and section.
-- Mention the recommendation strength and evidence certainty
-  when they are available.
-- If the supplied information is insufficient, say so clearly.
-- Present the answer in concise Markdown.
-"""
-        ),
-        (
-            "human",
-            """
-Patient context:
-
-{patient_context}
-
-Retrieved guideline context:
-
-{guideline_context}
-
-Clinical question:
-
-{question}
-"""
-        )
+                    Rules:
+                    - Do not add medical information that is not provided.
+                    - Do not create or guess medication, diagnosis or procedure codes.
+                    - Do not change the procedure bleeding-risk classification.
+                    - Do not create a medication recommendation that is not stated in the retrieved guideline.
+                    - Do not state that the recommendation ensures or guarantees safety, effectiveness or prevention of bleeding.
+                    - Explain that the result is decision support and requires clinician judgement.
+                    - Clearly state the patient's relevant medication, medication class and planned procedure.
+                    - Clearly state the assessed postoperative bleeding risk.
+                    - Explain the guideline-supported medication action.
+                    - Include the practical management considerations found in the retrieved guideline.
+                    - Mention the guideline name and section.
+                    - Mention the recommendation strength and evidence certainty when they are available.
+                    - If the supplied information is insufficient, say so clearly.
+                        """),
+        ("human", """Patient context: {patient_context}
+                     Retrieved guideline context: {guideline_context}
+                     Clinical question: {question}""")
     ])
 
     chain = prompt | chat_model
-
     response = chain.invoke({
         "patient_context": patient_context_json,
         "guideline_context": guideline_context,
@@ -163,13 +108,9 @@ Clinical question:
 
 
 def run():
-    patient_id = "1000"
+    patient_id = "1256"
 
-    question = (
-        "How should this patient's apixaban be managed "
-        "for the planned dental extraction?"
-    )
-
+    question = "How should this patient's rivaroxaban be managed for the planned periodontal surgery?"
     answer = final_response(
         patient_id=patient_id,
         question=question,

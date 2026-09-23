@@ -398,6 +398,7 @@ dependencies = [
     { name = "langchain-postgres" },
     { name = "langchain-text-splitters" },
     { name = "python-dotenv" },
+    { name = "requests" },
 ]
 
 [package.metadata]
@@ -407,6 +408,7 @@ requires-dist = [
     { name = "langchain-postgres", specifier = ">=0.0.17" },
     { name = "langchain-text-splitters", specifier = ">=1.1.2" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "requests", specifier = ">=2.34.2" },
 ]
 
 [[package]]

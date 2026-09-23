@@ -3,11 +3,14 @@
 from pathlib import Path
 import pprint
 import yaml
+import requests
 from dynamic_filtering.e_terminology import enrich_patient_context
 
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 VALUE_SETS_FILE = DATA_DIR / "sdcep_value_sets.yaml"
+GUIDELINES_FILE = DATA_DIR / "guidelines.yaml"
+HERMES_BASE_URL = "http://localhost:8081"
 
 
 def load_value_sets():
@@ -16,21 +19,141 @@ def load_value_sets():
 
     return value_sets
 
+def load_guidelines():
+    with open(GUIDELINES_FILE, "r", encoding="utf-8") as file:
+        guidelines = yaml.safe_load(file)
+
+    return guidelines
+
+def assess_patient_context(patient_id: str,extraction_complexity: str = "",wound_size: str = "", usual_dose_time: str = ""):
+    patient_context = enrich_patient_context(patient_id)
+    value_sets = load_value_sets()
+    guidelines = load_guidelines()
+
+    procedure_assessments = []
+
+    for procedure in patient_context.get("planned_procedures",[]):
+        procedure_code = procedure.get("code", "")
+        try:
+            procedure_type = find_procedure_type(
+                procedure_code,
+                value_sets
+            )
+        except requests.RequestException:
+            procedure_assessment = {
+                "procedure_type": "",
+                "classification_status": (
+                    "terminology_service_unavailable"
+                ),
+                "missing_information": [],
+                "procedure_category": "",
+                "postoperative_bleeding_risk": ""
+            }
+        else:
+            if procedure_type == "tooth_extraction":
+                procedure_assessment = assess_extraction(
+                    procedure,
+                    extraction_complexity,
+                    wound_size,
+                    guidelines
+                )
+            elif procedure_type:
+                procedure_assessment = assess_other_procedure(
+                    procedure_type,
+                    guidelines
+                )
+            else:
+                procedure_assessment = {
+                    "procedure_type": "",
+                    "classification_status": "procedure_not_mapped",
+                    "missing_information": [],
+                    "procedure_category": "",
+                    "postoperative_bleeding_risk": ""
+                }
+
+        procedure_assessment["procedure_name"] = procedure.get("procedure_name","")
+        procedure_assessment["procedure_code"] = procedure_code
+        procedure_assessment["quantity"] = procedure.get("quantity","")
+        procedure_assessments.append(procedure_assessment)
+
+    patient_context["clinical_assessment"] = {
+        "procedure_assessments": procedure_assessments,
+        "medication_context": {"usual_dose_time": usual_dose_time.strip().lower()}
+    }
+
+    return patient_context
+
+def procedure_matches_ecl(procedure_code: str, ecl: str):
+    if not procedure_code or not ecl:
+        return False
+
+    url = f"{HERMES_BASE_URL}/v1/snomed/expand"
+    membership_ecl = f"({ecl}) AND {procedure_code}"
+    response = requests.get(
+        url,
+        params={"ecl": membership_ecl},
+        timeout=10
+    )
+
+    response.raise_for_status()
+    hermes_results = response.json()
+
+    return bool(hermes_results)
 
 def find_procedure_type(procedure_code: str, value_sets: dict):
     procedure_value_sets = value_sets.get("procedure_value_sets",{})
 
     for procedure_type, procedure_details in procedure_value_sets.items():
         root_code = procedure_details.get("root_code", "")
+        ecl = procedure_details.get("ecl", "")
 
         if procedure_code == root_code:
             return procedure_type
 
+        if procedure_matches_ecl(procedure_code, ecl):
+            return procedure_type
+
     return ""
 
+def assess_other_procedure(
+    procedure_type: str,
+    guidelines: dict
+):
+    procedure_assessment_rules = guidelines.get(
+        "procedure_assessment_rules",
+        {}
+    )
 
-def assess_extraction(procedure: dict,extraction_complexity: str = "",wound_size: str = ""):
+    procedure_rules = procedure_assessment_rules.get(
+        procedure_type,
+        {}
+    )
+
+    result = procedure_rules.get("result", {}).copy()
+
+    if result:
+        return result
+
+    return {
+        "procedure_type": procedure_type,
+        "classification_status": "procedure_not_mapped",
+        "missing_information": [],
+        "procedure_category": "",
+        "postoperative_bleeding_risk": ""
+    }
+
+def assess_extraction(
+    procedure: dict,
+    extraction_complexity: str,
+    wound_size: str,
+    guidelines: dict
+):
     quantity = procedure.get("quantity", "")
+    extraction_complexity = extraction_complexity.strip().lower()
+    wound_size = wound_size.strip().lower()
+    procedure_assessment_rules = guidelines.get("procedure_assessment_rules",{})
+    extraction_rules = procedure_assessment_rules.get("tooth_extraction",{})
+
     missing_information = []
 
     if quantity == "":
@@ -43,140 +166,61 @@ def assess_extraction(procedure: dict,extraction_complexity: str = "",wound_size
         missing_information.append("wound_size")
 
     if missing_information:
-        return {
-            "procedure_type": "tooth_extraction",
-            "classification_status": ("needs_clinician_confirmation"),
-            "missing_information": missing_information,
-            "procedure_category": "",
-            "postoperative_bleeding_risk": ""
-        }
+        result = extraction_rules.get("missing_information_result",{}).copy()
+        result["missing_information"] = missing_information
 
-    extraction_complexity = extraction_complexity.strip().lower()
-    wound_size = wound_size.strip().lower()
+        return result
 
-    # Low-risk extraction
-    if (
-        extraction_complexity == "simple"
-        and 1 <= quantity <= 3
-        and wound_size == "restricted"
-    ):
-        return {
-            "procedure_type": "tooth_extraction",
-            "classification_status": "classified",
-            "missing_information": [],
-            "procedure_category": (
-                "simple_extraction_1_to_3_teeth_"
-                "with_restricted_wound_size"
-            ),
-            "postoperative_bleeding_risk": "low"
-        }
+    quantity = int(quantity)
+    rules = extraction_rules.get("rules", [])
 
-    # Clear higher-risk extraction features
-    if (
-            extraction_complexity in ["complex", "surgical"]
-            or quantity > 3
-    ):
-        return {
-            "procedure_type": "tooth_extraction",
-            "classification_status": "classified",
-            "missing_information": [],
-            "procedure_category": "higher_risk_extraction",
-            "postoperative_bleeding_risk": "higher"
-        }
-
-    if wound_size == "large":
-        return {
-            "procedure_type": "tooth_extraction",
-            "classification_status": "requires_clinician_review",
-            "missing_information": [
-                "whether_extractions_are_adjacent"
-            ],
-            "procedure_category": "",
-            "postoperative_bleeding_risk": ""
-        }
-
-    return {
-        "procedure_type": "tooth_extraction",
-        "classification_status": "requires_clinician_review",
-        "missing_information": [],
-        "procedure_category": "",
-        "postoperative_bleeding_risk": ""
-    }
-
-
-def assess_patient_context(
-    patient_id: str,
-    extraction_complexity: str = "",
-    wound_size: str = ""
-):
-    patient_context = enrich_patient_context(patient_id)
-    value_sets = load_value_sets()
-
-    medication_classes = []
-
-    for medication in patient_context.get("medications", []):
-        medication_class = medication.get(
-            "medication_class",
-            ""
-        )
+    for rule in rules:
+        allowed_complexities = rule.get("extraction_complexity",[])
 
         if (
-            medication_class
-            and medication_class not in medication_classes
+            allowed_complexities
+            and extraction_complexity not in allowed_complexities
         ):
-            medication_classes.append(medication_class)
+            continue
 
-    procedure_assessments = []
+        allowed_wound_sizes = rule.get("wound_size", [])
+        if (
+            allowed_wound_sizes
+            and wound_size not in allowed_wound_sizes
+        ):
+            continue
 
-    for procedure in patient_context.get(
-        "planned_procedures",
-        []
-    ):
-        procedure_code = procedure.get("code", "")
+        minimum_teeth = rule.get("minimum_teeth")
+        if (
+            minimum_teeth is not None
+            and quantity < minimum_teeth
+        ):
+            continue
 
-        procedure_type = find_procedure_type(
-            procedure_code,
-            value_sets
-        )
+        maximum_teeth = rule.get("maximum_teeth")
+        if (
+            maximum_teeth is not None
+            and quantity > maximum_teeth
+        ):
+            continue
 
-        if procedure_type == "tooth_extraction":
-            procedure_assessment = assess_extraction(
-                procedure,
-                extraction_complexity,
-                wound_size
-            )
-        else:
-            procedure_assessment = {
-                "procedure_type": procedure_type,
-                "classification_status": "procedure_not_mapped",
-                "missing_information": [],
-                "procedure_category": "",
-                "postoperative_bleeding_risk": ""
-            }
+        result = rule.get("result", {}).copy()
 
-        procedure_assessment["procedure_name"] = procedure.get(
-            "procedure_name",
-            ""
-        )
+        if "missing_information" not in result:
+            result["missing_information"] = []
 
-        procedure_assessment["procedure_code"] = procedure_code
-        procedure_assessment["quantity"] = procedure.get(
-            "quantity",
-            ""
-        )
+        return result
 
-        procedure_assessments.append(procedure_assessment)
+    result = extraction_rules.get(
+        "no_matching_rule_result",
+        {}
+    ).copy()
 
-    patient_context["clinical_assessment"] = {
-        "medication_classes": medication_classes,
-        "procedure_assessments": procedure_assessments
-    }
-
-    return patient_context
+    return result
 
 
 def preview_patient_assessment():
-    patient_id = "1000"
+    patient_id = "1256"
 
     assessed_context = assess_patient_context(
         patient_id,

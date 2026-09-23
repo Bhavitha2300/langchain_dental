@@ -24,11 +24,7 @@ def load_vector():
     documents = load_documents()
     id_list = []
     for index, document in enumerate(documents):
-        chunk_id = (
-            f"yaml-cdss-v2-"
-            f"{document.metadata.get('document_id', 'guideline')}-"
-            f"{index}"
-        )
+        chunk_id = f"yaml-cdss-v2-{document.metadata.get('document_id', 'guideline')}-{index}"
         document.metadata["chunk_id"] = chunk_id
         document.metadata["source"]= KNOWLEDGE_BASE_FILE.name
         id_list.append(chunk_id)

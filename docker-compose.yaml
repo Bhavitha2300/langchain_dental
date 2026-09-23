@@ -10,6 +10,19 @@ services:
       POSTGRES_DB: langchain
     volumes:
       - demo2:/var/lib/postgresql/data
+
+  hermes:
+    build:
+      context: ./docker/hermes
+      args:
+        HERMES_VERSION: "1.4.1585"
+        HERMES_SHA256: "456116efffc35aa7c3008c8828c1123822dc888398d5b4d51c5e94e68b2e8af2"
+    container_name: hermes
+    ports:
+      - "8081:8080"
+    volumes:
+      - "${HERMES_DB_PATH:?Set HERMES_DB_PATH in .env}:/data/snomed.db:ro"
+    restart: unless-stopped
+
 volumes:
   demo2:
-
