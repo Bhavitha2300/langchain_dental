@@ -25,7 +25,14 @@ def load_guidelines():
 
     return guidelines
 
-def assess_patient_context(patient_id: str,extraction_complexity: str = "",wound_size: str = "", usual_dose_time: str = ""):
+def assess_patient_context(patient_id: str,
+                           extraction_complexity: str = "",
+                           wound_size: str = "",
+                           usual_dose_time: str = "",
+                           safety_context=None):
+    if safety_context is None:
+        safety_context = {}
+
     patient_context = enrich_patient_context(patient_id)
     value_sets = load_value_sets()
     guidelines = load_guidelines()
@@ -78,7 +85,8 @@ def assess_patient_context(patient_id: str,extraction_complexity: str = "",wound
 
     patient_context["clinical_assessment"] = {
         "procedure_assessments": procedure_assessments,
-        "medication_context": {"usual_dose_time": usual_dose_time.strip().lower()}
+        "medication_context": {"usual_dose_time": usual_dose_time.strip().lower()},
+        "patient_safety": safety_context
     }
 
     return patient_context

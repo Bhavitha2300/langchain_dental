@@ -40,17 +40,66 @@ def final_response(
     patient_id: str,
     question: str,
     extraction_complexity: str = "",
-    wound_size: str = ""
+    wound_size: str = "",
+    usual_dose_time: str = "",
+    safety_context=None
 ):
+    if safety_context is None:
+        safety_context = {}
+
     retrieval_result = retrieve_filtered_guidelines(
         patient_id=patient_id,
         question=question,
         extraction_complexity=extraction_complexity,
-        wound_size=wound_size
+        wound_size=wound_size,
+        usual_dose_time=usual_dose_time
     )
 
     if retrieval_result["status"] != "retrieved":
-        return ("A guideline recommendation cannot be generated because the procedure requires additional clinician confirmation.")
+        blocking_reasons = retrieval_result.get(
+            "blocking_reasons",
+            []
+        )
+
+        message_lines = [
+            "A guideline recommendation cannot be generated."
+        ]
+
+        for blocking_reason in blocking_reasons:
+            reason = blocking_reason.get(
+                "reason",
+                "unknown_reason"
+            )
+
+            message_lines.append(
+                f"Reason: {reason}"
+            )
+
+            missing_information = blocking_reason.get(
+                "missing_information",
+                []
+            )
+
+            if missing_information:
+                missing_text = ", ".join(
+                    missing_information
+                )
+
+                message_lines.append(
+                    f"Missing information: {missing_text}"
+                )
+
+            detailed_message = blocking_reason.get(
+                "message",
+                ""
+            )
+
+            if detailed_message:
+                message_lines.append(
+                    detailed_message
+                )
+
+        return "\n".join(message_lines)
 
     documents = retrieval_result["documents"]
 
@@ -108,6 +157,19 @@ def final_response(
 
 
 def run():
+    safety_context = {
+        "prosthetic_metal_heart_valve": "no",
+        "coronary_stent": "no",
+        "dvt_or_pe_within_3_months": "",
+        "anticoagulation_for_cardioversion": "no",
+        "initial_high_dose_doac": "no",
+        "renal_disease_affecting_bleeding": "no",
+        "liver_disease_affecting_bleeding": "no",
+        "bone_marrow_disorder": "no",
+        "other_bleeding_risk_condition": "no",
+        "bleeding_history_concern": "no",
+        "antithrombotic_treatment_duration": "long_term"
+    }
     patient_id = "1256"
 
     question = "How should this patient's rivaroxaban be managed for the planned periodontal surgery?"
@@ -115,7 +177,9 @@ def run():
         patient_id=patient_id,
         question=question,
         extraction_complexity="simple",
-        wound_size="restricted"
+        wound_size="restricted",
+        usual_dose_time = "morning",
+        safety_context=safety_context
     )
 
     print(answer)

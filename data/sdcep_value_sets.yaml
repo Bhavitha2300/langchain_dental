@@ -94,19 +94,19 @@ medication_value_sets:
     - medication_key: ticagrelor
       code: "1116632"
       display: ticagrelor
+  nsaid:
 
+    - medication_key: ibuprofen
+      code: "5640"
+      display: ibuprofen
 
-# ============================================================
-# CONDITION VALUE SETS
-# ============================================================
+    - medication_key: diclofenac
+      code: "3355"
+      display: diclofenac
 
-condition_value_sets:
-
-  atrial_fibrillation:
-    root_code: "49436004"
-    display: Atrial fibrillation
-    ecl: "<< 49436004"
-
+    - medication_key: naproxen
+      code: "7258"
+      display: naproxen
 
 # ============================================================
 # BASE PROCEDURE VALUE SETS
