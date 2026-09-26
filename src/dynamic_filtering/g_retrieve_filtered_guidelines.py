@@ -206,7 +206,8 @@ def find_blocking_reasons(assessed_context: dict):
         "rxnorm_code_missing_in_patient_data",
         "rxnorm_service_unavailable",
         "ingredient_not_found",
-        "multiple_ingredients_require_review"
+        "multiple_ingredients_require_review",
+        "ingredient_not_in_sdcep_value_sets",
     ]
 
     # Check medication terminology results.
