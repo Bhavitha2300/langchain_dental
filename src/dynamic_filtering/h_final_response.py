@@ -52,7 +52,8 @@ def final_response(
         question=question,
         extraction_complexity=extraction_complexity,
         wound_size=wound_size,
-        usual_dose_time=usual_dose_time
+        usual_dose_time=usual_dose_time,
+        safety_context=safety_context
     )
 
     if retrieval_result["status"] != "retrieved":
@@ -117,7 +118,7 @@ def final_response(
 
     patient_context_json = json.dumps(relevant_patient_context,indent=2)
     guideline_context = format_guideline_documents(documents)
-    chat_model = ChatOpenAI(model="gpt-4o-mini")
+    chat_model = ChatOpenAI(model="gpt-4o-mini",temperature=0)
     prompt = ChatPromptTemplate.from_messages([(
             "system", """
                     You are a dental clinical decision support system.
@@ -160,7 +161,7 @@ def run():
     safety_context = {
         "prosthetic_metal_heart_valve": "no",
         "coronary_stent": "no",
-        "dvt_or_pe_within_3_months": "",
+        "dvt_or_pe_within_3_months": "no",
         "anticoagulation_for_cardioversion": "no",
         "initial_high_dose_doac": "no",
         "renal_disease_affecting_bleeding": "no",
@@ -178,7 +179,7 @@ def run():
         question=question,
         extraction_complexity="simple",
         wound_size="restricted",
-        usual_dose_time = "morning",
+        usual_dose_time = "",
         safety_context=safety_context
     )
 

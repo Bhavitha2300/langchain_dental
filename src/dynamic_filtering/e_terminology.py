@@ -19,26 +19,37 @@ def load_value_sets():
     return value_sets
 
 
-def get_rxnorm_ingredient(rxnorm_code: str):
+def get_rxnorm_ingredients(rxnorm_code: str):
     url = f"{RXNORM_BASE_URL}/rxcui/{rxnorm_code}/related.json"
-    response = requests.get(url,params={"tty": "IN"})
+    response = requests.get(url,params={"tty": "IN"}, timeout=10)
     response.raise_for_status()
     rxnorm_data = response.json()
 
+    ingredients = {}
     concept_groups = (rxnorm_data.get("relatedGroup", {}).get("conceptGroup", []))
 
     for concept_group in concept_groups:
-        if concept_group.get("tty") == "IN":
-            ingredients = concept_group.get("conceptProperties",[])
+        if concept_group.get("tty") != "IN":
+            continue
 
-            if ingredients:
-                ingredient = ingredients[0]
-                return {
-                    "code": ingredient.get("rxcui", ""),
-                    "name": ingredient.get("name", "")
-                }
+        for concept in concept_group.get("conceptProperties",[]):
+            code = concept.get("rxcui", "")
+            name = concept.get("name", "")
 
-    return {}
+            if code:
+                ingredients[code] = name
+
+    ingredient_list = []
+
+    for code, name in ingredients.items():
+        ingredient = {
+            "code": code,
+            "name": name
+        }
+
+        ingredient_list.append(ingredient)
+
+    return ingredient_list
 
 
 def find_medication_class(ingredient_code: str,value_sets: dict):
@@ -55,30 +66,54 @@ def find_medication_class(ingredient_code: str,value_sets: dict):
 def enrich_patient_context(patient_id: str):
     normalized_context = get_fhir_patient_data(patient_id)
     value_sets = load_value_sets()
+    medications = normalized_context.get("medications",[])
 
-    for medication in normalized_context.get("medications",[]):
-        rxnorm_code = medication.get("rxnorm_code", "")
+    for medication in medications:
+        rxnorm_code = medication.get("rxnorm_code","")
 
         if not rxnorm_code:
             medication["terminology_status"] = ("rxnorm_code_missing_in_patient_data")
             continue
 
+        # first check whether the FHIR code is already an ingredient code in our value sets
+        medication_class = find_medication_class(
+            rxnorm_code,
+            value_sets
+        )
+
+        if medication_class:
+            medication["ingredient_name"] = (medication.get("medication_name", ""))
+            medication["ingredient_rxnorm_code"] = (rxnorm_code)
+            medication["medication_class"] = (medication_class)
+            medication["terminology_status"] = "mapped"
+
+            continue
+
+        # If it is not an ingredient code then ask RxNorm for the ingredient.
         try:
-            ingredient = get_rxnorm_ingredient(rxnorm_code)
+            ingredients = get_rxnorm_ingredients(rxnorm_code)
         except requests.RequestException:
             medication["terminology_status"] = ("rxnorm_service_unavailable")
             continue
 
-        if not ingredient:
+        if not ingredients:
             medication["terminology_status"] = ("ingredient_not_found")
             continue
 
-        ingredient_code = ingredient.get("code", "")
-        medication_class = find_medication_class(ingredient_code,value_sets)
+        # Do not automatically choose one ingredient when a medication contains multiple ingredients.
+        if len(ingredients) > 1:
+            medication["ingredients"] = ingredients
+            medication["terminology_status"] = ("multiple_ingredients_require_review")
+            continue
 
-        medication["ingredient_name"] = ingredient.get("name","")
-        medication["ingredient_rxnorm_code"] = ingredient_code
-        medication["medication_class"] = medication_class
+        ingredient = ingredients[0]
+
+        ingredient_code = ingredient.get("code","")
+        ingredient_name = ingredient.get("name","")
+        medication_class = find_medication_class(ingredient_code,value_sets)
+        medication["ingredient_name"] = (ingredient_name)
+        medication["ingredient_rxnorm_code"] = (ingredient_code)
+        medication["medication_class"] = (medication_class)
 
         if medication_class:
             medication["terminology_status"] = "mapped"

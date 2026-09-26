@@ -1,4 +1,6 @@
 # f_assess_patient_context.py
+# - it identifies each planned dental procedure and applies
+# the SDCEP rules to determine its postoperative bleeding risk.
 
 from pathlib import Path
 import pprint
@@ -11,6 +13,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 VALUE_SETS_FILE = DATA_DIR / "sdcep_value_sets.yaml"
 GUIDELINES_FILE = DATA_DIR / "guidelines.yaml"
 HERMES_BASE_URL = "http://localhost:8081"
+SNOMED_SYSTEM = "http://snomed.info/sct"
 
 
 def load_value_sets():
@@ -39,49 +42,118 @@ def assess_patient_context(patient_id: str,
 
     procedure_assessments = []
 
-    for procedure in patient_context.get("planned_procedures",[]):
+    planned_procedures = patient_context.get(
+        "planned_procedures",
+        []
+    )
+
+    for procedure in planned_procedures:
         procedure_code = procedure.get("code", "")
-        try:
-            procedure_type = find_procedure_type(
-                procedure_code,
-                value_sets
-            )
-        except requests.RequestException:
+
+        procedure_code_system = procedure.get(
+            "code_system",
+            ""
+        )
+
+        do_not_perform = procedure.get(
+            "do_not_perform",
+            False
+        )
+
+        if do_not_perform:
             procedure_assessment = {
                 "procedure_type": "",
-                "classification_status": (
-                    "terminology_service_unavailable"
-                ),
+                "classification_status":
+                    "procedure_marked_do_not_perform",
                 "missing_information": [],
                 "procedure_category": "",
                 "postoperative_bleeding_risk": ""
             }
+
+        elif not procedure_code:
+            procedure_assessment = {
+                "procedure_type": "",
+                "classification_status":
+                    "procedure_code_missing",
+                "missing_information": [
+                    "procedure_code"
+                ],
+                "procedure_category": "",
+                "postoperative_bleeding_risk": ""
+            }
+
+        elif procedure_code_system != SNOMED_SYSTEM:
+            procedure_assessment = {
+                "procedure_type": "",
+                "classification_status":
+                    "unsupported_procedure_code_system",
+                "missing_information": [],
+                "procedure_category": "",
+                "postoperative_bleeding_risk": ""
+            }
+
         else:
-            if procedure_type == "tooth_extraction":
-                procedure_assessment = assess_extraction(
-                    procedure,
-                    extraction_complexity,
-                    wound_size,
-                    guidelines
+            try:
+                procedure_type = find_procedure_type(
+                    procedure_code,
+                    value_sets
                 )
-            elif procedure_type:
-                procedure_assessment = assess_other_procedure(
-                    procedure_type,
-                    guidelines
-                )
-            else:
+
+
+            except requests.RequestException as error:
+                print("Hermes error:")
+                print(error)
                 procedure_assessment = {
                     "procedure_type": "",
-                    "classification_status": "procedure_not_mapped",
+                    "classification_status":
+                        "terminology_service_unavailable",
                     "missing_information": [],
                     "procedure_category": "",
                     "postoperative_bleeding_risk": ""
                 }
 
-        procedure_assessment["procedure_name"] = procedure.get("procedure_name","")
-        procedure_assessment["procedure_code"] = procedure_code
-        procedure_assessment["quantity"] = procedure.get("quantity","")
-        procedure_assessments.append(procedure_assessment)
+            else:
+                if procedure_type == "tooth_extraction":
+                    procedure_assessment = assess_extraction(
+                        procedure,
+                        extraction_complexity,
+                        wound_size,
+                        guidelines
+                    )
+
+                elif procedure_type:
+                    procedure_assessment = (
+                        assess_other_procedure(
+                            procedure_type,
+                            guidelines
+                        )
+                    )
+
+                else:
+                    procedure_assessment = {
+                        "procedure_type": "",
+                        "classification_status":
+                            "procedure_not_mapped",
+                        "missing_information": [],
+                        "procedure_category": "",
+                        "postoperative_bleeding_risk": ""
+                    }
+
+        procedure_assessment["procedure_name"] = (
+            procedure.get("procedure_name", "")
+        )
+
+        procedure_assessment["procedure_code"] = (
+            procedure_code
+        )
+
+        procedure_assessment["quantity"] = (
+            procedure.get("quantity", "")
+        )
+
+        procedure_assessments.append(
+            procedure_assessment
+        )
 
     patient_context["clinical_assessment"] = {
         "procedure_assessments": procedure_assessments,
@@ -91,12 +163,20 @@ def assess_patient_context(patient_id: str,
 
     return patient_context
 
-def procedure_matches_ecl(procedure_code: str, ecl: str):
+# Hermes terminology ECL matching
+def procedure_matches_ecl(
+    procedure_code: str,
+    ecl: str
+):
     if not procedure_code or not ecl:
         return False
 
     url = f"{HERMES_BASE_URL}/v1/snomed/expand"
-    membership_ecl = f"({ecl}) AND {procedure_code}"
+
+    membership_ecl = (
+        f"({ecl}) AND {procedure_code}"
+    )
+
     response = requests.get(
         url,
         params={"ecl": membership_ecl},
@@ -104,10 +184,15 @@ def procedure_matches_ecl(procedure_code: str, ecl: str):
     )
 
     response.raise_for_status()
-    hermes_results = response.json()
 
-    return bool(hermes_results)
+    matching_codes = response.json()
 
+    if matching_codes:
+        return True
+
+    return False
+
+# Mapping the procedure type present in patient fhir to the value sets dictionaries
 def find_procedure_type(procedure_code: str, value_sets: dict):
     procedure_value_sets = value_sets.get("procedure_value_sets",{})
 
@@ -123,20 +208,9 @@ def find_procedure_type(procedure_code: str, value_sets: dict):
 
     return ""
 
-def assess_other_procedure(
-    procedure_type: str,
-    guidelines: dict
-):
-    procedure_assessment_rules = guidelines.get(
-        "procedure_assessment_rules",
-        {}
-    )
-
-    procedure_rules = procedure_assessment_rules.get(
-        procedure_type,
-        {}
-    )
-
+def assess_other_procedure(procedure_type: str, guidelines: dict):
+    procedure_assessment_rules = guidelines.get("procedure_assessment_rules",{})
+    procedure_rules = procedure_assessment_rules.get(procedure_type,{})
     result = procedure_rules.get("result", {}).copy()
 
     if result:
@@ -179,7 +253,20 @@ def assess_extraction(
 
         return result
 
-    quantity = int(quantity)
+    try:
+        quantity = int(quantity)
+
+    except (ValueError, TypeError):
+        result = extraction_rules.get(
+            "missing_information_result",
+            {}
+        ).copy()
+
+        result["missing_information"] = [
+            "valid_number_of_teeth"
+        ]
+
+        return result
     rules = extraction_rules.get("rules", [])
 
     for rule in rules:

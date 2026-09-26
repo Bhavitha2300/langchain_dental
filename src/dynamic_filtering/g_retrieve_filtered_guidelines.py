@@ -16,21 +16,13 @@ SUPPORTED_MEDICATION_CLASSES = [
 def normalize_value(value):
     return (value.strip().lower().replace("-", "_").replace(" ", "_"))
 
-def find_patient_safety_reasons(
-    assessed_context: dict
-):
+def find_patient_safety_reasons(assessed_context: dict):
+
     safety_reasons = []
+    clinical_assessment = assessed_context.get("clinical_assessment",{})
+    patient_safety = clinical_assessment.get("patient_safety",{})
 
-    clinical_assessment = assessed_context.get(
-        "clinical_assessment",
-        {}
-    )
-
-    patient_safety = clinical_assessment.get(
-        "patient_safety",
-        {}
-    )
-
+    # without answering these questions the program will not recommend answer because it is not advisable to proceed without knowing answers to these questions
     required_yes_no_questions = [
         "prosthetic_metal_heart_valve",
         "coronary_stent",
@@ -46,25 +38,16 @@ def find_patient_safety_reasons(
 
     # Make sure every required question was answered.
     for question_name in required_yes_no_questions:
-        answer = patient_safety.get(
-            question_name,
-            ""
-        )
-
+        answer = patient_safety.get(question_name,"")
         answer = answer.strip().lower()
 
         if answer not in ["yes", "no"]:
             safety_reasons.append({
                 "reason": "missing_safety_information",
-                "missing_information": [
-                    question_name
-                ]
-            })
+                "missing_information": [question_name]})
 
-    # These situations must not use the normal
-    # medication-interruption recommendation.
+
     protected_contexts = []
-
     protected_context_names = [
         "prosthetic_metal_heart_valve",
         "coronary_stent",
@@ -73,44 +56,25 @@ def find_patient_safety_reasons(
     ]
 
     for context_name in protected_context_names:
-        answer = patient_safety.get(
-            context_name,
-            ""
-        )
+        answer = patient_safety.get(context_name,"")
 
         if answer.strip().lower() == "yes":
-            protected_contexts.append(
-                context_name
-            )
+            protected_contexts.append(context_name)
 
     if protected_contexts:
         safety_reasons.append({
-            "reason": (
-                "do_not_interrupt_therapy_without_"
-                "specialist_instruction"
-            ),
+            "reason": ("do_not_interrupt_therapy_without_specialist_instruction"),
             "clinical_contexts": protected_contexts,
-            "message": (
-                "Anticoagulant or antiplatelet therapy "
-                "must not be interrupted without the "
-                "required specialist instruction."
-            )
+            "message": ("Anticoagulant or antiplatelet therapy must not be interrupted without the required specialist instruction.")
         })
 
     # Initial high-dose apixaban or rivaroxaban.
-    initial_high_dose = patient_safety.get(
-        "initial_high_dose_doac",
-        ""
-    )
+    initial_high_dose = patient_safety.get("initial_high_dose_doac","")
 
     if initial_high_dose.strip().lower() == "yes":
         safety_reasons.append({
             "reason": "initial_high_dose_doac",
-            "message": (
-                "A non-urgent procedure likely to cause "
-                "bleeding should be delayed where possible "
-                "until the patient is taking the standard dose."
-            )
+            "message": ("A non-urgent procedure likely to cause bleeding should be delayed where possible until the patient is taking the standard dose.")
         })
 
     # Conditions that may increase bleeding risk.
@@ -124,55 +88,29 @@ def find_patient_safety_reasons(
     ]
 
     for condition_name in bleeding_condition_names:
-        answer = patient_safety.get(
-            condition_name,
-            ""
-        )
-
+        answer = patient_safety.get( condition_name,"")
         if answer.strip().lower() == "yes":
-            bleeding_risk_conditions.append(
-                condition_name
-            )
+            bleeding_risk_conditions.append(condition_name)
 
     if bleeding_risk_conditions:
         safety_reasons.append({
-            "reason": (
-                "additional_bleeding_risk_"
-                "requires_clinician_review"
-            ),
-            "clinical_contexts": (
-                bleeding_risk_conditions
-            ),
-            "message": (
-                "Additional medical conditions may increase "
-                "the patient's bleeding risk."
-            )
+            "reason": ("additional_bleeding_risk_requires_clinician_review"),
+            "clinical_contexts": (bleeding_risk_conditions),
+            "message": ("Additional medical conditions may increase the patient's bleeding risk.")
         })
 
     # Previous bleeding problems.
-    bleeding_history = patient_safety.get(
-        "bleeding_history_concern",
-        ""
-    )
+    bleeding_history = patient_safety.get("bleeding_history_concern","")
 
     if bleeding_history.strip().lower() == "yes":
         safety_reasons.append({
             "reason": "bleeding_history_requires_review",
-            "message": (
-                "The patient reported a relevant history "
-                "of prolonged or excessive bleeding."
-            )
+            "message": ("The patient reported a relevant history of prolonged or excessive bleeding.")
         })
 
-    # Treatment duration.
-    treatment_duration = patient_safety.get(
-        "antithrombotic_treatment_duration",
-        ""
-    )
-
-    treatment_duration = (
-        treatment_duration.strip().lower()
-    )
+    # missing treatment duration.
+    treatment_duration = patient_safety.get("antithrombotic_treatment_duration","")
+    treatment_duration = (treatment_duration.strip().lower())
 
     if treatment_duration not in [
         "long_term",
@@ -180,21 +118,13 @@ def find_patient_safety_reasons(
     ]:
         safety_reasons.append({
             "reason": "missing_safety_information",
-            "missing_information": [
-                "antithrombotic_treatment_duration"
-            ]
+            "missing_information": ["antithrombotic_treatment_duration"]
         })
 
     elif treatment_duration == "time_limited":
         safety_reasons.append({
-            "reason": (
-                "time_limited_antithrombotic_treatment"
-            ),
-            "message": (
-                "Consider delaying non-urgent invasive "
-                "treatment until the time-limited medication "
-                "course has finished."
-            )
+            "reason": ("time_limited_antithrombotic_treatment"),
+            "message": ("Consider delaying non-urgent invasive treatment until the time-limited medication course has finished.")
         })
 
     # Check for NSAIDs in the medication list.
@@ -206,44 +136,19 @@ def find_patient_safety_reasons(
     nsaid_medications = []
 
     for medication in medications:
-        medication_class = medication.get(
-            "medication_class",
-            ""
-        )
+        medication_class = medication.get("medication_class","")
 
         if medication_class == "nsaid":
             nsaid_medications.append(
-                medication.get(
-                    "ingredient_name",
-                    medication.get(
-                        "medication_name",
-                        ""
-                    )
-                )
+                medication.get("ingredient_name",medication.get( "medication_name",""))
             )
 
     if nsaid_medications:
         safety_reasons.append({
-            "reason": (
-                "additional_bleeding_risk_medication"
-            ),
+            "reason": ("additional_bleeding_risk_medication"),
             "medications": nsaid_medications,
-            "message": (
-                "The patient is taking an NSAID that may "
-                "increase bleeding risk."
-            )
+            "message": ("The patient is taking an NSAID that may increase bleeding risk.")
         })
-
-    patient_safety_reasons = (
-        find_patient_safety_reasons(
-            assessed_context
-        )
-    )
-
-    for safety_reason in patient_safety_reasons:
-        blocking_reasons.append(
-            safety_reason
-        )
 
     return safety_reasons
 
@@ -251,6 +156,7 @@ def find_patient_safety_reasons(
 def find_blocking_reasons(assessed_context: dict):
     blocking_reasons = []
 
+    blocking_reasons.extend(find_patient_safety_reasons(assessed_context))
     planned_procedures = assessed_context.get("planned_procedures",[])
     clinical_assessment = assessed_context.get("clinical_assessment",{})
     procedure_assessments = clinical_assessment.get("procedure_assessments",[])
@@ -299,7 +205,8 @@ def find_blocking_reasons(assessed_context: dict):
     terminology_problem_statuses = [
         "rxnorm_code_missing_in_patient_data",
         "rxnorm_service_unavailable",
-        "ingredient_not_found"
+        "ingredient_not_found",
+        "multiple_ingredients_require_review"
     ]
 
     # Check medication terminology results.
@@ -474,42 +381,52 @@ def find_blocking_reasons(assessed_context: dict):
                     )
                 })
 
+    for medication in medications:
+        status = medication.get("status", "")
+
+        if status != "active":
+            blocking_reasons.append({
+                "reason": "medication_status_requires_review",
+                "medication_name": medication.get(
+                    "medication_name",
+                    ""
+                ),
+                "status": status,
+                "message": (
+                    "The medication is not recorded as active."
+                )
+            })
+
+    for procedure in planned_procedures:
+        status = procedure.get("status", "")
+
+        if status != "active":
+            blocking_reasons.append({
+                "reason": "procedure_status_requires_review",
+                "procedure_name": procedure.get(
+                    "procedure_name",
+                    ""
+                ),
+                "status": status,
+                "message": (
+                    "The planned procedure is not recorded as active."
+                )
+            })
+
     return blocking_reasons
 
 def build_metadata_filters(assessed_context: dict):
-    clinical_assessment = assessed_context.get(
-        "clinical_assessment",
-        {}
-    )
-
-    procedure_assessments = clinical_assessment.get(
-        "procedure_assessments",
-        []
-    )
-
-    medications = assessed_context.get(
-        "medications",
-        []
-    )
+    clinical_assessment = assessed_context.get("clinical_assessment",{})
+    procedure_assessments = clinical_assessment.get("procedure_assessments",[])
+    medications = assessed_context.get("medications",[])
 
     metadata_filters = []
     added_combinations = []
 
     for medication in medications:
-        medication_class = medication.get(
-            "medication_class",
-            ""
-        )
-
-        ingredient_name = medication.get(
-            "ingredient_name",
-            ""
-        )
-
-        terminology_status = medication.get(
-            "terminology_status",
-            ""
-        )
+        medication_class = medication.get("medication_class","")
+        ingredient_name = medication.get("ingredient_name","")
+        terminology_status = medication.get("terminology_status","")
 
         if terminology_status != "mapped":
             continue
@@ -517,15 +434,10 @@ def build_metadata_filters(assessed_context: dict):
         if not medication_class or not ingredient_name:
             continue
 
-        ingredient_name = normalize_value(
-            ingredient_name
-        )
+        ingredient_name = normalize_value(ingredient_name)
 
         for procedure in procedure_assessments:
-            bleeding_risk = procedure.get(
-                "postoperative_bleeding_risk",
-                ""
-            )
+            bleeding_risk = procedure.get("postoperative_bleeding_risk","")
 
             combination = (
                 medication_class,
@@ -572,39 +484,21 @@ def build_metadata_filters(assessed_context: dict):
 
     return metadata_filters
 
-def document_matches_patient_context(
-    document,
-    assessed_context: dict
-):
+def document_matches_patient_context(document,assessed_context: dict):
     metadata = document.metadata
 
     if metadata.get("record_type") != "clinical_recommendation":
         return False
 
-    document_medication_classes = metadata.get(
-        "medication_classes",
-        []
-    )
-
-    document_medications = metadata.get(
-        "medications",
-        []
-    )
-
-    document_bleeding_risk = metadata.get(
-        "postoperative_bleeding_risk",
-        ""
-    )
+    document_medication_classes = metadata.get("medication_classes",[])
+    document_medications = metadata.get("medications",[])
+    document_bleeding_risk = metadata.get("postoperative_bleeding_risk","")
 
     if isinstance(document_medication_classes, str):
-        document_medication_classes = [
-            document_medication_classes
-        ]
+        document_medication_classes = [document_medication_classes]
 
     if isinstance(document_medications, str):
-        document_medications = [
-            document_medications
-        ]
+        document_medications = [document_medications]
 
     normalized_document_classes = []
 
@@ -620,10 +514,7 @@ def document_matches_patient_context(
             normalize_value(medication_name)
         )
 
-    medications = assessed_context.get(
-        "medications",
-        []
-    )
+    medications = assessed_context.get("medications",[])
 
     procedure_assessments = (
         assessed_context
@@ -674,7 +565,8 @@ def retrieve_filtered_guidelines(
         patient_id=patient_id,
         extraction_complexity=extraction_complexity,
         wound_size=wound_size,
-        usual_dose_time=usual_dose_time
+        usual_dose_time=usual_dose_time,
+        safety_context = safety_context
     )
 
     blocking_reasons = find_blocking_reasons(
