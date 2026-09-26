@@ -42,6 +42,11 @@ def final_response(
     extraction_complexity: str = "",
     wound_size: str = "",
     usual_dose_time: str = "",
+    inr_value="",
+    inr_test_hours_ago="",
+    inr_is_stable: str = "",
+    lmwh_dose_category: str = "",
+    heparin_during_kidney_dialysis: str = "",
     safety_context=None
 ):
     if safety_context is None:
@@ -53,6 +58,13 @@ def final_response(
         extraction_complexity=extraction_complexity,
         wound_size=wound_size,
         usual_dose_time=usual_dose_time,
+        inr_value=inr_value,
+        inr_test_hours_ago=inr_test_hours_ago,
+        inr_is_stable=inr_is_stable,
+        lmwh_dose_category=lmwh_dose_category,
+        heparin_during_kidney_dialysis=(
+            heparin_during_kidney_dialysis
+        ),
         safety_context=safety_context
     )
 

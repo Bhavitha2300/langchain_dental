@@ -28,11 +28,37 @@ def load_guidelines():
 
     return guidelines
 
-def assess_patient_context(patient_id: str,
-                           extraction_complexity: str = "",
-                           wound_size: str = "",
-                           usual_dose_time: str = "",
-                           safety_context=None):
+def classify_inr(inr_value):
+    inr_text = str(inr_value).strip()
+
+    if not inr_text:
+        return ""
+
+    try:
+        inr_number = float(inr_text)
+    except (ValueError, TypeError):
+        return "invalid"
+
+    if inr_number <= 0:
+        return "invalid"
+
+    if inr_number < 4:
+        return "below_4"
+
+    return "4_or_above"
+
+def assess_patient_context(
+    patient_id: str,
+    extraction_complexity: str = "",
+    wound_size: str = "",
+    usual_dose_time: str = "",
+    inr_value="",
+    inr_test_hours_ago="",
+    inr_is_stable: str = "",
+    lmwh_dose_category: str = "",
+    heparin_during_kidney_dialysis: str = "",
+    safety_context=None
+):
     if safety_context is None:
         safety_context = {}
 
@@ -155,9 +181,41 @@ def assess_patient_context(patient_id: str,
             procedure_assessment
         )
 
+    inr_category = classify_inr(inr_value)
+
     patient_context["clinical_assessment"] = {
         "procedure_assessments": procedure_assessments,
-        "medication_context": {"usual_dose_time": usual_dose_time.strip().lower()},
+
+        "medication_context": {
+            "usual_dose_time": (
+                str(usual_dose_time).strip().lower()
+            ),
+
+            "inr_value": (
+                str(inr_value).strip()
+            ),
+
+            "inr_category": inr_category,
+
+            "inr_test_hours_ago": (
+                str(inr_test_hours_ago).strip()
+            ),
+
+            "inr_is_stable": (
+                str(inr_is_stable).strip().lower()
+            ),
+
+            "lmwh_dose_category": (
+                str(lmwh_dose_category).strip().lower()
+            ),
+
+            "heparin_during_kidney_dialysis": (
+                str(
+                    heparin_during_kidney_dialysis
+                ).strip().lower()
+            )
+        },
+
         "patient_safety": safety_context
     }
 
