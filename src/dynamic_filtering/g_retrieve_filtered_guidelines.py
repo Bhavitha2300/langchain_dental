@@ -719,15 +719,42 @@ def get_recommendation_subaspects(
                             "or_dabigatran"
                         )
 
+
                     elif ingredient_name in [
+
                         "rivaroxaban",
+
                         "edoxaban"
+
                     ]:
-                        subaspect = (
-                            "doac_higher_risk_"
-                            "rivaroxaban_edoxaban"
+
+                        usual_dose_time = medication_context.get(
+
+                            "usual_dose_time",
+
+                            ""
+
                         )
 
+                        if usual_dose_time == "morning":
+
+                            subaspect = (
+
+                                "doac_higher_risk_"
+
+                                "rivaroxaban_edoxaban_morning"
+
+                            )
+
+
+                        elif usual_dose_time == "evening":
+                            subaspect = (
+                                "doac_higher_risk_"
+                                "rivaroxaban_edoxaban_evening"
+                            )
+
+                        else:
+                            continue
                         restart_subaspect = (
                             "restart_rivaroxaban_"
                             "or_edoxaban"
@@ -735,7 +762,6 @@ def get_recommendation_subaspects(
 
                     else:
                         continue
-
                     if (
                         subaspect
                         not in selected_subaspects

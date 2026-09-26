@@ -1334,8 +1334,8 @@ sections:
           - use local haemostatic measures;
           - strongly consider suturing and packing.
 
-      - subaspect: doac_higher_risk_rivaroxaban_edoxaban
-        title: Rivaroxaban or Edoxaban for Procedures With Higher Risk of Post-operative Bleeding Complications
+            - subaspect: doac_higher_risk_rivaroxaban_edoxaban_morning
+        title: Morning Rivaroxaban or Edoxaban for Procedures With Higher Risk of Post-operative Bleeding Complications
         source_section: "5.2"
         record_type: clinical_recommendation
 
@@ -1347,29 +1347,66 @@ sections:
           - edoxaban
 
         postoperative_bleeding_risk: higher
+        medication_context: morning_dose
 
         medication_action: delay_morning_dose
         recommendation_strength: conditional
         evidence_certainty: very_low
 
         content: |
-          For a patient taking rivaroxaban or edoxaban who requires dental
-          treatment with a higher risk of bleeding complications, advise
-          the patient to delay the morning dose on the day of dental
-          treatment.
-
-          If the patient normally takes once-daily rivaroxaban or edoxaban
-          in the evening, there is no need to modify the medication schedule
-          before dental treatment.
+          For a patient who normally takes rivaroxaban or edoxaban in the
+          morning and requires dental treatment with a higher risk of
+          bleeding complications, advise the patient to delay the morning
+          dose on the day of dental treatment.
 
           Treat according to the general advice for managing bleeding risk.
 
           In addition:
 
-          - plan treatment for early in the day;
-          - consider staged treatment where possible;
-          - use local haemostatic measures;
-          - strongly consider suturing and packing.
+          - plan treatment for early in the day to allow monitoring and
+            management of bleeding complications;
+          - consider carrying out treatment in a staged manner, where
+            possible, over separate visits;
+          - use local haemostatic measures to achieve haemostasis;
+          - strongly consider suturing and packing, taking into account
+            all relevant patient factors.
+
+      - subaspect: doac_higher_risk_rivaroxaban_edoxaban_evening
+        title: Evening Rivaroxaban or Edoxaban for Procedures With Higher Risk of Post-operative Bleeding Complications
+        source_section: "5.2"
+        record_type: clinical_recommendation
+
+        medication_classes:
+          - doac
+
+        medications:
+          - rivaroxaban
+          - edoxaban
+
+        postoperative_bleeding_risk: higher
+        medication_context: evening_dose
+
+        medication_action: no_preprocedure_dose_change
+        recommendation_strength: conditional
+        evidence_certainty: very_low
+
+        content: |
+          For a patient who normally takes once-daily rivaroxaban or
+          edoxaban in the evening and requires dental treatment with a
+          higher risk of bleeding complications, there is no need to
+          modify the medication schedule before dental treatment.
+
+          Treat according to the general advice for managing bleeding risk.
+
+          In addition:
+
+          - plan treatment for early in the day to allow monitoring and
+            management of bleeding complications;
+          - consider carrying out treatment in a staged manner, where
+            possible, over separate visits;
+          - use local haemostatic measures to achieve haemostasis;
+          - strongly consider suturing and packing, taking into account
+            all relevant patient factors.
 
       - subaspect: restart_rivaroxaban_or_edoxaban
         title: Restarting Rivaroxaban or Edoxaban

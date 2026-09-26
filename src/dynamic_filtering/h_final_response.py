@@ -191,7 +191,7 @@ def run():
         question=question,
         extraction_complexity="simple",
         wound_size="restricted",
-        usual_dose_time = "morning",
+        usual_dose_time = "evening",
         safety_context=safety_context
     )
 
