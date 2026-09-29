@@ -1334,7 +1334,7 @@ sections:
           - use local haemostatic measures;
           - strongly consider suturing and packing.
 
-            - subaspect: doac_higher_risk_rivaroxaban_edoxaban_morning
+      - subaspect: doac_higher_risk_rivaroxaban_edoxaban_morning
         title: Morning Rivaroxaban or Edoxaban for Procedures With Higher Risk of Post-operative Bleeding Complications
         source_section: "5.2"
         record_type: clinical_recommendation

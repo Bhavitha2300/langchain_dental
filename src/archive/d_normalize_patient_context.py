@@ -2,7 +2,7 @@
 
 import pprint
 
-from dynamic_filtering.c_fhir import get_fhir_patient_data
+from dynamic_filtering.c_retrieve_fhir_patient_data import get_fhir_patient_data
 
 
 def normalize_text(value: str):

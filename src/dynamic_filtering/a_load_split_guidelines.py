@@ -1,4 +1,4 @@
-# a_load_split_yaml.py
+# a_load_split_guidelines.py
 
 from pathlib import Path
 import yaml
@@ -19,7 +19,6 @@ def load_documents():
         knowledge_base = yaml.safe_load(file)
 
     documents = []
-
     document_id = knowledge_base.get("document_id", "")
     document_title = knowledge_base.get("title", "")
     source = knowledge_base.get("source", {})

@@ -1,10 +1,10 @@
-# e_terminology.py
+# d_medication_terminology.py
 
 from pathlib import Path
 import pprint
 import requests
 import yaml
-from dynamic_filtering.c_fhir import get_fhir_patient_data
+from dynamic_filtering.c_retrieve_fhir_patient_data import get_fhir_patient_data
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 VALUE_SETS_FILE = DATA_DIR / "sdcep_value_sets.yaml"
@@ -27,26 +27,21 @@ def get_rxnorm_ingredients(rxnorm_code: str):
 
     ingredients = {}
     concept_groups = (rxnorm_data.get("relatedGroup", {}).get("conceptGroup", []))
-
     for concept_group in concept_groups:
         if concept_group.get("tty") != "IN":
             continue
-
         for concept in concept_group.get("conceptProperties",[]):
             code = concept.get("rxcui", "")
             name = concept.get("name", "")
-
             if code:
                 ingredients[code] = name
 
     ingredient_list = []
-
     for code, name in ingredients.items():
         ingredient = {
             "code": code,
             "name": name
         }
-
         ingredient_list.append(ingredient)
 
     return ingredient_list
@@ -59,7 +54,6 @@ def find_medication_class(ingredient_code: str,value_sets: dict):
         for medication in medications:
             if medication.get("code") == ingredient_code:
                 return medication_class
-
     return ""
 
 
@@ -100,7 +94,6 @@ def enrich_patient_context(patient_id: str):
             medication["terminology_status"] = ("ingredient_not_found")
             continue
 
-        # Do not automatically choose one ingredient when a medication contains multiple ingredients.
         if len(ingredients) > 1:
             medication["ingredients"] = ingredients
             medication["terminology_status"] = ("multiple_ingredients_require_review")

@@ -1,4 +1,4 @@
-# c_fhir.py
+# c_retrieve_fhir_patient_data.py
 
 import requests
 import pprint
@@ -8,19 +8,6 @@ FHIR_BASE_URL = "http://localhost:8080/fhir"
 FHIR_TIMEOUT = 10
 RXNORM_SYSTEM = "http://www.nlm.nih.gov/research/umls/rxnorm"
 SNOMED_SYSTEM = "http://snomed.info/sct"
-
-INACTIVE_MEDICATION_STATUSES = {
-    "cancelled",
-    "completed",
-    "entered-in-error",
-    "stopped"
-}
-
-INACTIVE_SERVICE_REQUEST_STATUSES = {
-    "revoked",
-    "completed",
-    "entered-in-error"
-}
 
 
 def get_patient(patient_id: str):

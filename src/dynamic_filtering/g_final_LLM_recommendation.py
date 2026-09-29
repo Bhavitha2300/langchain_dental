@@ -1,10 +1,10 @@
-# h_final_response.py
+# g_final_LLM_recommendation.py
 
 import json
 from config import load_config
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
-from dynamic_filtering.g_retrieve_filtered_guidelines import retrieve_filtered_guidelines
+from dynamic_filtering.f_retrieve_filtered_guidelines import retrieve_filtered_guidelines
 
 load_config()
 
@@ -51,7 +51,6 @@ def final_response(
 ):
     if safety_context is None:
         safety_context = {}
-
     retrieval_result = retrieve_filtered_guidelines(
         patient_id=patient_id,
         question=question,
@@ -62,60 +61,26 @@ def final_response(
         inr_test_hours_ago=inr_test_hours_ago,
         inr_is_stable=inr_is_stable,
         lmwh_dose_category=lmwh_dose_category,
-        heparin_during_kidney_dialysis=(
-            heparin_during_kidney_dialysis
-        ),
+        heparin_during_kidney_dialysis=(heparin_during_kidney_dialysis),
         safety_context=safety_context
     )
 
     if retrieval_result["status"] != "retrieved":
-        blocking_reasons = retrieval_result.get(
-            "blocking_reasons",
-            []
-        )
-
-        message_lines = [
-            "A guideline recommendation cannot be generated."
-        ]
-
+        blocking_reasons = retrieval_result.get("blocking_reasons", [])
+        message_lines = ["A guideline recommendation cannot be generated."]
         for blocking_reason in blocking_reasons:
-            reason = blocking_reason.get(
-                "reason",
-                "unknown_reason"
-            )
-
-            message_lines.append(
-                f"Reason: {reason}"
-            )
-
-            missing_information = blocking_reason.get(
-                "missing_information",
-                []
-            )
-
+            reason = blocking_reason.get("reason","unknown_reason")
+            message_lines.append(f"Reason: {reason}")
+            missing_information = blocking_reason.get("missing_information",[])
             if missing_information:
-                missing_text = ", ".join(
-                    missing_information
-                )
-
-                message_lines.append(
-                    f"Missing information: {missing_text}"
-                )
-
-            detailed_message = blocking_reason.get(
-                "message",
-                ""
-            )
-
+                missing_text = ", ".join(missing_information)
+                message_lines.append(f"Missing information: {missing_text}")
+            detailed_message = blocking_reason.get("message","")
             if detailed_message:
-                message_lines.append(
-                    detailed_message
-                )
-
+                message_lines.append(detailed_message)
         return "\n".join(message_lines)
 
     documents = retrieval_result["documents"]
-
     if not documents:
         return ("No guideline recommendation matching the patient's medication class and procedure bleeding risk was found.")
 
@@ -185,7 +150,7 @@ def run():
     }
     patient_id = "1256"
 
-    question = "How should this patient's rivaroxaban be managed for the planned periodontal surgery?"
+    question = "should we carryout the planned procedure?"
     answer = final_response(
         patient_id=patient_id,
         question=question,

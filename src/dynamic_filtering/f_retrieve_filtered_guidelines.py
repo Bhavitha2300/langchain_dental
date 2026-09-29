@@ -1,8 +1,8 @@
-# g_retrieve_filtered_guidelines.py
+# f_retrieve_filtered_guidelines.py
 
 import pprint
 from dynamic_filtering.b_vector_store import get_vector_store
-from dynamic_filtering.f_assess_patient_context import assess_patient_context
+from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 
 SUPPORTED_MEDICATION_CLASSES = [
     "doac",
@@ -17,28 +17,14 @@ def normalize_value(value):
     return (value.strip().lower().replace("-", "_").replace(" ", "_"))
 
 def find_patient_safety_reasons(assessed_context: dict):
-
     safety_reasons = []
     clinical_assessment = assessed_context.get("clinical_assessment",{})
     patient_safety = clinical_assessment.get("patient_safety",{})
-
-    medications = assessed_context.get(
-        "medications",
-        []
-    )
-
+    medications = assessed_context.get("medications",[])
     initial_high_dose_relevant = False
-
     for medication in medications:
-        medication_class = medication.get(
-            "medication_class",
-            ""
-        )
-
-        ingredient_name = normalize_value(
-            medication.get("ingredient_name", "")
-        )
-
+        medication_class = medication.get("medication_class","")
+        ingredient_name = normalize_value(medication.get("ingredient_name", ""))
         if (
                 medication_class == "doac"
                 and ingredient_name in [
@@ -60,7 +46,6 @@ def find_patient_safety_reasons(assessed_context: dict):
         "other_bleeding_risk_condition",
         "bleeding_history_concern"
     ]
-
     if initial_high_dose_relevant:
         required_yes_no_questions.append("initial_high_dose_doac")
 
@@ -68,13 +53,12 @@ def find_patient_safety_reasons(assessed_context: dict):
     for question_name in required_yes_no_questions:
         answer = patient_safety.get(question_name,"")
         answer = answer.strip().lower()
-
         if answer not in ["yes", "no"]:
             safety_reasons.append({
                 "reason": "missing_safety_information",
                 "missing_information": [question_name]})
 
-
+    # if the answer is yes to these questions then the program will just say requires physician consultation to make any interruptions in their medication
     protected_contexts = []
     protected_context_names = [
         "prosthetic_metal_heart_valve",
@@ -85,10 +69,8 @@ def find_patient_safety_reasons(assessed_context: dict):
 
     for context_name in protected_context_names:
         answer = patient_safety.get(context_name,"")
-
         if answer.strip().lower() == "yes":
             protected_contexts.append(context_name)
-
     if protected_contexts:
         safety_reasons.append({
             "reason": ("do_not_interrupt_therapy_without_specialist_instruction"),
@@ -99,7 +81,6 @@ def find_patient_safety_reasons(assessed_context: dict):
     # Initial high-dose apixaban or rivaroxaban.
     if initial_high_dose_relevant:
         initial_high_dose = patient_safety.get("initial_high_dose_doac","")
-
         if initial_high_dose.strip().lower() == "yes":
             safety_reasons.append({
                 "reason": "initial_high_dose_doac",
@@ -110,7 +91,6 @@ def find_patient_safety_reasons(assessed_context: dict):
 
     # Conditions that may increase bleeding risk.
     bleeding_risk_conditions = []
-
     bleeding_condition_names = [
         "renal_disease_affecting_bleeding",
         "liver_disease_affecting_bleeding",
@@ -122,7 +102,6 @@ def find_patient_safety_reasons(assessed_context: dict):
         answer = patient_safety.get( condition_name,"")
         if answer.strip().lower() == "yes":
             bleeding_risk_conditions.append(condition_name)
-
     if bleeding_risk_conditions:
         safety_reasons.append({
             "reason": ("additional_bleeding_risk_requires_clinician_review"),
@@ -132,7 +111,6 @@ def find_patient_safety_reasons(assessed_context: dict):
 
     # Previous bleeding problems.
     bleeding_history = patient_safety.get("bleeding_history_concern","")
-
     if bleeding_history.strip().lower() == "yes":
         safety_reasons.append({
             "reason": "bleeding_history_requires_review",
@@ -142,7 +120,6 @@ def find_patient_safety_reasons(assessed_context: dict):
     # missing treatment duration.
     treatment_duration = patient_safety.get("antithrombotic_treatment_duration","")
     treatment_duration = (treatment_duration.strip().lower())
-
     if treatment_duration not in [
         "long_term",
         "time_limited"
@@ -159,16 +136,10 @@ def find_patient_safety_reasons(assessed_context: dict):
         })
 
     # Check for NSAIDs in the medication list.
-    medications = assessed_context.get(
-        "medications",
-        []
-    )
-
+    medications = assessed_context.get("medications",[])
     nsaid_medications = []
-
     for medication in medications:
         medication_class = medication.get("medication_class","")
-
         if medication_class == "nsaid":
             nsaid_medications.append(
                 medication.get("ingredient_name",medication.get( "medication_name",""))
@@ -186,7 +157,6 @@ def find_patient_safety_reasons(assessed_context: dict):
 
 def find_blocking_reasons(assessed_context: dict):
     blocking_reasons = []
-
     blocking_reasons.extend(find_patient_safety_reasons(assessed_context))
     planned_procedures = assessed_context.get("planned_procedures",[])
     clinical_assessment = assessed_context.get("clinical_assessment",{})
@@ -214,7 +184,6 @@ def find_blocking_reasons(assessed_context: dict):
     for procedure in procedure_assessments:
         classification_status = procedure.get("classification_status","")
         bleeding_risk = procedure.get("postoperative_bleeding_risk","")
-
         if classification_status != "classified":
             blocking_reasons.append({
                 "reason": classification_status or "procedure_not_classified",
@@ -232,7 +201,6 @@ def find_blocking_reasons(assessed_context: dict):
             })
 
     mapped_antithrombotics = []
-
     terminology_problem_statuses = [
         "rxnorm_code_missing_in_patient_data",
         "rxnorm_service_unavailable",
@@ -240,19 +208,16 @@ def find_blocking_reasons(assessed_context: dict):
         "ingredient_not_in_sdcep_value_sets",
         "multiple_ingredients_require_review"
     ]
-
     # Check medication terminology results.
     for medication in medications:
         terminology_status = medication.get("terminology_status","")
         medication_class = medication.get("medication_class","")
         ingredient_name = medication.get("ingredient_name","")
-
         if terminology_status in terminology_problem_statuses:
             blocking_reasons.append({
                 "reason": terminology_status,
                 "medication_name": medication.get("medication_name","")
             })
-
         if (
             terminology_status == "mapped"
             and medication_class in SUPPORTED_MEDICATION_CLASSES
@@ -265,14 +230,11 @@ def find_blocking_reasons(assessed_context: dict):
         blocking_reasons.append({
             "reason": "antithrombotic_not_mapped",
             "message": (
-                "No supported anticoagulant or antiplatelet "
-                "medication was mapped."
+                "No supported anticoagulant or antiplatelet medication was mapped."
             )
         })
-
     anticoagulant_medications = []
     antiplatelet_medications = []
-
     anticoagulant_classes = [
         "doac",
         "vitamin_k_antagonist",
@@ -281,32 +243,20 @@ def find_blocking_reasons(assessed_context: dict):
     ]
 
     for medication in mapped_antithrombotics:
-        medication_class = medication.get(
-            "medication_class",
-            ""
-        )
-
-        ingredient_name = normalize_value(
-            medication.get("ingredient_name", "")
-        )
-
+        medication_class = medication.get("medication_class","")
+        ingredient_name = normalize_value(medication.get("ingredient_name", ""))
         if medication_class in anticoagulant_classes:
             if (
                     ingredient_name
                     not in anticoagulant_medications
             ):
-                anticoagulant_medications.append(
-                    ingredient_name
-                )
-
+                anticoagulant_medications.append(ingredient_name)
         if medication_class == "antiplatelet":
             if (
                     ingredient_name
                     not in antiplatelet_medications
             ):
-                antiplatelet_medications.append(
-                    ingredient_name
-                )
+                antiplatelet_medications.append(ingredient_name)
 
     # Anticoagulant plus antiplatelet.
     if (
@@ -314,10 +264,7 @@ def find_blocking_reasons(assessed_context: dict):
             and antiplatelet_medications
     ):
         blocking_reasons.append({
-            "reason": (
-                "anticoagulant_antiplatelet_"
-                "combination"
-            ),
+            "reason": ("anticoagulant_antiplatelet_combination"),
             "message": (
                 "Anticoagulant and antiplatelet "
                 "combination therapy requires review "
@@ -330,26 +277,15 @@ def find_blocking_reasons(assessed_context: dict):
         blocking_reasons.append({
             "reason": "multiple_anticoagulants",
             "message": (
-                "Multiple anticoagulant medications "
-                "require clinician review."
+                "Multiple anticoagulant medications require clinician review."
             )
         })
 
-    # Get the medication-specific information collected
-    # during patient assessment.
-    medication_context = clinical_assessment.get(
-        "medication_context",
-        {}
-    )
-
+    # Get the medication-specific information collected during patient assessment.
+    medication_context = clinical_assessment.get("medication_context",{})
     mapped_medication_classes = []
-
     for medication in mapped_antithrombotics:
-        medication_class = medication.get(
-            "medication_class",
-            ""
-        )
-
+        medication_class = medication.get("medication_class","")
         if (
                 medication_class
                 and medication_class
@@ -366,117 +302,71 @@ def find_blocking_reasons(assessed_context: dict):
         if (
                 procedure.get("classification_status")
                 == "classified"
-                and procedure.get(
-            "postoperative_bleeding_risk"
-        ) == "higher"
+                and procedure.get("postoperative_bleeding_risk") == "higher"
         ):
             has_higher_risk_procedure = True
 
     # Vitamin K antagonist information.
     if "vitamin_k_antagonist" in mapped_medication_classes:
-        inr_value = medication_context.get(
-            "inr_value",
-            ""
-        )
-
-        inr_category = medication_context.get(
-            "inr_category",
-            ""
-        )
-
-        inr_test_hours_ago = medication_context.get(
-            "inr_test_hours_ago",
-            ""
-        )
-
-        inr_is_stable = medication_context.get(
-            "inr_is_stable",
-            ""
-        )
-
+        inr_value = medication_context.get("inr_value","")
+        inr_category = medication_context.get("inr_category","")
+        inr_test_hours_ago = medication_context.get("inr_test_hours_ago","")
+        inr_is_stable = medication_context.get("inr_is_stable","")
         if not inr_value:
             blocking_reasons.append({
                 "reason": "missing_medication_information",
                 "missing_information": ["inr_value"]
             })
-
         elif inr_category == "invalid":
             blocking_reasons.append({
                 "reason": "invalid_inr_value",
                 "message": (
-                    "The INR value must be a valid "
-                    "number greater than zero."
+                    "The INR value must be a valid number greater than zero."
                 )
             })
-
         if not inr_is_stable:
             blocking_reasons.append({
                 "reason": "missing_medication_information",
                 "missing_information": ["inr_is_stable"]
             })
-
         elif inr_is_stable not in ["yes", "no"]:
             blocking_reasons.append({
                 "reason": "invalid_inr_stability",
-                "message": (
-                    "INR stability must be recorded "
-                    "as yes or no."
-                )
+                "message": ("INR stability must be recorded as yes or no.")
             })
 
         if not inr_test_hours_ago:
             blocking_reasons.append({
                 "reason": "missing_medication_information",
-                "missing_information": [
-                    "inr_test_hours_ago"
-                ]
+                "missing_information": ["inr_test_hours_ago"]
             })
 
         else:
             try:
-                inr_hours = float(
-                    inr_test_hours_ago
-                )
-
+                inr_hours = float(inr_test_hours_ago)
             except (ValueError, TypeError):
                 blocking_reasons.append({
                     "reason": "invalid_inr_test_time",
-                    "message": (
-                        "The INR test time must be "
-                        "recorded as a number of hours."
-                    )
+                    "message": ("The INR test time must be recorded as a number of hours.")
                 })
-
             else:
                 if inr_hours < 0:
-                    blocking_reasons.append({
-                        "reason": "invalid_inr_test_time"
-                    })
-
+                    blocking_reasons.append({"reason": "invalid_inr_test_time"})
                 elif (
                         inr_is_stable == "yes"
                         and inr_hours > 72
                 ):
                     blocking_reasons.append({
                         "reason": "inr_test_too_old",
-                        "message": (
-                            "A stable INR should have been "
-                            "checked no more than 72 hours "
-                            "before treatment."
-                        )
+                        "message": ("A stable INR should have been checked no more than 72 hours before treatment.")
                     })
-
                 elif (
                         inr_is_stable == "no"
                         and inr_hours > 24
                 ):
                     blocking_reasons.append({
                         "reason": "inr_test_too_old",
-                        "message": (
-                            "The INR should have been checked "
-                            "no more than 24 hours before "
-                            "treatment."
-                        )
+                        "message": ("The INR should have been checked no more than 24 hours before treatment.")
                     })
 
     # LMWH information.
@@ -484,22 +374,12 @@ def find_blocking_reasons(assessed_context: dict):
             "low_molecular_weight_heparin"
             in mapped_medication_classes
     ):
-        lmwh_dose_category = medication_context.get(
-            "lmwh_dose_category",
-            ""
-        )
-
-        allowed_lmwh_categories = [
-            "prophylactic_low",
-            "treatment_higher_or_uncertain"
-        ]
-
+        lmwh_dose_category = medication_context.get("lmwh_dose_category","")
+        allowed_lmwh_categories = ["prophylactic_low","treatment_higher_or_uncertain"]
         if not lmwh_dose_category:
             blocking_reasons.append({
                 "reason": "missing_medication_information",
-                "missing_information": [
-                    "lmwh_dose_category"
-                ]
+                "missing_information": ["lmwh_dose_category"]
             })
 
         elif (
@@ -508,11 +388,7 @@ def find_blocking_reasons(assessed_context: dict):
         ):
             blocking_reasons.append({
                 "reason": "invalid_lmwh_dose_category",
-                "message": (
-                    "LMWH dose category must be "
-                    "prophylactic_low or "
-                    "treatment_higher_or_uncertain."
-                )
+                "message": ("LMWH dose category must be prophylactic_low or treatment_higher_or_uncertain.")
             })
 
     # Unfractionated heparin information.
@@ -1031,16 +907,13 @@ def retrieve_filtered_guidelines(
             "patient_context": assessed_context,
             "blocking_reasons": [{
                 "reason": "metadata_filter_not_created",
-                "message": (
-                    "A safe guideline filter could not be created."
-                )
+                "message": ("A safe guideline filter could not be created.")
             }],
             "metadata_filters": None,
             "documents": []
         }
 
     vector_store = get_vector_store()
-
     documents = []
     added_chunk_ids = []
 
@@ -1058,11 +931,7 @@ def retrieve_filtered_guidelines(
             ):
                 continue
 
-            chunk_id = document.metadata.get(
-                "chunk_id",
-                ""
-            )
-
+            chunk_id = document.metadata.get("chunk_id","")
             if chunk_id in added_chunk_ids:
                 continue
 
@@ -1075,9 +944,7 @@ def retrieve_filtered_guidelines(
             "patient_context": assessed_context,
             "blocking_reasons": [{
                 "reason": "no_matching_recommendation",
-                "message": (
-                    "No guideline recommendation matched the medication-specific assessment."
-                )
+                "message": ("No guideline recommendation matched the medication-specific assessment.")
             }],
             "metadata_filters": metadata_filters,
             "documents": []
@@ -1120,17 +987,12 @@ def preview_retrieval():
     print("Status:")
     print(result["status"])
     print()
-
     print("Blocking reasons:")
-    pprint.pprint(
-        result.get("blocking_reasons", [])
-    )
+    pprint.pprint(result.get("blocking_reasons", []))
     print()
-
     print("Metadata filter:")
     pprint.pprint(result["metadata_filters"])
     print()
-
     print("Retrieved guideline documents:")
     print()
 
@@ -1138,11 +1000,9 @@ def preview_retrieval():
         print("Metadata:")
         pprint.pprint(document.metadata)
         print()
-
         print("Content:")
         print(document.page_content)
         print()
-
         print("--" * 40)
 
 
