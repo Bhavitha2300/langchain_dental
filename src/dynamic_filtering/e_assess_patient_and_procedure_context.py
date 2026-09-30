@@ -1,6 +1,4 @@
 # e_assess_patient_and_procedure_context.py
-# - it identifies each planned dental procedure and applies the SDCEP rules to determine its postoperative bleeding risk.
-
 from pathlib import Path
 import pprint
 import yaml

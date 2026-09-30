@@ -18,141 +18,178 @@ def normalize_value(value):
 
 def find_patient_safety_reasons(assessed_context: dict):
     safety_reasons = []
+
     clinical_assessment = assessed_context.get("clinical_assessment",{})
     patient_safety = clinical_assessment.get("patient_safety",{})
-    medications = assessed_context.get("medications",[])
-    initial_high_dose_relevant = False
-    for medication in medications:
-        medication_class = medication.get("medication_class","")
-        ingredient_name = normalize_value(medication.get("ingredient_name", ""))
-        if (
-                medication_class == "doac"
-                and ingredient_name in [
-            "apixaban",
-            "rivaroxaban"
-        ]
-        ):
-            initial_high_dose_relevant = True
-
-    # without answering these questions the program will not recommend answer because it is not advisable to proceed without knowing answers to these questions
-    required_yes_no_questions = [
-        "prosthetic_metal_heart_valve",
-        "coronary_stent",
-        "dvt_or_pe_within_3_months",
-        "anticoagulation_for_cardioversion",
-        "renal_disease_affecting_bleeding",
-        "liver_disease_affecting_bleeding",
-        "bone_marrow_disorder",
-        "other_bleeding_risk_condition",
+    required_questions = [
+        "medical_history_reviewed",
+        "medication_list_reviewed",
+        "protected_antithrombotic_context",
+        "additional_bleeding_risk_condition",
         "bleeding_history_concern"
     ]
-    if initial_high_dose_relevant:
-        required_yes_no_questions.append("initial_high_dose_doac")
 
-    # Make sure every required question was answered.
-    for question_name in required_yes_no_questions:
+    for question_name in required_questions:
         answer = patient_safety.get(question_name,"")
-        answer = answer.strip().lower()
-        if answer not in ["yes", "no"]:
+        answer = str(answer).strip().lower()
+
+        if answer not in ["yes","no"]:
             safety_reasons.append({
                 "reason": "missing_safety_information",
-                "missing_information": [question_name]})
-
-    # if the answer is yes to these questions then the program will just say requires physician consultation to make any interruptions in their medication
-    protected_contexts = []
-    protected_context_names = [
-        "prosthetic_metal_heart_valve",
-        "coronary_stent",
-        "dvt_or_pe_within_3_months",
-        "anticoagulation_for_cardioversion"
-    ]
-
-    for context_name in protected_context_names:
-        answer = patient_safety.get(context_name,"")
-        if answer.strip().lower() == "yes":
-            protected_contexts.append(context_name)
-    if protected_contexts:
-        safety_reasons.append({
-            "reason": ("do_not_interrupt_therapy_without_specialist_instruction"),
-            "clinical_contexts": protected_contexts,
-            "message": ("Anticoagulant or antiplatelet therapy must not be interrupted without the required specialist instruction.")
-        })
-
-    # Initial high-dose apixaban or rivaroxaban.
-    if initial_high_dose_relevant:
-        initial_high_dose = patient_safety.get("initial_high_dose_doac","")
-        if initial_high_dose.strip().lower() == "yes":
-            safety_reasons.append({
-                "reason": "initial_high_dose_doac",
-                "message": (
-                    "A non-urgent procedure likely to cause bleeding should be delayed where possible until the patient is taking the standard dose."
-                )
+                "missing_information": [question_name]
             })
 
-    # Conditions that may increase bleeding risk.
-    bleeding_risk_conditions = []
-    bleeding_condition_names = [
-        "renal_disease_affecting_bleeding",
-        "liver_disease_affecting_bleeding",
-        "bone_marrow_disorder",
-        "other_bleeding_risk_condition"
-    ]
-
-    for condition_name in bleeding_condition_names:
-        answer = patient_safety.get( condition_name,"")
-        if answer.strip().lower() == "yes":
-            bleeding_risk_conditions.append(condition_name)
-    if bleeding_risk_conditions:
+    medical_history_reviewed = patient_safety.get("medical_history_reviewed","")
+    if str(medical_history_reviewed).strip().lower() == "no":
         safety_reasons.append({
-            "reason": ("additional_bleeding_risk_requires_clinician_review"),
-            "clinical_contexts": (bleeding_risk_conditions),
-            "message": ("Additional medical conditions may increase the patient's bleeding risk.")
+            "reason": "medical_history_not_reviewed",
+            "message": (
+                "The patient's medical history must be "
+                "reviewed before continuing."
+            )
         })
 
-    # Previous bleeding problems.
-    bleeding_history = patient_safety.get("bleeding_history_concern","")
-    if bleeding_history.strip().lower() == "yes":
+    medication_list_reviewed = patient_safety.get(
+        "medication_list_reviewed",
+        ""
+    )
+
+    if str(medication_list_reviewed).strip().lower() == "no":
+        safety_reasons.append({
+            "reason": "medication_list_not_reviewed",
+            "message": (
+                "Prescribed and non-prescribed medicines "
+                "must be reviewed before continuing."
+            )
+        })
+
+    protected_context = patient_safety.get(
+        "protected_antithrombotic_context",
+        ""
+    )
+
+    if str(protected_context).strip().lower() == "yes":
+        safety_reasons.append({
+            "reason": "medication_alteration_requires_review",
+            "message": (
+                "Therapy must not be interrupted except under "
+                "direct written instruction from the patient's "
+                "cardiologist. This workflow will not recommend "
+                "a medication alteration."
+            )
+        })
+
+    additional_condition = patient_safety.get(
+        "additional_bleeding_risk_condition",
+        ""
+    )
+
+    if str(additional_condition).strip().lower() == "yes":
+        safety_reasons.append({
+            "reason": "additional_bleeding_risk_requires_review",
+            "message": (
+                "A medical condition may increase the patient's "
+                "bleeding risk. Clinician review is required."
+            )
+        })
+
+    bleeding_history = patient_safety.get(
+        "bleeding_history_concern",
+        ""
+    )
+
+    if str(bleeding_history).strip().lower() == "yes":
         safety_reasons.append({
             "reason": "bleeding_history_requires_review",
-            "message": ("The patient reported a relevant history of prolonged or excessive bleeding.")
+            "message": (
+                "The patient has a relevant history of "
+                "prolonged or excessive bleeding."
+            )
         })
 
-    # missing treatment duration.
-    treatment_duration = patient_safety.get("antithrombotic_treatment_duration","")
-    treatment_duration = (treatment_duration.strip().lower())
+    initial_high_dose = patient_safety.get(
+        "initial_high_dose_doac",
+        ""
+    )
+
+    if str(initial_high_dose).strip().lower() == "yes":
+        safety_reasons.append({
+            "reason": "initial_high_dose_doac",
+            "message": (
+                "A procedure likely to cause bleeding should "
+                "be delayed where possible until the patient "
+                "is taking the standard dose."
+            )
+        })
+
+    treatment_duration = patient_safety.get(
+        "antithrombotic_treatment_duration",
+        ""
+    )
+
+    treatment_duration = (
+        str(treatment_duration)
+        .strip()
+        .lower()
+        .replace(" ", "_")
+    )
+
     if treatment_duration not in [
         "long_term",
         "time_limited"
     ]:
         safety_reasons.append({
             "reason": "missing_safety_information",
-            "missing_information": ["antithrombotic_treatment_duration"]
+            "missing_information": [
+                "antithrombotic_treatment_duration"
+            ]
         })
 
     elif treatment_duration == "time_limited":
         safety_reasons.append({
-            "reason": ("time_limited_antithrombotic_treatment"),
-            "message": ("Consider delaying non-urgent invasive treatment until the time-limited medication course has finished.")
-        })
-
-    # Check for NSAIDs in the medication list.
-    medications = assessed_context.get("medications",[])
-    nsaid_medications = []
-    for medication in medications:
-        medication_class = medication.get("medication_class","")
-        if medication_class == "nsaid":
-            nsaid_medications.append(
-                medication.get("ingredient_name",medication.get( "medication_name",""))
+            "reason": "time_limited_treatment_requires_review",
+            "message": (
+                "The treatment is time-limited. The workflow "
+                "does not have enough information about urgency "
+                "to decide whether the dental procedure should "
+                "be delayed."
             )
-
-    if nsaid_medications:
-        safety_reasons.append({
-            "reason": ("additional_bleeding_risk_medication"),
-            "medications": nsaid_medications,
-            "message": ("The patient is taking an NSAID that may increase bleeding risk.")
         })
 
     return safety_reasons
+
+
+def find_safety_warnings(assessed_context: dict):
+    safety_warnings = []
+    medications = assessed_context.get("medications",[])
+
+    nsaid_medications = []
+
+    for medication in medications:
+        medication_class = medication.get(
+            "medication_class",
+            ""
+        )
+
+        if medication_class == "nsaid":
+            medication_name = medication.get(
+                "ingredient_name",
+                medication.get("medication_name","")
+            )
+
+            nsaid_medications.append(medication_name)
+
+    if nsaid_medications:
+        safety_warnings.append({
+            "warning": "nsaid_may_increase_bleeding_risk",
+            "medications": nsaid_medications,
+            "message": (
+                "The patient is taking an NSAID that may "
+                "increase bleeding risk."
+            )
+        })
+
+    return safety_warnings
 
 
 def find_blocking_reasons(assessed_context: dict):
@@ -396,10 +433,7 @@ def find_blocking_reasons(assessed_context: dict):
             "unfractionated_heparin"
             in mapped_medication_classes
     ):
-        dialysis_heparin = medication_context.get(
-            "heparin_during_kidney_dialysis",
-            ""
-        )
+        dialysis_heparin = medication_context.get("heparin_during_kidney_dialysis","")
 
         if not dialysis_heparin:
             blocking_reasons.append({
@@ -504,44 +538,20 @@ def find_blocking_reasons(assessed_context: dict):
 
     return blocking_reasons
 
-def get_recommendation_subaspects(
-    assessed_context: dict
-):
-    medications = assessed_context.get(
-        "medications",
-        []
-    )
-
-    clinical_assessment = assessed_context.get(
-        "clinical_assessment",
-        {}
-    )
-
-    procedure_assessments = clinical_assessment.get(
-        "procedure_assessments",
-        []
-    )
-
-    medication_context = clinical_assessment.get(
-        "medication_context",
-        {}
-    )
-
+def get_recommendation_subaspects(assessed_context: dict):
+    medications = assessed_context.get("medications",[])
+    clinical_assessment = assessed_context.get("clinical_assessment",{})
+    procedure_assessments = clinical_assessment.get("procedure_assessments",[])
+    medication_context = clinical_assessment.get("medication_context",{})
     bleeding_risks = []
 
     for procedure in procedure_assessments:
-        bleeding_risk = procedure.get(
-            "postoperative_bleeding_risk",
-            ""
-        )
-
+        bleeding_risk = procedure.get("postoperative_bleeding_risk","")
         if (
             bleeding_risk
             and bleeding_risk not in bleeding_risks
         ):
-            bleeding_risks.append(
-                bleeding_risk
-            )
+            bleeding_risks.append(bleeding_risk)
 
     selected_subaspects = []
     antiplatelet_medications = []
@@ -554,30 +564,17 @@ def get_recommendation_subaspects(
         ):
             continue
 
-        medication_class = medication.get(
-            "medication_class",
-            ""
-        )
-
-        ingredient_name = normalize_value(
-            medication.get("ingredient_name", "")
-        )
-
+        medication_class = medication.get("medication_class","")
+        ingredient_name = normalize_value(medication.get("ingredient_name", ""))
         if medication_class == "doac":
             for bleeding_risk in bleeding_risks:
                 if bleeding_risk == "low":
-                    subaspect = (
-                        "doac_low_risk_procedure"
-                    )
-
+                    subaspect = ("doac_low_risk_procedure")
                     if (
                         subaspect
                         not in selected_subaspects
                     ):
-                        selected_subaspects.append(
-                            subaspect
-                        )
-
+                        selected_subaspects.append(subaspect)
                     treatment_can_proceed = True
 
                 elif bleeding_risk == "higher":
@@ -589,40 +586,23 @@ def get_recommendation_subaspects(
                             "doac_higher_risk_"
                             "apixaban_dabigatran"
                         )
-
                         restart_subaspect = (
                             "restart_apixaban_"
                             "or_dabigatran"
                         )
-
-
                     elif ingredient_name in [
-
                         "rivaroxaban",
-
                         "edoxaban"
-
                     ]:
-
                         usual_dose_time = medication_context.get(
-
                             "usual_dose_time",
-
                             ""
-
                         )
-
                         if usual_dose_time == "morning":
-
                             subaspect = (
-
                                 "doac_higher_risk_"
-
                                 "rivaroxaban_edoxaban_morning"
-
                             )
-
-
                         elif usual_dose_time == "evening":
                             subaspect = (
                                 "doac_higher_risk_"
@@ -773,6 +753,7 @@ def get_recommendation_subaspects(
             "schedule_treatment",
             "atraumatic_treatment",
             "local_haemostatic_measures",
+            "analgesic_advice",
             "post_treatment_advice"
         ]
 
@@ -823,34 +804,6 @@ def build_metadata_filters(
 
     return metadata_filters
 
-def document_matches_patient_context(
-    document,
-    assessed_context: dict
-):
-    metadata = document.metadata
-
-    if (
-        metadata.get("record_type")
-        != "clinical_recommendation"
-    ):
-        return False
-
-    selected_subaspects = (
-        get_recommendation_subaspects(
-            assessed_context
-        )
-    )
-
-    document_subaspect = metadata.get(
-        "subaspect",
-        ""
-    )
-
-    if document_subaspect in selected_subaspects:
-        return True
-
-    return False
-
 
 def retrieve_filtered_guidelines(
     patient_id: str,
@@ -883,6 +836,10 @@ def retrieve_filtered_guidelines(
         safety_context=safety_context
     )
 
+    safety_warnings = find_safety_warnings(
+        assessed_context
+    )
+
     blocking_reasons = find_blocking_reasons(
         assessed_context
     )
@@ -893,6 +850,7 @@ def retrieve_filtered_guidelines(
             "status": "needs_clinician_confirmation",
             "patient_context": assessed_context,
             "blocking_reasons": blocking_reasons,
+            "safety_warnings": safety_warnings,
             "metadata_filters": None,
             "documents": []
         }
@@ -909,6 +867,7 @@ def retrieve_filtered_guidelines(
                 "reason": "metadata_filter_not_created",
                 "message": ("A safe guideline filter could not be created.")
             }],
+            "safety_warnings": safety_warnings,
             "metadata_filters": None,
             "documents": []
         }
@@ -925,13 +884,7 @@ def retrieve_filtered_guidelines(
         )
 
         for document in retrieved_documents:
-            if not document_matches_patient_context(
-                document,
-                assessed_context
-            ):
-                continue
-
-            chunk_id = document.metadata.get("chunk_id","")
+            chunk_id = document.metadata.get("chunk_id", "")
             if chunk_id in added_chunk_ids:
                 continue
 
@@ -946,6 +899,7 @@ def retrieve_filtered_guidelines(
                 "reason": "no_matching_recommendation",
                 "message": ("No guideline recommendation matched the medication-specific assessment.")
             }],
+            "safety_warnings": safety_warnings,
             "metadata_filters": metadata_filters,
             "documents": []
         }
@@ -954,6 +908,7 @@ def retrieve_filtered_guidelines(
         "status": "retrieved",
         "patient_context": assessed_context,
         "blocking_reasons": [],
+        "safety_warnings": safety_warnings,
         "metadata_filters": metadata_filters,
         "documents": documents
     }
@@ -962,16 +917,12 @@ def retrieve_filtered_guidelines(
 def preview_retrieval():
     patient_id = "1256"
     safety_context = {
-        "prosthetic_metal_heart_valve": "no",
-        "coronary_stent": "no",
-        "dvt_or_pe_within_3_months": "no",
-        "anticoagulation_for_cardioversion": "no",
-        "initial_high_dose_doac": "no",
-        "renal_disease_affecting_bleeding": "no",
-        "liver_disease_affecting_bleeding": "no",
-        "bone_marrow_disorder": "no",
-        "other_bleeding_risk_condition": "no",
+        "medical_history_reviewed": "yes",
+        "medication_list_reviewed": "yes",
+        "protected_antithrombotic_context": "no",
+        "additional_bleeding_risk_condition": "no",
         "bleeding_history_concern": "no",
+        "initial_high_dose_doac": "no",
         "antithrombotic_treatment_duration": "long_term"
     }
 

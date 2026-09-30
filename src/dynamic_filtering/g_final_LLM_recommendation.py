@@ -3,11 +3,12 @@
 import json
 from config import load_config
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from dynamic_filtering.f_retrieve_filtered_guidelines import retrieve_filtered_guidelines
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
 
 load_config()
-
 
 def format_guideline_documents(documents):
     guideline_context = ""
@@ -47,10 +48,15 @@ def final_response(
     inr_is_stable: str = "",
     lmwh_dose_category: str = "",
     heparin_during_kidney_dialysis: str = "",
-    safety_context=None
+    safety_context=None,
+    chat_history=None
 ):
     if safety_context is None:
         safety_context = {}
+
+    if chat_history is None:
+        chat_history = InMemoryChatMessageHistory()
+
     retrieval_result = retrieve_filtered_guidelines(
         patient_id=patient_id,
         question=question,
@@ -109,6 +115,8 @@ def final_response(
                     - Do not create or guess medication, diagnosis or procedure codes.
                     - Do not change the procedure bleeding-risk classification.
                     - Do not create a medication recommendation that is not stated in the retrieved guideline.
+                    - Use the chat history only to understand follow-up questions.
+                    - Always base clinical recommendations on the current patient context, clinical assessment and retrieved guideline content.
                     - Do not state that the recommendation ensures or guarantees safety, effectiveness or prevention of bleeding.
                     - Explain that the result is decision support and requires clinician judgement.
                     - Clearly state the patient's relevant medication, medication class and planned procedure.
@@ -119,17 +127,27 @@ def final_response(
                     - Mention the recommendation strength and evidence certainty when they are available.
                     - If the supplied information is insufficient, say so clearly.
                         """),
+        MessagesPlaceholder(variable_name="chat_history"),
         ("human", """Patient context: {patient_context}
                      Retrieved guideline context: {guideline_context}
                      Clinical question: {question}""")
     ])
 
     chain = prompt | chat_model
-    response = chain.invoke({
+
+    chain_with_history = RunnableWithMessageHistory(
+        chain,
+        lambda session_id: chat_history,
+        input_messages_key="question",
+        history_messages_key="chat_history"
+    )
+    response = chain_with_history.invoke({
         "patient_context": patient_context_json,
         "guideline_context": guideline_context,
         "question": question
-    })
+    },
+    config={"configurable": {"session_id": patient_id}}
+    )
 
     return response.content
 

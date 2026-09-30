@@ -72,7 +72,6 @@ def load_documents():
 
             for field in single_value_fields:
                 value = subsection.get(field)
-
                 if value:
                     metadata[field] = normalize_value(value)
 
@@ -95,10 +94,8 @@ def load_documents():
 
             for field in list_value_fields:
                 values = subsection.get(field, [])
-
                 if values:
                     normalized_values = []
-
                     for value in values:
                         normalized_values.append(normalize_value(value))
 
