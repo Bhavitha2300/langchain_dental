@@ -69,14 +69,33 @@ def main(patient_id: str):
     print()
     print("Patient safety questions:")
     print("Please answer yes or no.")
+    medical_history_reviewed = ask_yes_no("Has the patient's medical history been reviewed?")
+    medication_list_reviewed = ask_yes_no("Have the patient's prescribed and non-prescribed medicines been reviewed?")
     prosthetic_metal_heart_valve = ask_yes_no("Does the patient have a prosthetic metal heart valve?")
     coronary_stent = ask_yes_no("Does the patient have a coronary stent?")
     dvt_or_pe_within_3_months = ask_yes_no("Has the patient had DVT or PE within the last 3 months?")
     anticoagulation_for_cardioversion = ask_yes_no("Is the patient receiving anticoagulation for cardioversion?")
+    protected_antithrombotic_context = "no"
+    if (
+            prosthetic_metal_heart_valve == "yes"
+            or coronary_stent == "yes"
+            or dvt_or_pe_within_3_months == "yes"
+            or anticoagulation_for_cardioversion == "yes"
+    ):
+        protected_antithrombotic_context = "yes"
     renal_disease_affecting_bleeding = ask_yes_no("Does the patient have renal disease affecting bleeding?")
     liver_disease_affecting_bleeding = ask_yes_no("Does the patient have liver disease affecting bleeding?")
     bone_marrow_disorder = ask_yes_no("Does the patient have a bone marrow disorder?")
     other_bleeding_risk_condition = ask_yes_no("Does the patient have another condition affecting bleeding?")
+    additional_bleeding_risk_condition = "no"
+
+    if (
+            renal_disease_affecting_bleeding == "yes"
+            or liver_disease_affecting_bleeding == "yes"
+            or bone_marrow_disorder == "yes"
+            or other_bleeding_risk_condition == "yes"
+    ):
+        additional_bleeding_risk_condition = "yes"
     bleeding_history_concern = ask_yes_no("Does the patient have a history of prolonged or excessive bleeding?")
     initial_high_dose_doac = ask_yes_no("Is the patient taking an initial high dose of the DOAC?")
     antithrombotic_treatment_duration = typer.prompt("Enter treatment duration: long_term or time_limited")
@@ -85,17 +104,23 @@ def main(patient_id: str):
     usual_dose_time = usual_dose_time.strip().lower()
 
     safety_context = {
-        "prosthetic_metal_heart_valve": prosthetic_metal_heart_valve,
-        "coronary_stent": coronary_stent,
-        "dvt_or_pe_within_3_months": dvt_or_pe_within_3_months,
-        "anticoagulation_for_cardioversion": anticoagulation_for_cardioversion,
-        "renal_disease_affecting_bleeding": renal_disease_affecting_bleeding,
-        "liver_disease_affecting_bleeding": liver_disease_affecting_bleeding,
-        "bone_marrow_disorder": bone_marrow_disorder,
-        "other_bleeding_risk_condition": other_bleeding_risk_condition,
-        "bleeding_history_concern": bleeding_history_concern,
-        "initial_high_dose_doac": initial_high_dose_doac,
-        "antithrombotic_treatment_duration": antithrombotic_treatment_duration
+        "medical_history_reviewed": medical_history_reviewed,
+        "medication_list_reviewed": medication_list_reviewed,
+        "protected_antithrombotic_context": (
+            protected_antithrombotic_context
+        ),
+        "additional_bleeding_risk_condition": (
+            additional_bleeding_risk_condition
+        ),
+        "bleeding_history_concern": (
+            bleeding_history_concern
+        ),
+        "initial_high_dose_doac": (
+            initial_high_dose_doac
+        ),
+        "antithrombotic_treatment_duration": (
+            antithrombotic_treatment_duration
+        )
     }
 
     chat_history = InMemoryChatMessageHistory()
