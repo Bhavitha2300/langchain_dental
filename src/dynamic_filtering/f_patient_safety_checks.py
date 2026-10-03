@@ -20,7 +20,7 @@ def find_patient_safety_reasons(assessed_context: dict):
     required_questions = [
         "medical_history_reviewed",
         "medication_list_reviewed",
-        "protected_antithrombotic_context",
+        "high_risk_reason_for_anticoagulant",
         "additional_bleeding_risk_condition",
         "bleeding_history_concern"
     ]
@@ -36,9 +36,9 @@ def find_patient_safety_reasons(assessed_context: dict):
     if patient_safety.get("medication_list_reviewed", "") == "no":
         safety_reasons.append({"reason": "medication_list_not_reviewed",
                                "message": "Review medication list before continuing."})
-    if patient_safety.get("protected_antithrombotic_context", "") == "yes":
-        safety_reasons.append({"reason": "medication_alteration_requires_review",
-                               "message": "Therapy must not be interrupted except under direct written instruction from the patient's cardiologist."})
+    if patient_safety.get("high_risk_reason_for_anticoagulant", "") == "yes":
+        safety_reasons.append({"reason": "high_risk_reason_for_anticoagulant",
+                               "message": "The patient has a high-risk reason for taking anticoagulant or antiplatelet medicine. Clinician review is required before changing medication."})
     if patient_safety.get("additional_bleeding_risk_condition", "") == "yes":
         safety_reasons.append({"reason": "additional_bleeding_risk_requires_review",
                                "message": "A medical condition may increase the patient's bleeding risk. Clinician review is required."})
@@ -146,7 +146,7 @@ def preview_patient_safety_checks():
     assessed_context["clinical_assessment"]["patient_safety"] = {
         "medical_history_reviewed": "yes",
         "medication_list_reviewed": "yes",
-        "protected_antithrombotic_context": "no",
+        "high_risk_reason_for_anticoagulant": "no",
         "additional_bleeding_risk_condition": "no",
         "bleeding_history_concern": "no",
         "initial_high_dose_doac": "no",
