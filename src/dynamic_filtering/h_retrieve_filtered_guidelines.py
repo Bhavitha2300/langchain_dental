@@ -6,6 +6,22 @@ from dynamic_filtering.e_assess_patient_and_procedure_context import assess_pati
 from dynamic_filtering.f_patient_safety_checks import find_safety_warnings, find_blocking_reasons
 from dynamic_filtering.g_guideline_metadata_filter import build_metadata_filters
 
+def create_blocking_message(blocking_reasons):
+    message_lines = ["A guideline recommendation cannot be generated."]
+    for blocking_reason in blocking_reasons:
+        reason = blocking_reason.get("reason", "")
+        missing_information = blocking_reason.get("missing_information", [])
+        message = blocking_reason.get("message", "")
+        if reason:
+            message_lines.append(f"Reason: {reason}")
+        if missing_information:
+            missing_text = ", ".join(missing_information)
+            message_lines.append(f"Missing information: {missing_text}")
+        if message:
+            message_lines.append(message)
+
+    return "\n".join(message_lines)
+
 def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="", wound_size="", safety_context=None):
     if safety_context is None:
         safety_context = {}
@@ -15,10 +31,12 @@ def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="",
     blocking_reasons = find_blocking_reasons(assessed_context)
     # if any of the blocking reasons are present return this
     if blocking_reasons:
+        blocking_message = create_blocking_message(blocking_reasons)
         return {
             "status": "needs_clinician_confirmation",
             "patient_context": assessed_context,
             "blocking_reasons": blocking_reasons,
+            "blocking_message": blocking_message,
             "safety_warnings": safety_warnings,
             "metadata_filters": None,
             "documents": []
@@ -26,11 +44,14 @@ def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="",
     metadata_filters = build_metadata_filters(assessed_context)
     # if no metadata filters are built then return this
     if not metadata_filters:
+        blocking_reasons = [{"reason": "metadata_filter_not_created",
+                             "message": "A guideline filter could not be created."}]
+        blocking_message = create_blocking_message(blocking_reasons)
         return {
             "status": "no_metadata_filters",
             "patient_context": assessed_context,
-            "blocking_reasons": [{"reason": "metadata_filter_not_created",
-                                  "message": "A guideline filter could not be created."}],
+            "blocking_reasons": blocking_reasons,
+            "blocking_message": blocking_message,
             "safety_warnings": safety_warnings,
             "metadata_filters": None,
             "documents": []
@@ -52,11 +73,14 @@ def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="",
             documents.append(document)
     # it no documents match then return this
     if not documents:
+        blocking_reasons = [{"reason": "no_matching_recommendation",
+                             "message": "No matching guideline recommendation was found."}]
+        blocking_message = create_blocking_message(blocking_reasons)
         return {
             "status": "no_matching_recommendation",
             "patient_context": assessed_context,
-            "blocking_reasons": [{"reason": "no_matching_recommendation",
-                                  "message": "No matching guideline recommendation was found."}],
+            "blocking_reasons": blocking_reasons,
+            "blocking_message": blocking_message,
             "safety_warnings": safety_warnings,
             "metadata_filters": metadata_filters,
             "documents": []
@@ -65,6 +89,7 @@ def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="",
         "status": "retrieved",
         "patient_context": assessed_context,
         "blocking_reasons": [],
+        "blocking_message": "",
         "safety_warnings": safety_warnings,
         "metadata_filters": metadata_filters,
         "documents": documents
