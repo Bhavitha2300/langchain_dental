@@ -14,7 +14,7 @@ SUPPORTED_MEDICATION_CLASSES = [
 
 
 def normalize_value(value):
-    return (value.strip().lower().replace("-", "_").replace(" ", "_"))
+    return value.strip().lower().replace("-", "_").replace(" ", "_")
 
 def find_patient_safety_reasons(assessed_context: dict):
     safety_reasons = []
@@ -29,39 +29,29 @@ def find_patient_safety_reasons(assessed_context: dict):
         "bleeding_history_concern"
     ]
 
-    for question_name in required_questions:
-        answer = patient_safety.get(question_name,"")
-        answer = str(answer).strip().lower()
+    review_messages = {
+        "medical_history_reviewed": (
+            "Review the patient's medical history before continuing."
+        ),
+        "medication_list_reviewed": (
+            "Review prescribed and non-prescribed medicines before continuing."
+        )
+    }
 
-        if answer not in ["yes","no"]:
+    for question in required_questions:
+        answer = str(patient_safety.get(question, "")).strip().lower()
+
+        if answer not in ["yes", "no"]:
             safety_reasons.append({
                 "reason": "missing_safety_information",
-                "missing_information": [question_name]
+                "missing_information": [question]
             })
 
-    medical_history_reviewed = patient_safety.get("medical_history_reviewed","")
-    if str(medical_history_reviewed).strip().lower() == "no":
-        safety_reasons.append({
-            "reason": "medical_history_not_reviewed",
-            "message": (
-                "The patient's medical history must be "
-                "reviewed before continuing."
-            )
-        })
-
-    medication_list_reviewed = patient_safety.get(
-        "medication_list_reviewed",
-        ""
-    )
-
-    if str(medication_list_reviewed).strip().lower() == "no":
-        safety_reasons.append({
-            "reason": "medication_list_not_reviewed",
-            "message": (
-                "Prescribed and non-prescribed medicines "
-                "must be reviewed before continuing."
-            )
-        })
+        elif answer == "no" and question in review_messages:
+            safety_reasons.append({
+                "reason": question.replace("_reviewed", "_not_reviewed"),
+                "message": review_messages[question]
+            })
 
     protected_context = patient_safety.get(
         "protected_antithrombotic_context",

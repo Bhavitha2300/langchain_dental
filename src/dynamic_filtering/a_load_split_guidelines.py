@@ -14,7 +14,6 @@ def normalize_value(value):
 
 
 def load_documents():
-
     with open(KNOWLEDGE_BASE_FILE, "r", encoding="utf-8") as file:
         knowledge_base = yaml.safe_load(file)
 

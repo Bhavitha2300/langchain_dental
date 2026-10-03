@@ -38,6 +38,3 @@ def load_vector():
 
 if __name__ == "__main__":
     load_vector()
-
-
-
