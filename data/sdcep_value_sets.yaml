@@ -109,7 +109,7 @@ medication_value_sets:
       display: naproxen
 
 # ============================================================
-# BASE PROCEDURE VALUE SETS
+# PROCEDURE VALUE SETS
 # ============================================================
 
 procedure_value_sets:
@@ -117,61 +117,43 @@ procedure_value_sets:
   tooth_extraction:
     root_code: "55162003"
     display: Tooth extraction
-    ecl: "<< 55162003"
-
 
   incision_and_drainage_of_intraoral_swellings:
     root_code: "450526008"
     display: Drainage of dental abscess by intraoral approach
-    ecl: "<< 450526008"
-
 
   root_surface_debridement:
     root_code: "234699004"
     display: Root surface debridement
     ecl: "(234699004 OR 1260196001 OR 1260200006)"
 
-
   preprosthetic_surgery:
     root_code: "173297008"
     display: Preprosthetic oral surgery
-    ecl: "<< 173297008"
-
 
   periradicular_surgery:
     root_code: "265328005"
     display: Periapical surgery of tooth
-    ecl: "<< 265328005"
-
 
   crown_lengthening:
     root_code: "31890001"
     display: Crown lengthening, hard and soft tissue
-    ecl: "<< 31890001"
-
 
   dental_implant_surgery:
     root_code: "1156981009"
     display: Implantation of dental endosseous implant
-    ecl: "<< 1156981009"
-
 
   gingival_recontouring:
     root_code: "173346003"
     display: Gingivoplasty
-    ecl: "<< 173346003"
-
 
   biopsies:
     root_code: "304502009"
     display: Biopsy of mouth
-    ecl: "<< 304502009"
-
 
   periodontal_surgery:
     root_code: "234677007"
     display: Periodontal operation
-    ecl: "<< 234677007"
 
 
 # ============================================================
