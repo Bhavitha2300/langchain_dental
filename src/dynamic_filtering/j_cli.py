@@ -22,7 +22,7 @@ def ask_choice(question, allowed_values):
         answer = answer.strip().lower().replace(" ", "_")
         if answer in allowed_values:
             return answer
-        print(f"Please enter one of: {'or'.join(allowed_values)}")
+        print(f"Please enter one of: {' or'.join(allowed_values)}")
 
 
 def get_medication_classes(patient_context):
