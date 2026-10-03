@@ -5,7 +5,7 @@ from langchain_core.chat_history import InMemoryChatMessageHistory
 from dynamic_filtering.d_medication_terminology import add_medication_class_to_fhir_patient_data
 from dynamic_filtering.i_final_LLM_recommendation import final_response
 
-
+# ask yes or no questions
 def ask_yes_no(question):
     while True:
         answer = typer.prompt(question)
@@ -22,7 +22,7 @@ def ask_choice(question, allowed_values):
         answer = answer.strip().lower().replace(" ", "_")
         if answer in allowed_values:
             return answer
-        print(f"Please enter one of: {', '.join(allowed_values)}")
+        print(f"Please enter one of: {'or'.join(allowed_values)}")
 
 
 def get_medication_classes(patient_context):

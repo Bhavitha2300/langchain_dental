@@ -96,11 +96,11 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
         input_messages_key="question",
         history_messages_key="chat_history"
     )
-
-    response = chain_with_history.invoke({"patient_context": patient_context_json,
-                                          "guideline_context": guideline_context,
-                                          "question": question},
-                                         config={"configurable": {"session_id": patient_id}})
+    response = chain_with_history.invoke({
+        "patient_context": patient_context_json,
+        "guideline_context": guideline_context,
+        "question": question},
+        config={"configurable": {"session_id": patient_id}})
 
     return response.content
 
