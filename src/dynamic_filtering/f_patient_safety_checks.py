@@ -18,8 +18,7 @@ def find_patient_safety_reasons(assessed_context: dict):
     patient_safety = clinical_assessment.get("patient_safety", {})
     # These are the safety questions that must have yes/no answers
     required_questions = [
-        "medical_history_reviewed",
-        "medication_list_reviewed",
+        "medical_history_and_medicines_reviewed",
         "high_risk_reason_for_anticoagulant",
         "additional_bleeding_risk_condition",
         "bleeding_history_concern"
@@ -30,9 +29,9 @@ def find_patient_safety_reasons(assessed_context: dict):
             safety_reasons.append({"reason": "missing_safety_information",
                                    "missing_information": [question]})
 
-    if patient_safety.get("medical_history_reviewed", "") == "no":
-        safety_reasons.append({"reason": "medical_history_not_reviewed",
-                               "message": "Review the patient's medical history before continuing."})
+    if patient_safety.get("medical_history_and_medicines_reviewed", "") == "no":
+        safety_reasons.append({"reason": "clinical_information_not_reviewed",
+                               "message": "Review the patient's medical history and medicines before continuing."})
     if patient_safety.get("medication_list_reviewed", "") == "no":
         safety_reasons.append({"reason": "medication_list_not_reviewed",
                                "message": "Review medication list before continuing."})
@@ -144,8 +143,7 @@ def preview_patient_safety_checks():
     patient_id = "1256"
     assessed_context = assess_patient_context(patient_id)
     assessed_context["clinical_assessment"]["patient_safety"] = {
-        "medical_history_reviewed": "yes",
-        "medication_list_reviewed": "yes",
+        "medical_history_and_medicines_reviewed": "yes",
         "high_risk_reason_for_anticoagulant": "no",
         "additional_bleeding_risk_condition": "no",
         "bleeding_history_concern": "no",

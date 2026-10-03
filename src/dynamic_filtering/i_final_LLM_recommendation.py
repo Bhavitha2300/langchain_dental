@@ -108,9 +108,8 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
 def preview_final_response():
     patient_id = "1256"
     safety_context = {
-        "medical_history_reviewed": "yes",
-        "medication_list_reviewed": "yes",
-        "protected_antithrombotic_context": "no",
+        "medical_history_and_medicines_reviewed": "yes",
+        "high_risk_reason_for_anticoagulant": "no",
         "additional_bleeding_risk_condition": "no",
         "bleeding_history_concern": "no",
         "initial_high_dose_doac": "no",
