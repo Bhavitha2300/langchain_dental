@@ -26,6 +26,11 @@ def ask_choice(question, allowed_values):
 
 
 def get_medication_classes(patient_context):
+    """
+
+    :param patient_context:
+    :return:
+    """
     medication_classes = []
     medications = patient_context.get("medications", [])
     for medication in medications:

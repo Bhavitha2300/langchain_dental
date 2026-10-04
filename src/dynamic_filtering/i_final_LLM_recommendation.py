@@ -80,6 +80,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
                         - Include practical management considerations found in the retrieved guideline.
                         - Mention the guideline name and section.
                         - Mention recommendation strength and evidence certainty when available.
+                        - Return the output in formatted plain text.
                         """),
         MessagesPlaceholder(variable_name="chat_history"),
         ("human","""
