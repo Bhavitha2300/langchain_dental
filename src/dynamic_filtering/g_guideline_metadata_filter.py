@@ -39,6 +39,7 @@ def get_recommendation_subaspects(assessed_context):
     if (treatment_duration == "time_limited" and urgent_dental_procedure != "yes"):
         add_subaspect(selected_subaspects,"time_limited_antithrombotic_treatment")
     lmwh_dose_category = patient_safety.get("lmwh_dose_category", "")
+    heparin_during_kidney_dialysis = patient_safety.get("heparin_during_kidney_dialysis","")
     for medication in medications:
         if medication.get("terminology_status", "") != "mapped":
             continue
@@ -79,8 +80,11 @@ def get_recommendation_subaspects(assessed_context):
                     add_subaspect(selected_subaspects,"lmwh_treatment_dose_or_uncertain_dose")
                 if treatment_duration == "time_limited":
                     add_subaspect( selected_subaspects,"short_term_lmwh")
+                if heparin_during_kidney_dialysis == "yes":
+                    add_subaspect(selected_subaspects,"kidney_dialysis_and_heparin")
             elif medication_class == "unfractionated_heparin":
-                add_subaspect(selected_subaspects, "kidney_dialysis_and_heparin")
+                if heparin_during_kidney_dialysis == "yes":
+                    add_subaspect(selected_subaspects,"kidney_dialysis_and_heparin")
             elif medication_class == "antiplatelet":
                 add_subaspect(selected_subaspects, "single_or_dual_antiplatelet_therapy")
                 if (len(antiplatelet_ingredients) == 1 and ingredient_name == "aspirin"):

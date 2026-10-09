@@ -73,15 +73,23 @@ def find_patient_safety_reasons(assessed_context: dict):
                     safety_reasons.append({"reason": "usual_dose_time_missing",
                                            "message": "Confirm whether the patient normally takes the medication in the morning or evening."})
     has_low_molecular_weight_heparin = False
+    has_unfractionated_heparin = False
     for medication in assessed_context.get("medications", []):
         medication_class = medication.get("medication_class", "")
         if medication_class == "low_molecular_weight_heparin":
             has_low_molecular_weight_heparin = True
+        elif medication_class == "unfractionated_heparin":
+            has_unfractionated_heparin = True
     if has_low_molecular_weight_heparin:
         lmwh_dose_category = patient_safety.get("lmwh_dose_category","")
         if lmwh_dose_category not in ["prophylactic_low", "treatment_higher", "uncertain"]:
             safety_reasons.append({"reason": "lmwh_dose_category_missing",
                                    "message": "Confirm whether the LMWH dose is prophylactic, treatment, or uncertain."})
+    if (has_low_molecular_weight_heparin or has_unfractionated_heparin):
+        dialysis_heparin = patient_safety.get("heparin_during_kidney_dialysis","")
+        if dialysis_heparin not in ["yes", "no"]:
+            safety_reasons.append({ "reason": "kidney_dialysis_heparin_information_missing",
+                                    "message": "Confirm whether the patient receives heparin or LMWH during kidney dialysis."})
     has_vitamin_k_antagonist = False
     for medication in assessed_context.get("medications", []):
         medication_class = medication.get("medication_class", "")

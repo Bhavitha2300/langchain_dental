@@ -114,6 +114,8 @@ def collect_safety_context(patient_context):
         print()
         print("If the LMWH dose category cannot be confirmed, choose uncertain.")
         safety_context["lmwh_dose_category"] = ask_choice("What type of LMWH dose is the patient taking?",["prophylactic_low","treatment_higher","uncertain"])
+    if ("low_molecular_weight_heparin" in medication_classes or "unfractionated_heparin" in medication_classes):
+        safety_context["heparin_during_kidney_dialysis"] = ask_yes_no("Is the patient receiving heparin or LMWH during kidney dialysis?")
     # medication class: DOAC
     doac_ingredients = []
     for medication in patient_context.get("medications", []):
