@@ -97,6 +97,11 @@ def collect_safety_context(patient_context):
         safety_context["additional_bleeding_risk_condition"] = "no"
         safety_context["bleeding_history_concern"] = "no"
     medication_classes = get_medication_classes(patient_context)
+    has_anticoagulant = ("doac" in medication_classes or "vitamin_k_antagonist" in medication_classes or "low_molecular_weight_heparin" in medication_classes or "unfractionated_heparin" in medication_classes)
+    has_antiplatelet = "antiplatelet" in medication_classes
+    if has_anticoagulant and has_antiplatelet:
+        print("The patient is taking an anticoagulant and antiplatelet combination.")
+        return safety_context
     # medication class: vitamin_k_antagonists
     if "vitamin_k_antagonist" in medication_classes:
         safety_context["inr_value"] = typer.prompt("Enter the patient's latest INR value", type=float)

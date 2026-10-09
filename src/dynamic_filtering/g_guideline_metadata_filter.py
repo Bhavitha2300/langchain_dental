@@ -23,11 +23,22 @@ def get_recommendation_subaspects(assessed_context):
     bleeding_risks = get_bleeding_risks(assessed_context)
     medications = assessed_context.get("medications", [])
     antiplatelet_ingredients = []
+    has_anticoagulant = False
+    has_antiplatelet = False
     for medication in medications:
-        if medication.get("medication_class", "") == "antiplatelet":
-            ingredient_name = normalize_value(medication.get("ingredient_name", ""))
-            if (ingredient_name and ingredient_name not in antiplatelet_ingredients):
+        if medication.get("terminology_status", "") != "mapped":
+            continue
+        medication_class = medication.get("medication_class", "")
+        ingredient_name = normalize_value(medication.get("ingredient_name", ""))
+        if medication_class in ["doac", "vitamin_k_antagonist", "low_molecular_weight_heparin", "unfractionated_heparin"]:
+            has_anticoagulant = True
+        if medication_class == "antiplatelet":
+            has_antiplatelet = True
+            if ingredient_name not in antiplatelet_ingredients:
                 antiplatelet_ingredients.append(ingredient_name)
+    if has_anticoagulant and has_antiplatelet:
+        add_subaspect( selected_subaspects,"dental_treatment_with_combination_therapy")
+        return selected_subaspects
     clinical_assessment = assessed_context.get("clinical_assessment", {})
     patient_safety = clinical_assessment.get("patient_safety", {})
     inr_value = patient_safety.get("inr_value", "")

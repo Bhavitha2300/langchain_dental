@@ -35,6 +35,16 @@ def find_patient_safety_reasons(assessed_context: dict):
     if patient_safety.get("bleeding_history_concern", "") == "yes":
         safety_reasons.append({"reason": "bleeding_history_requires_review",
                                "message": "The patient has a relevant history of prolonged or excessive bleeding."})
+    has_anticoagulant = False
+    has_antiplatelet = False
+    for medication in assessed_context.get("medications", []):
+        medication_class = medication.get("medication_class", "")
+        if medication_class in ["doac", "vitamin_k_antagonist", "low_molecular_weight_heparin", "unfractionated_heparin"]:
+            has_anticoagulant = True
+        if medication_class == "antiplatelet":
+            has_antiplatelet = True
+    if has_anticoagulant and has_antiplatelet:
+        return safety_reasons
     if patient_safety.get("initial_high_dose_doac", "") == "yes":
         safety_reasons.append({"reason": "initial_high_dose_doac",
                                "message": "A procedure likely to cause bleeding should be delayed where possible until the patient is taking the standard dose."})
@@ -178,9 +188,6 @@ def find_blocking_reasons(assessed_context):
         if medication_class == "antiplatelet":
             if ingredient_name not in antiplatelets:
                 antiplatelets.append(ingredient_name)
-    if anticoagulants and antiplatelets:
-        blocking_reasons.append({ "reason": "anticoagulant_and_antiplatelet_combination",
-                                  "message": "Anticoagulant and antiplatelet combination therapy needs clinician review."})
     if len(anticoagulants) > 1:
         blocking_reasons.append({"reason": "multiple_anticoagulants",
                                  "message": "Multiple anticoagulants need clinician review."})
