@@ -18,7 +18,7 @@ def find_patient_safety_reasons(assessed_context: dict):
     # These are the safety questions that must have yes/no answers
     required_questions = [
         "medical_history_and_medicines_reviewed",
-        "high_risk_reason_for_anticoagulant",
+        "therapy_must_not_be_interrupted",
         "additional_bleeding_risk_condition",
         "bleeding_history_concern"
     ]
@@ -30,9 +30,6 @@ def find_patient_safety_reasons(assessed_context: dict):
     if patient_safety.get("medical_history_and_medicines_reviewed", "") == "no":
         safety_reasons.append({"reason": "clinical_information_not_reviewed",
                                "message": "Review the patient's medical history and medicines before continuing."})
-    if patient_safety.get("high_risk_reason_for_anticoagulant", "") == "yes":
-        safety_reasons.append({"reason": "high_risk_reason_for_anticoagulant",
-                               "message": "The patient has a high-risk reason for taking anticoagulant or antiplatelet medicine. Clinician review is required before changing medication."})
     if patient_safety.get("additional_bleeding_risk_condition", "") == "yes":
         safety_reasons.append({"reason": "additional_bleeding_risk_requires_review",
                                "message": "A medical condition may increase the patient's bleeding risk. Clinician review is required."})
@@ -42,6 +39,40 @@ def find_patient_safety_reasons(assessed_context: dict):
     if patient_safety.get("initial_high_dose_doac", "") == "yes":
         safety_reasons.append({"reason": "initial_high_dose_doac",
                                "message": "A procedure likely to cause bleeding should be delayed where possible until the patient is taking the standard dose."})
+    doac_ingredients = []
+    for medication in assessed_context.get("medications", []):
+        if medication.get("medication_class", "") == "doac":
+            ingredient_name = normalize_value(medication.get("ingredient_name", ""))
+            doac_ingredients.append(ingredient_name)
+    if doac_ingredients:
+        urgent_dental_procedure = patient_safety.get("urgent_dental_procedure", "")
+        if urgent_dental_procedure not in ["yes", "no"]:
+            safety_reasons.append({"reason": "procedure_urgency_missing",
+                                   "message": "Confirm whether the dental procedure is urgent."})
+        elif urgent_dental_procedure == "yes":
+            morning_dose_taken = patient_safety.get("morning_doac_dose_already_taken","")
+            if morning_dose_taken not in ["yes", "no"]:
+                safety_reasons.append({"reason": "morning_doac_dose_information_missing",
+                                       "message": "Confirm whether the patient has already taken the morning DOAC dose."})
+    if "apixaban" in doac_ingredients or "rivaroxaban" in doac_ingredients:
+        initial_high_dose = patient_safety.get("initial_high_dose_doac","")
+        if initial_high_dose not in ["yes", "no"]:
+            safety_reasons.append({"reason": "initial_high_dose_information_missing",
+                                   "message": "Confirm whether the patient is taking initial high-dose apixaban or rivaroxaban."})
+    higher_risk_procedure = False
+    for procedure in clinical_assessment.get("procedure_assessments",[]):
+        bleeding_risk = procedure.get("postoperative_bleeding_risk","")
+        if bleeding_risk == "higher":
+            higher_risk_procedure = True
+    urgent_after_morning_dose = (patient_safety.get("urgent_dental_procedure", "") == "yes" and patient_safety.get("morning_doac_dose_already_taken","") == "yes")
+    therapy_must_not_be_interrupted = patient_safety.get("therapy_must_not_be_interrupted","" )
+    if higher_risk_procedure:
+        if ("rivaroxaban" in doac_ingredients or "edoxaban" in doac_ingredients):
+            if (not urgent_after_morning_dose and therapy_must_not_be_interrupted != "yes"):
+                usual_dose_time = patient_safety.get("usual_dose_time","")
+                if usual_dose_time not in ["morning", "evening"]:
+                    safety_reasons.append({"reason": "usual_dose_time_missing",
+                                           "message": "Confirm whether the patient normally takes the medication in the morning or evening."})
     has_vitamin_k_antagonist = False
     for medication in assessed_context.get("medications", []):
         medication_class = medication.get("medication_class", "")
@@ -69,9 +100,6 @@ def find_patient_safety_reasons(assessed_context: dict):
     if treatment_duration not in ["long_term", "time_limited"]:
         safety_reasons.append({"reason": "missing_safety_information",
                                "missing_information": ["antithrombotic_treatment_duration"]})
-    elif treatment_duration == "time_limited":
-        safety_reasons.append({"reason": "time_limited_treatment_requires_review",
-                               "message": "The treatment is time-limited. Clinician review is required before deciding whether dental treatment should be delayed."})
 
     return safety_reasons
 
@@ -96,12 +124,10 @@ def find_safety_warnings(assessed_context):
 def find_blocking_reasons(assessed_context):
     blocking_reasons = []
     blocking_reasons.extend(find_patient_safety_reasons(assessed_context))
-
     planned_procedures = assessed_context.get("planned_procedures", [])
     medications = assessed_context.get("medications", [])
     clinical_assessment = assessed_context.get("clinical_assessment", {})
     procedure_assessments = clinical_assessment.get("procedure_assessments", [])
-
     if not planned_procedures:
         blocking_reasons.append({"reason": "no_planned_procedure",
                                  "message": "No planned dental procedure was found."})
@@ -110,13 +136,11 @@ def find_blocking_reasons(assessed_context):
         if classification_status != "classified":
             blocking_reasons.append({"reason": classification_status,
                                      "message": "The planned procedure could not be safely classified."})
-
     mapped_antithrombotic_medications = []
     for medication in medications:
         terminology_status = medication.get("terminology_status", "")
         medication_class = medication.get("medication_class", "")
         ingredient_name = medication.get("ingredient_name", "")
-
         if terminology_status != "mapped":
             blocking_reasons.append({"reason": terminology_status,
                                      "message": "Medication terminology could not be mapped."})
@@ -127,7 +151,6 @@ def find_blocking_reasons(assessed_context):
                                  "message": "No supported anticoagulant or antiplatelet medication was mapped."})
     anticoagulants = []
     antiplatelets = []
-
     for medication in mapped_antithrombotic_medications:
         medication_class = medication.get("medication_class", "")
         ingredient_name = normalize_value(medication.get("ingredient_name", ""))
@@ -160,7 +183,7 @@ def preview_patient_safety_checks():
     assessed_context = assess_patient_context(patient_id)
     assessed_context["clinical_assessment"]["patient_safety"] = {
         "medical_history_and_medicines_reviewed": "yes",
-        "high_risk_reason_for_anticoagulant": "no",
+        "therapy_must_not_be_interrupted": "no",
         "additional_bleeding_risk_condition": "no",
         "bleeding_history_concern": "no",
         "initial_high_dose_doac": "no",

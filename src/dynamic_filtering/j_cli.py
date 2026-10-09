@@ -89,11 +89,11 @@ def collect_safety_context(patient_context):
     safety_context["medical_history_and_medicines_reviewed"] = ask_yes_no("Have the patient's medical history and medicines been reviewed?")
     extra_risk_present = ask_yes_no("Does the patient have any extra condition that may increase bleeding risk or make anticoagulant management more complicated?")
     if extra_risk_present == "yes":
-        safety_context["high_risk_reason_for_anticoagulant"] = ask_yes_no("Does the patient have a high-risk reason for taking anticoagulant or antiplatelet medicine, such as prosthetic metal heart valve, coronary stent, recent DVT/PE, or cardioversion?")
+        safety_context["therapy_must_not_be_interrupted"] = ask_yes_no("Does the patient have a prosthetic metal heart valve, coronary stent, DVT or PE within the last 3 months, or anticoagulation for cardioversion?")
         safety_context["additional_bleeding_risk_condition"] = ask_yes_no("Does the patient have renal disease, liver disease, bone marrow disorder, or another condition increasing bleeding risk?")
         safety_context["bleeding_history_concern"] = ask_yes_no("Does the patient have a history of prolonged or excessive bleeding?")
     else:
-        safety_context["high_risk_reason_for_anticoagulant"] = "no"
+        safety_context["therapy_must_not_be_interrupted"] = "no"
         safety_context["additional_bleeding_risk_condition"] = "no"
         safety_context["bleeding_history_concern"] = "no"
     medication_classes = get_medication_classes(patient_context)
@@ -110,11 +110,31 @@ def collect_safety_context(patient_context):
             print()
             safety_context["inr_is_stable"] = ask_yes_no("Does the patient meet all these conditions?")
     # medication class: DOAC
-    if "doac" in medication_classes:
-        safety_context["initial_high_dose_doac"] = ask_yes_no("Is the patient taking an initial high dose of a DOAC?")
+    doac_ingredients = []
+    for medication in patient_context.get("medications", []):
+        if medication.get("medication_class", "") == "doac":
+            ingredient_name = medication.get("ingredient_name", "").strip().lower()
+            doac_ingredients.append(ingredient_name)
+    if doac_ingredients:
+        safety_context["urgent_dental_procedure"] = ask_yes_no("Does the planned dental procedure need to be performed urgently?")
+        if safety_context["urgent_dental_procedure"] == "yes":
+            safety_context["morning_doac_dose_already_taken"] = ask_yes_no("Has the patient already taken today's morning DOAC dose?")
+        else:
+            safety_context["morning_doac_dose_already_taken"] = "no"
+    else:
+        safety_context["urgent_dental_procedure"] = "no"
+        safety_context["morning_doac_dose_already_taken"] = "no"
+    if "apixaban" in doac_ingredients or "rivaroxaban" in doac_ingredients:
+        safety_context["initial_high_dose_doac"] = ask_yes_no("Is the patient taking initial high-dose apixaban or rivaroxaban for acute DVT or pulmonary embolism during the first 1 to 3 weeks of treatment?")
     else:
         safety_context["initial_high_dose_doac"] = "no"
+    urgent_after_morning_dose = (safety_context["urgent_dental_procedure"] == "yes" and safety_context["morning_doac_dose_already_taken"] == "yes")
+    dose_time_is_needed = (("rivaroxaban" in doac_ingredients or "edoxaban" in doac_ingredients)
+            and not urgent_after_morning_dose and safety_context["therapy_must_not_be_interrupted"] != "yes")
+    if dose_time_is_needed:
+        safety_context["usual_dose_time"] = ask_choice("When does the patient normally take this medication?",["morning", "evening"])
     safety_context["antithrombotic_treatment_duration"] = ask_choice("Enter treatment duration: long_term or time_limited",["long_term", "time_limited"])
+
     return safety_context
 
 def get_extraction_information(patient_context):
