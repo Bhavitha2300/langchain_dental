@@ -120,6 +120,8 @@ def main(patient_id: str):
     extraction_complexity, wound_size = get_extraction_information(patient_context)
     chat_history = InMemoryChatMessageHistory()
     print()
+    print("You can now ask clinical questions.")
+    print("Type exit to end the conversation.")
     while True:
         print()
         question = typer.prompt("Enter your clinical question")
