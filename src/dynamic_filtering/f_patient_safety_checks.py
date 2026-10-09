@@ -8,8 +8,7 @@ MEDICATION_CLASSES_PRESENT_IN_GUIDELINES = [
     "vitamin_k_antagonist",
     "low_molecular_weight_heparin",
     "unfractionated_heparin",
-    "antiplatelet"
-]
+    "antiplatelet"]
 
 # This function checks safety answers from the clinician
 def find_patient_safety_reasons(assessed_context: dict):
@@ -28,13 +27,9 @@ def find_patient_safety_reasons(assessed_context: dict):
         if answer not in ["yes", "no"]:
             safety_reasons.append({"reason": "missing_safety_information",
                                    "missing_information": [question]})
-
     if patient_safety.get("medical_history_and_medicines_reviewed", "") == "no":
         safety_reasons.append({"reason": "clinical_information_not_reviewed",
                                "message": "Review the patient's medical history and medicines before continuing."})
-    if patient_safety.get("medication_list_reviewed", "") == "no":
-        safety_reasons.append({"reason": "medication_list_not_reviewed",
-                               "message": "Review medication list before continuing."})
     if patient_safety.get("high_risk_reason_for_anticoagulant", "") == "yes":
         safety_reasons.append({"reason": "high_risk_reason_for_anticoagulant",
                                "message": "The patient has a high-risk reason for taking anticoagulant or antiplatelet medicine. Clinician review is required before changing medication."})
@@ -47,7 +42,28 @@ def find_patient_safety_reasons(assessed_context: dict):
     if patient_safety.get("initial_high_dose_doac", "") == "yes":
         safety_reasons.append({"reason": "initial_high_dose_doac",
                                "message": "A procedure likely to cause bleeding should be delayed where possible until the patient is taking the standard dose."})
-
+    has_vitamin_k_antagonist = False
+    for medication in assessed_context.get("medications", []):
+        medication_class = medication.get("medication_class", "")
+        if medication_class == "vitamin_k_antagonist":
+            has_vitamin_k_antagonist = True
+    if has_vitamin_k_antagonist:
+        inr_value = patient_safety.get("inr_value", "")
+        inr_test_time = patient_safety.get("inr_test_time", "")
+        if inr_value == "":
+            safety_reasons.append({"reason": "inr_value_missing",
+                                   "message": "The patient's latest INR value is required."})
+        if not inr_test_time:
+            safety_reasons.append({"reason": "inr_test_time_missing",
+                                   "message": "The time of the latest INR test is required."})
+        elif inr_test_time == "more_than_72_hours":
+            safety_reasons.append({"reason": "inr_test_is_too_old",
+                                   "message": "The INR must be checked again before treatment."})
+        elif inr_test_time == "more_than_24_up_to_72_hours":
+            inr_is_stable = patient_safety.get("inr_is_stable", "")
+            if inr_is_stable != "yes":
+                safety_reasons.append({"reason": "inr_requires_recent_test",
+                                       "message": "The INR must be checked no more than 24 hours before treatment."})
     treatment_duration = patient_safety.get("antithrombotic_treatment_duration", "")
     treatment_duration = treatment_duration.strip().lower().replace(" ", "_")
     if treatment_duration not in ["long_term", "time_limited"]:

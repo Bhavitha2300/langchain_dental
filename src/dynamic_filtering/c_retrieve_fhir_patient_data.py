@@ -141,7 +141,7 @@ def get_fhir_patient_data(patient_id):
     return full_fhir_patient_details
 
 def preview_patient_data():
-    patient_id = "1256"
+    patient_id = "1301"
     fhir_patient_data = get_fhir_patient_data(patient_id)
     pprint.pprint(fhir_patient_data)
 
@@ -149,4 +149,4 @@ def preview_patient_data():
 if __name__ == "__main__":
     preview_patient_data()
 
-# Patient IDs: 1000, 1151, 1155, 1256
+# Patient IDs: 1000, 1151, 1155, 1256, 1301

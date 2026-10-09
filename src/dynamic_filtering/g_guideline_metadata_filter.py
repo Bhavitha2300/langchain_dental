@@ -22,6 +22,9 @@ def get_recommendation_subaspects(assessed_context):
     selected_subaspects = []
     bleeding_risks = get_bleeding_risks(assessed_context)
     medications = assessed_context.get("medications", [])
+    clinical_assessment = assessed_context.get("clinical_assessment", {})
+    patient_safety = clinical_assessment.get("patient_safety", {})
+    inr_value = patient_safety.get("inr_value", "")
     for medication in medications:
         if medication.get("terminology_status", "") != "mapped":
             continue
@@ -42,6 +45,11 @@ def get_recommendation_subaspects(assessed_context):
                         add_subaspect(selected_subaspects, "bleeding_around_doac_restart")
             elif medication_class == "vitamin_k_antagonist":
                 add_subaspect(selected_subaspects, "inr_testing_before_dental_treatment")
+                if inr_value != "":
+                    if float(inr_value) < 4:
+                        add_subaspect(selected_subaspects, "inr_below_4")
+                    else:
+                        add_subaspect(selected_subaspects, "inr_4_or_above")
             elif medication_class == "low_molecular_weight_heparin":
                 add_subaspect(selected_subaspects, "lmwh_prophylactic_dose")
             elif medication_class == "unfractionated_heparin":

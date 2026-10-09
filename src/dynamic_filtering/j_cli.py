@@ -97,6 +97,19 @@ def collect_safety_context(patient_context):
         safety_context["additional_bleeding_risk_condition"] = "no"
         safety_context["bleeding_history_concern"] = "no"
     medication_classes = get_medication_classes(patient_context)
+    # medication class: vitamin_k_antagonists
+    if "vitamin_k_antagonist" in medication_classes:
+        safety_context["inr_value"] = typer.prompt("Enter the patient's latest INR value", type=float)
+        safety_context["inr_test_time"] = ask_choice("When was the INR checked?", ["within_24_hours", "more_than_24_up_to_72_hours", "more_than_72_hours"])
+        if safety_context["inr_test_time"] == "more_than_24_up_to_72_hours":
+            print()
+            print("An INR checked more than 24 hours ago can only be used if:")
+            print("- The patient does not require weekly INR monitoring.")
+            print("- The patient has had no INR measurements above 4 during the previous two months.")
+            print("- There is no reason to believe the result no longer reflects the patient's current INR.")
+            print()
+            safety_context["inr_is_stable"] = ask_yes_no("Does the patient meet all these conditions?")
+    # medication class: DOAC
     if "doac" in medication_classes:
         safety_context["initial_high_dose_doac"] = ask_yes_no("Is the patient taking an initial high dose of a DOAC?")
     else:
