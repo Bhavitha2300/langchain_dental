@@ -8,7 +8,7 @@ from dynamic_filtering.i_final_LLM_recommendation import final_response
 # ask yes or no questions
 def ask_yes_no(question):
     while True:
-        answer = typer.prompt(question)
+        answer = typer.prompt(f"{question} (yes/no)")
         answer = answer.strip().lower()
         if answer in ["yes","y"]:
             return "yes"
@@ -17,12 +17,19 @@ def ask_yes_no(question):
         print("Please enter yes or no.")
 
 def ask_choice(question, allowed_values):
+    print(question)
+    option_number = 1
+    for value in allowed_values:
+        display_value = value.replace("_", " ")
+        print(f"{option_number}. {display_value}")
+        option_number = option_number + 1
     while True:
-        answer = typer.prompt(question)
-        answer = answer.strip().lower().replace(" ", "_")
-        if answer in allowed_values:
-            return answer
-        print(f"Please enter one of: {' or'.join(allowed_values)}")
+        answer = typer.prompt("Enter option number")
+        if answer.isdigit():
+            selected_number = int(answer)
+            if 1 <= selected_number <= len(allowed_values):
+                return allowed_values[selected_number - 1]
+            print(f"Please enter a number from 1 to {len(allowed_values)}.")
 
 
 def get_medication_classes(patient_context):
