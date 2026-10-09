@@ -72,6 +72,16 @@ def find_patient_safety_reasons(assessed_context: dict):
                 if usual_dose_time not in ["morning", "evening"]:
                     safety_reasons.append({"reason": "usual_dose_time_missing",
                                            "message": "Confirm whether the patient normally takes the medication in the morning or evening."})
+    has_low_molecular_weight_heparin = False
+    for medication in assessed_context.get("medications", []):
+        medication_class = medication.get("medication_class", "")
+        if medication_class == "low_molecular_weight_heparin":
+            has_low_molecular_weight_heparin = True
+    if has_low_molecular_weight_heparin:
+        lmwh_dose_category = patient_safety.get("lmwh_dose_category","")
+        if lmwh_dose_category not in ["prophylactic_low", "treatment_higher", "uncertain"]:
+            safety_reasons.append({"reason": "lmwh_dose_category_missing",
+                                   "message": "Confirm whether the LMWH dose is prophylactic, treatment, or uncertain."})
     has_vitamin_k_antagonist = False
     for medication in assessed_context.get("medications", []):
         medication_class = medication.get("medication_class", "")

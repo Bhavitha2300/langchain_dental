@@ -109,6 +109,11 @@ def collect_safety_context(patient_context):
             print("- There is no reason to believe the result no longer reflects the patient's current INR.")
             print()
             safety_context["inr_is_stable"] = ask_yes_no("Does the patient meet all these conditions?")
+    # medication class: low molecular weight heparin
+    if "low_molecular_weight_heparin" in medication_classes:
+        print()
+        print("If the LMWH dose category cannot be confirmed, choose uncertain.")
+        safety_context["lmwh_dose_category"] = ask_choice("What type of LMWH dose is the patient taking?",["prophylactic_low","treatment_higher","uncertain"])
     # medication class: DOAC
     doac_ingredients = []
     for medication in patient_context.get("medications", []):
