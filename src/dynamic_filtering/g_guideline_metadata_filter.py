@@ -22,6 +22,12 @@ def get_recommendation_subaspects(assessed_context):
     selected_subaspects = []
     bleeding_risks = get_bleeding_risks(assessed_context)
     medications = assessed_context.get("medications", [])
+    antiplatelet_ingredients = []
+    for medication in medications:
+        if medication.get("medication_class", "") == "antiplatelet":
+            ingredient_name = normalize_value(medication.get("ingredient_name", ""))
+            if (ingredient_name and ingredient_name not in antiplatelet_ingredients):
+                antiplatelet_ingredients.append(ingredient_name)
     clinical_assessment = assessed_context.get("clinical_assessment", {})
     patient_safety = clinical_assessment.get("patient_safety", {})
     inr_value = patient_safety.get("inr_value", "")
@@ -71,6 +77,10 @@ def get_recommendation_subaspects(assessed_context):
                 add_subaspect(selected_subaspects, "kidney_dialysis_and_heparin")
             elif medication_class == "antiplatelet":
                 add_subaspect(selected_subaspects, "single_or_dual_antiplatelet_therapy")
+                if (len(antiplatelet_ingredients) == 1 and ingredient_name == "aspirin"):
+                    add_subaspect(selected_subaspects,"aspirin_alone")
+                else:
+                    add_subaspect(selected_subaspects,"other_single_or_dual_antiplatelet_therapy")
     if selected_subaspects and "inr_4_or_above" not in selected_subaspects:
         add_subaspect(selected_subaspects, "schedule_treatment")
         add_subaspect(selected_subaspects, "atraumatic_treatment")

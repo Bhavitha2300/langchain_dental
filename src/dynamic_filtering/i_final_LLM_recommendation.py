@@ -112,12 +112,16 @@ def preview_final_response():
     patient_id = "1256"
     safety_context = {
         "medical_history_and_medicines_reviewed": "yes",
-        "high_risk_reason_for_anticoagulant": "no",
+        "therapy_must_not_be_interrupted": "no",
         "additional_bleeding_risk_condition": "no",
         "bleeding_history_concern": "no",
+        "urgent_dental_procedure": "no",
+        "morning_doac_dose_already_taken": "no",
         "initial_high_dose_doac": "no",
+        "usual_dose_time": "morning",
         "antithrombotic_treatment_duration": "long_term"
     }
+
     question = "Can this patient proceed with the planned dental procedure?"
     answer = final_response(patient_id=patient_id,question=question,safety_context=safety_context)
     print(answer)

@@ -20,8 +20,7 @@ def find_patient_safety_reasons(assessed_context: dict):
         "medical_history_and_medicines_reviewed",
         "therapy_must_not_be_interrupted",
         "additional_bleeding_risk_condition",
-        "bleeding_history_concern"
-    ]
+        "bleeding_history_concern"]
     for question in required_questions:
         answer = patient_safety.get(question, "")
         if answer not in ["yes", "no"]:
@@ -100,7 +99,6 @@ def find_patient_safety_reasons(assessed_context: dict):
     if treatment_duration not in ["long_term", "time_limited"]:
         safety_reasons.append({"reason": "missing_safety_information",
                                "missing_information": ["antithrombotic_treatment_duration"]})
-
     return safety_reasons
 
 def find_nsaid_safety_warnings(assessed_context):
@@ -112,13 +110,11 @@ def find_nsaid_safety_warnings(assessed_context):
             medication_name = medication.get("medication_name", "")
             safety_warnings.append({"reason": "nsaid_may_increase_bleeding_risk",
                                     "message": f"{medication_name} may increase bleeding risk."})
-
     return safety_warnings
 
 def find_safety_warnings(assessed_context):
     safety_warnings = []
     safety_warnings.extend(find_nsaid_safety_warnings(assessed_context))
-
     return safety_warnings
 
 def find_blocking_reasons(assessed_context):
@@ -158,8 +154,7 @@ def find_blocking_reasons(assessed_context):
             "doac",
             "vitamin_k_antagonist",
             "low_molecular_weight_heparin",
-            "unfractionated_heparin"
-        ]:
+            "unfractionated_heparin"]:
             if ingredient_name not in anticoagulants:
                 anticoagulants.append(ingredient_name)
         if medication_class == "antiplatelet":
@@ -169,16 +164,13 @@ def find_blocking_reasons(assessed_context):
         blocking_reasons.append({ "reason": "anticoagulant_and_antiplatelet_combination",
                                   "message": "Anticoagulant and antiplatelet combination therapy needs clinician review."})
     if len(anticoagulants) > 1:
-        blocking_reasons.append({
-            "reason": "multiple_anticoagulants",
-            "message": "Multiple anticoagulants need clinician review."
-        })
+        blocking_reasons.append({"reason": "multiple_anticoagulants",
+                                 "message": "Multiple anticoagulants need clinician review."})
     return blocking_reasons
 
 def preview_patient_safety_checks():
     import pprint
     from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
-
     patient_id = "1256"
     assessed_context = assess_patient_context(patient_id)
     assessed_context["clinical_assessment"]["patient_safety"] = {
@@ -186,12 +178,14 @@ def preview_patient_safety_checks():
         "therapy_must_not_be_interrupted": "no",
         "additional_bleeding_risk_condition": "no",
         "bleeding_history_concern": "no",
+        "urgent_dental_procedure": "no",
+        "morning_doac_dose_already_taken": "no",
         "initial_high_dose_doac": "no",
-        "antithrombotic_treatment_duration": "time_limited"
+        "usual_dose_time": "morning",
+        "antithrombotic_treatment_duration": "long_term"
     }
     print("Safety warnings:")
     pprint.pprint(find_safety_warnings(assessed_context))
-    print()
     print("Blocking reasons:")
     pprint.pprint(find_blocking_reasons(assessed_context))
 
