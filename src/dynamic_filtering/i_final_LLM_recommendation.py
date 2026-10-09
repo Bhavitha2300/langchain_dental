@@ -56,7 +56,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     }
     patient_context_json = json.dumps(relevant_patient_context)
     guideline_context = format_guideline_documents(documents)
-    chat_model = ChatOpenAI(model="gpt-4o-mini")
+    chat_model = ChatOpenAI(model="gpt-4o-mini",temperature=0)
     prompt = ChatPromptTemplate.from_messages([
             ("system","""
                         You are a dental clinical decision support system.
@@ -81,6 +81,10 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
                         - Mention the guideline name and section.
                         - Mention recommendation strength and evidence certainty when available.
                         - Return the output in formatted plain text.
+                        - If the guideline says to consult the prescribing clinician, do not say that the patient can proceed, may proceed, or that proceeding is appropriate.
+                        - Do not use the absence of additional bleeding-risk conditions as permission to proceed.
+                        - Clearly state that the decision about proceeding must wait for assessment by the prescribing clinician.
+                        - Do not add practical advice unless it is present in the retrieved guideline content.
                         """),
         MessagesPlaceholder(variable_name="chat_history"),
         ("human","""

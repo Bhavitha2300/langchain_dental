@@ -31,13 +31,7 @@ def ask_choice(question, allowed_values):
                 return allowed_values[selected_number - 1]
             print(f"Please enter a number from 1 to {len(allowed_values)}.")
 
-
 def get_medication_classes(patient_context):
-    """
-
-    :param patient_context:
-    :return:
-    """
     medication_classes = []
     medications = patient_context.get("medications", [])
     for medication in medications:
@@ -109,9 +103,7 @@ def collect_safety_context(patient_context):
         if safety_context["inr_test_time"] == "more_than_24_up_to_72_hours":
             print()
             print("An INR checked more than 24 hours ago can only be used if:")
-            print("- The patient does not require weekly INR monitoring.")
-            print("- The patient has had no INR measurements above 4 during the previous two months.")
-            print("- There is no reason to believe the result no longer reflects the patient's current INR.")
+            print("- The patient does not require weekly INR monitoring. The patient has had no INR measurements above 4 during the previous two months. There is no reason to believe the result no longer reflects the patient's current INR.")
             print()
             safety_context["inr_is_stable"] = ask_yes_no("Does the patient meet all these conditions?")
     # medication class: low molecular weight heparin

@@ -131,7 +131,7 @@ def build_metadata_filters(assessed_context):
 def preview_guideline_filters():
     import pprint
     from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
-    patient_id = "1256"
+    patient_id = "1306"
     assessed_context = assess_patient_context(patient_id)
     print("Selected subaspects:")
     pprint.pprint(get_recommendation_subaspects(assessed_context))
