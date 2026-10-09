@@ -91,9 +91,11 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     ])
 
     chain = prompt | chat_model
+    def get_chat_history(session_id):
+        return chat_history
     chain_with_history = RunnableWithMessageHistory(
         chain,
-        lambda session_id: chat_history,
+        get_chat_history,
         input_messages_key="question",
         history_messages_key="chat_history"
     )
