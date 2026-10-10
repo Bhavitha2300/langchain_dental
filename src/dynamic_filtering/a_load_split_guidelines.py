@@ -27,12 +27,10 @@ def load_documents():
         aspect = section.get("aspect", "")
         section_title = section.get("title", "")
         subsections = section.get("subsections", [])
-
         for subsection in subsections:
             content = subsection.get("content", "").strip()
             if not content:
                 continue
-
             metadata = {
                 "document_id": document_id,
                 "document_title": document_title,
@@ -48,10 +46,8 @@ def load_documents():
                 "source_section": subsection.get("source_section", ""),
                 "record_type": subsection.get("record_type", "")
             }
-
             if subsection.get("source_table"):
                 metadata["source_table"] = subsection["source_table"]
-
             single_value_fields = [
                 "recommendation_type",
                 "medication_action",
@@ -68,12 +64,10 @@ def load_documents():
                 "medication_context",
                 "patient_bleeding_risk_factor"
             ]
-
             for field in single_value_fields:
                 value = subsection.get(field)
                 if value:
                     metadata[field] = normalize_value(value)
-
             list_value_fields = [
                 "medications",
                 "medication_classes",
@@ -90,45 +84,33 @@ def load_documents():
                 "combination_trade_names",
                 "examples"
             ]
-
             for field in list_value_fields:
                 values = subsection.get(field, [])
                 if values:
                     normalized_values = []
                     for value in values:
                         normalized_values.append(normalize_value(value))
-
                     metadata[field] = normalized_values
-
             interactions = subsection.get("interactions", [])
-
             if interactions:
                 interacting_drugs = []
                 interaction_effects = []
-
                 for interaction in interactions:
                     interacting_drug = interaction.get("interacting_drug", "")
                     possible_effect = interaction.get("possible_effect", "")
-
                     if interacting_drug:
                         interacting_drugs.append(normalize_value(interacting_drug))
-
                     if possible_effect:
                         interaction_effects.append(normalize_value(possible_effect))
-
                 metadata["interacting_drugs"] = interacting_drugs
                 metadata["interaction_effects"] = interaction_effects
-
             page_content = f"""
     Guideline: {document_title}
     Section: {section_title}
     Subsection: {subsection.get("title", "")}
-
     {content}""".strip()
-
             document = Document(page_content=page_content, metadata=metadata)
             documents.append(document)
-
     recursive_character_text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=80)
     split_documents = recursive_character_text_splitter.split_documents(documents=documents)
 
@@ -137,7 +119,6 @@ def load_documents():
 
 def preview_documents():
     documents = load_documents()
-
     for document in documents:
         print("Metadata:")
         print(document.metadata)
