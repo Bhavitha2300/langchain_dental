@@ -22,7 +22,7 @@ def classify_clinician_question(question):
     return question_type
 
 def preview_question_type():
-    question = "What patient are we talking about?"
+    question = "should i proceed with the dental treatment?"
     question_type = classify_clinician_question(question)
     print(question_type)
 

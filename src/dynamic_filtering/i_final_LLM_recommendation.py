@@ -45,7 +45,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     if question_type == "treatment_recommendation":
         response_instructions = """Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty."""
     elif question_type == "guideline_explanation":
-        response_instructions = """ Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation. """
+        response_instructions = """ Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. """
     elif question_type == "patient_information":
         response_instructions = """Answer only the question about the patient. Use only the structured patient context. Do not provide a clinical recommendation. Do not explain or mention the retrieved guideline."""
     else:
