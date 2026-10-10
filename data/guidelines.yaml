@@ -14,42 +14,6 @@ procedure_assessment_rules:
 
   tooth_extraction:
 
-    clinician_inputs:
-
-      extraction_complexity:
-        question: What is the expected extraction complexity?
-
-        options:
-          - value: simple
-            label: Simple extraction
-
-          - value: complex
-            label: Complex extraction
-
-          - value: surgical
-            label: Surgical extraction
-
-          - value: ""
-            label: Unsure - requires clinician review
-
-      wound_size:
-        question: What is the expected wound size?
-
-        options:
-          - value: restricted
-            label: Restricted wound size
-
-          - value: large
-            label: Large wound size
-
-          - value: ""
-            label: Unsure - requires clinician review
-
-    required_information:
-      - number_of_teeth
-      - extraction_complexity
-      - wound_size
-
     missing_information_result:
       procedure_type: tooth_extraction
       classification_status: needs_clinician_confirmation

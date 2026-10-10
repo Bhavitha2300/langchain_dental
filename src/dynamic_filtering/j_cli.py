@@ -166,7 +166,7 @@ def main(patient_id: str):
         if question.strip().lower() == "exit":
             print("Conversation ended.")
             break
-        question_type, confidence = classify_clinician_question(question)
+        question_type = classify_clinician_question(question)
         answer = final_response(
             patient_id=patient_id,
             question=question,
