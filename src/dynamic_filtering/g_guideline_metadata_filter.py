@@ -43,6 +43,8 @@ def get_recommendation_subaspects(assessed_context):
         add_subaspect(selected_subaspects, "additional_medical_or_medication_risk")
     if patient_safety.get("bleeding_history_concern", "") == "yes":
         add_subaspect(selected_subaspects, "assess_bleeding_history")
+    if patient_safety.get("therapy_must_not_be_interrupted", "") == "yes":
+        add_subaspect(selected_subaspects,"therapy_that_should_not_be_interrupted")
     if has_anticoagulant and has_antiplatelet:
         add_subaspect( selected_subaspects,"dental_treatment_with_combination_therapy")
         return selected_subaspects
@@ -62,8 +64,6 @@ def get_recommendation_subaspects(assessed_context):
         medication_class = medication.get("medication_class", "")
         ingredient_name = normalize_value(medication.get("ingredient_name", ""))
         for bleeding_risk in bleeding_risks:
-            if therapy_must_not_be_interrupted == "yes":
-                add_subaspect(selected_subaspects,"therapy_that_should_not_be_interrupted")
             if medication_class == "doac":
                 if bleeding_risk == "low":
                     add_subaspect(selected_subaspects,"doac_low_risk_procedure")

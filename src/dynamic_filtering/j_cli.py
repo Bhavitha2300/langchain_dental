@@ -4,6 +4,7 @@ import typer
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from dynamic_filtering.d_medication_terminology import add_medication_class_to_fhir_patient_data
 from dynamic_filtering.i_final_LLM_recommendation import final_response
+from dynamic_filtering.k_jev import classify_clinician_question
 
 # ask yes or no questions
 def ask_yes_no(question):
@@ -165,14 +166,15 @@ def main(patient_id: str):
         if question.strip().lower() == "exit":
             print("Conversation ended.")
             break
+        question_type, confidence = classify_clinician_question(question)
         answer = final_response(
             patient_id=patient_id,
             question=question,
             extraction_complexity=extraction_complexity,
             wound_size=wound_size,
             safety_context=safety_context,
-            chat_history=chat_history
-        )
+            chat_history=chat_history,
+            question_type = question_type)
         print()
         print(answer)
 

@@ -40,6 +40,16 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
         safety_context = {}
     if chat_history is None:
         chat_history = InMemoryChatMessageHistory()
+    if question_type == "other":
+        return "Please ask a question about this patient's dental treatment."
+    if question_type == "treatment_recommendation":
+        response_instructions = """Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty."""
+    elif question_type == "guideline_explanation":
+        response_instructions = """ Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation. """
+    elif question_type == "patient_information":
+        response_instructions = """Answer only the question about the patient. Use only the structured patient context. Do not provide a clinical recommendation. Do not explain or mention the retrieved guideline."""
+    else:
+        response_instructions = """Answer the question using the patient context and retrieved guideline."""
 
     retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context)
 
@@ -56,36 +66,27 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     }
     patient_context_json = json.dumps(relevant_patient_context)
     guideline_context = format_guideline_documents(documents)
+    if question_type == "patient_information":
+        guideline_context = ""
     chat_model = ChatOpenAI(model="gpt-4o-mini")
     prompt = ChatPromptTemplate.from_messages([
-            ("system","""
-                        You are a dental clinical decision support system.
-
-                        Answer the clinical question using only:
-                        1. The structured patient context.
-                        2. The deterministic clinical assessment.
-                        3. The retrieved SDCEP guideline content.
-
-                        Rules:
-                        - Do not add medical information that is not given here.
-                        - Do not create or guess medication, diagnosis or procedure codes.
-                        - Do not change the procedure bleeding-risk classification.
-                        - Do not create a medication recommendation that is not stated in the retrieved guideline.
-                        - Use the chat history only to understand follow-up questions.
-                        - Always base clinical recommendations on the current patient context, clinical assessment and retrieved guideline content.
-                        - Explain that the result is decision support and requires clinician judgement.
-                        - Clearly state the patient's relevant medication, medication class and planned procedure.
-                        - Clearly state the assessed postoperative bleeding risk.
-                        - Explain the guideline-supported medication action.
-                        - Include practical management considerations found in the retrieved guideline.
-                        - Mention the guideline name and section.
-                        - Mention recommendation strength and evidence certainty when available.
-                        - Return the output in formatted plain text.
-                        - If the guideline says to consult the prescribing clinician, do not say that the patient can proceed, may proceed, or that proceeding is appropriate.
-                        - Do not use the absence of additional bleeding-risk conditions as permission to proceed.
-                        - Clearly state that the decision about proceeding must wait for assessment by the prescribing clinician.
-                        - Do not add practical advice unless it is present in the retrieved guideline content.
-                        """),
+        ("system", """
+            You are a dental clinical decision support system.
+            Answer using only:
+            1. The structured patient context.
+            2. The deterministic clinical assessment.
+            3. The retrieved SDCEP guideline content.
+            Rules:
+            - Do not add medical information that is not provided.
+            - Do not create or guess medication, diagnosis or procedure codes.
+            - Do not change the procedure bleeding-risk classification.
+            - Do not create a medication recommendation that is not stated in the retrieved guideline.
+            - Use the chat history only to understand follow-up questions.
+            - Explain that the result requires clinician judgement when giving a clinical recommendation.
+            - If the guideline says to consult the prescribing clinician, do not say that the treatment can be continued.
+            - Do not add practical advice unless it is present in the retrieved guideline.
+            Response instructions: {response_instructions}
+            """),
         MessagesPlaceholder(variable_name="chat_history"),
         ("human","""
                 Patient context:{patient_context}
@@ -106,11 +107,11 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     response = chain_with_history.invoke({
         "patient_context": patient_context_json,
         "guideline_context": guideline_context,
-        "question": question},
+        "question": question,
+        "response_instructions": response_instructions},
         config={"configurable": {"session_id": patient_id}})
 
     return response.content
-
 
 def preview_final_response():
     patient_id = "1256"
@@ -125,7 +126,6 @@ def preview_final_response():
         "usual_dose_time": "morning",
         "antithrombotic_treatment_duration": "long_term"
     }
-
     question = "Can this patient proceed with the planned dental procedure?"
     answer = final_response(patient_id=patient_id,question=question,safety_context=safety_context)
     print(answer)
