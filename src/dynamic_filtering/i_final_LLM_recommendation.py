@@ -35,7 +35,7 @@ def format_guideline_documents(documents):
     return guideline_context
 
 
-def final_response(patient_id,question,extraction_complexity="",wound_size="",safety_context=None,chat_history=None):
+def final_response(patient_id,question,extraction_complexity="",wound_size="",safety_context=None,chat_history=None,question_type="treatment_recommendation"):
     if safety_context is None:
         safety_context = {}
     if chat_history is None:
@@ -56,7 +56,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     }
     patient_context_json = json.dumps(relevant_patient_context)
     guideline_context = format_guideline_documents(documents)
-    chat_model = ChatOpenAI(model="gpt-4o-mini",temperature=0)
+    chat_model = ChatOpenAI(model="gpt-4o-mini")
     prompt = ChatPromptTemplate.from_messages([
             ("system","""
                         You are a dental clinical decision support system.

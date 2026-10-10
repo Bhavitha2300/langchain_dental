@@ -36,11 +36,16 @@ def get_recommendation_subaspects(assessed_context):
             has_antiplatelet = True
             if ingredient_name not in antiplatelet_ingredients:
                 antiplatelet_ingredients.append(ingredient_name)
+    clinical_assessment = assessed_context.get("clinical_assessment", {})
+    patient_safety = clinical_assessment.get("patient_safety", {})
+    if patient_safety.get("additional_bleeding_risk_condition", "") == "yes":
+        add_subaspect(selected_subaspects, "assess_medical_conditions")
+        add_subaspect(selected_subaspects, "additional_medical_or_medication_risk")
+    if patient_safety.get("bleeding_history_concern", "") == "yes":
+        add_subaspect(selected_subaspects, "assess_bleeding_history")
     if has_anticoagulant and has_antiplatelet:
         add_subaspect( selected_subaspects,"dental_treatment_with_combination_therapy")
         return selected_subaspects
-    clinical_assessment = assessed_context.get("clinical_assessment", {})
-    patient_safety = clinical_assessment.get("patient_safety", {})
     inr_value = patient_safety.get("inr_value", "")
     usual_dose_time = patient_safety.get("usual_dose_time", "")
     therapy_must_not_be_interrupted = patient_safety.get("therapy_must_not_be_interrupted","")

@@ -29,12 +29,6 @@ def find_patient_safety_reasons(assessed_context: dict):
     if patient_safety.get("medical_history_and_medicines_reviewed", "") == "no":
         safety_reasons.append({"reason": "clinical_information_not_reviewed",
                                "message": "Review the patient's medical history and medicines before continuing."})
-    if patient_safety.get("additional_bleeding_risk_condition", "") == "yes":
-        safety_reasons.append({"reason": "additional_bleeding_risk_requires_review",
-                               "message": "A medical condition may increase the patient's bleeding risk. Clinician review is required."})
-    if patient_safety.get("bleeding_history_concern", "") == "yes":
-        safety_reasons.append({"reason": "bleeding_history_requires_review",
-                               "message": "The patient has a relevant history of prolonged or excessive bleeding."})
     has_anticoagulant = False
     has_antiplatelet = False
     for medication in assessed_context.get("medications", []):
