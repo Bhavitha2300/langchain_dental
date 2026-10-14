@@ -82,13 +82,12 @@ def collect_safety_context(patient_context):
     print()
     print("Patient safety questions:")
     safety_context["medical_history_and_medicines_reviewed"] = ask_yes_no("Have the patient's medical history and medicines been reviewed?")
-    extra_risk_present = ask_yes_no("Does the patient have any extra condition that may increase bleeding risk or make anticoagulant management more complicated?")
+    safety_context["therapy_must_not_be_interrupted"] = ask_yes_no( "Does the patient have a prosthetic metal heart valve, coronary stent, DVT or PE within the last 3 months, or anticoagulation for cardioversion?")
+    extra_risk_present = ask_yes_no("Does the patient have any extra condition that may increase bleeding risk?")
     if extra_risk_present == "yes":
-        safety_context["therapy_must_not_be_interrupted"] = ask_yes_no("Does the patient have a prosthetic metal heart valve, coronary stent, DVT or PE within the last 3 months, or anticoagulation for cardioversion?")
         safety_context["additional_bleeding_risk_condition"] = ask_yes_no("Does the patient have renal disease, liver disease, bone marrow disorder, or another condition increasing bleeding risk?")
         safety_context["bleeding_history_concern"] = ask_yes_no("Does the patient have a history of prolonged or excessive bleeding?")
     else:
-        safety_context["therapy_must_not_be_interrupted"] = "no"
         safety_context["additional_bleeding_risk_condition"] = "no"
         safety_context["bleeding_history_concern"] = "no"
     medication_classes = get_medication_classes(patient_context)

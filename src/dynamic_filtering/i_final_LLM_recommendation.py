@@ -43,11 +43,11 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     if question_type == "other":
         return "Please ask a question about this patient's dental treatment."
     if question_type == "treatment_recommendation":
-        response_instructions = """Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty."""
+        response_instructions = "Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure,procedure bleeding risk, guideline action, practical management advice, medication restart instructions, guideline section, recommendation strength and evidence certainty.Include staged treatment advice when it is present in the guideline."
     elif question_type == "guideline_explanation":
-        response_instructions = """ Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. """
+        response_instructions = " Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. "
     elif question_type == "patient_information":
-        response_instructions = """Answer only the question about the patient. Use only the structured patient context. Do not provide a clinical recommendation. Do not explain or mention the retrieved guideline."""
+        response_instructions = "Answer only the question about the patient. Use only the structured patient context. Do not provide a treatment recommendation. Do not mention the retrieved guideline. Do not add management advice or a conclusion."
     else:
         response_instructions = """Answer the question using the patient context and retrieved guideline."""
 
@@ -80,6 +80,8 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
             - Do not add medical information that is not provided.
             - Do not create or guess medication, diagnosis or procedure codes.
             - Do not change the procedure bleeding-risk classification.
+            - The bleeding-risk classification belongs to the planned dental procedure. Do not say that the medication caused this classification.
+            - Include medication restart timing and staged treatment advice when they are present in the retrieved guideline.
             - Do not create a medication recommendation that is not stated in the retrieved guideline.
             - Use the chat history only to understand follow-up questions.
             - Explain that the result requires clinician judgement when giving a clinical recommendation.
