@@ -43,7 +43,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     if question_type == "other":
         return "Please ask a question about this patient's dental treatment."
     if question_type == "treatment_recommendation":
-        response_instructions = "Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure,procedure bleeding risk, guideline action, practical management advice, medication restart instructions, guideline section, recommendation strength and evidence certainty.Include staged treatment advice when it is present in the guideline."
+        response_instructions = "Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, procedure bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty. Include the action from every retrieved guideline section. Do not leave out an instruction to delay treatment. Include medication restart instructions and staged treatment advice only when they are present in the retrieved guideline."
     elif question_type == "guideline_explanation":
         response_instructions = " Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. "
     elif question_type == "patient_information":
@@ -68,7 +68,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     guideline_context = format_guideline_documents(documents)
     if question_type == "patient_information":
         guideline_context = ""
-    chat_model = ChatOpenAI(model="gpt-4o-mini")
+    chat_model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
     prompt = ChatPromptTemplate.from_messages([
         ("system", """
             You are a dental clinical decision support system.
@@ -83,10 +83,18 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
             - The bleeding-risk classification belongs to the planned dental procedure. Do not say that the medication caused this classification.
             - Include medication restart timing and staged treatment advice when they are present in the retrieved guideline.
             - Do not create a medication recommendation that is not stated in the retrieved guideline.
+            - If the clinician confirms that therapy must not be interrupted, do not guess which medical condition caused that answer.
+            - Use the clinician role stated in the retrieved guideline. Do not replace cardiologist with prescribing clinician.
             - Use the chat history only to understand follow-up questions.
             - Explain that the result requires clinician judgement when giving a clinical recommendation.
             - If the guideline says to consult the prescribing clinician, do not say that the treatment can be continued.
             - Do not add practical advice unless it is present in the retrieved guideline.
+            - Use every retrieved guideline section that applies to the patient.
+            - If a retrieved guideline section advises delaying the procedure, do not say to proceed without clearly stating that delay.
+            - Describe the procedure as having a higher postoperative bleeding risk. Do not say that the medication caused the procedure classification.
+            - Preserve important conditions from the guideline, such as "unless contraindicated", "where possible", and medication timing requirements.
+            - Do not add headings or sections for information that is not present or not applicable.
+            - Clearly distinguish between delaying a medication dose and delaying the dental procedure. Do not say to delay the procedure when the guideline only says to delay the medication dose.
             Response instructions: {response_instructions}
             """),
         MessagesPlaceholder(variable_name="chat_history"),

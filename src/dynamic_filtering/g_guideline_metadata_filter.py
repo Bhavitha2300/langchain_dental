@@ -51,6 +51,9 @@ def get_recommendation_subaspects(assessed_context):
     inr_value = patient_safety.get("inr_value", "")
     usual_dose_time = patient_safety.get("usual_dose_time", "")
     therapy_must_not_be_interrupted = patient_safety.get("therapy_must_not_be_interrupted","")
+    initial_high_dose_doac = patient_safety.get("initial_high_dose_doac", "")
+    if initial_high_dose_doac == "yes":
+        add_subaspect(selected_subaspects, "acute_dvt_or_pe_high_dose_doac")
     urgent_dental_procedure = patient_safety.get("urgent_dental_procedure","")
     morning_doac_dose_already_taken = patient_safety.get("morning_doac_dose_already_taken","")
     treatment_duration = patient_safety.get("antithrombotic_treatment_duration","")
@@ -65,6 +68,8 @@ def get_recommendation_subaspects(assessed_context):
         ingredient_name = normalize_value(medication.get("ingredient_name", ""))
         for bleeding_risk in bleeding_risks:
             if medication_class == "doac":
+                if initial_high_dose_doac == "yes":
+                    continue
                 if bleeding_risk == "low":
                     add_subaspect(selected_subaspects,"doac_low_risk_procedure")
                 elif bleeding_risk == "higher":

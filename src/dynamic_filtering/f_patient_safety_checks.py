@@ -39,9 +39,6 @@ def find_patient_safety_reasons(assessed_context: dict):
             has_antiplatelet = True
     if has_anticoagulant and has_antiplatelet:
         return safety_reasons
-    if patient_safety.get("initial_high_dose_doac", "") == "yes":
-        safety_reasons.append({"reason": "initial_high_dose_doac",
-                               "message": "A procedure likely to cause bleeding should be delayed where possible until the patient is taking the standard dose."})
     doac_ingredients = []
     for medication in assessed_context.get("medications", []):
         if medication.get("medication_class", "") == "doac":
