@@ -66,7 +66,9 @@ def get_fhir_patient_data(patient_id):
         condition_coding = find_coding(condition_code_object, SNOMED_SYSTEM)
         condition_code = condition_coding.get("code", "")
         condition_code_system = condition_coding.get("system", "")
-        condition_status = condition_resource.get("clinicalStatus", {}).get("coding", [{}])[0].get("code", "")
+        condition_status_object = condition_resource.get("clinicalStatus", {})
+        condition_status_coding = find_coding(condition_status_object,"http://terminology.hl7.org/CodeSystem/condition-clinical")
+        condition_status = condition_status_coding.get("code", "")
         condition_name = condition_coding.get("display", "") or condition_code_object.get("text", "")
         body_site = condition_resource.get("bodySite", [{}])[0].get("text", "")
         notes = []
