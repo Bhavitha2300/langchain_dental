@@ -9,25 +9,25 @@ SNOMED_SYSTEM = "http://snomed.info/sct"
 
 def get_patient(patient_id):
     url = f"{FHIR_BASE_URL}/Patient/{patient_id}"
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     response.raise_for_status()
     return response.json()
 
 def get_conditions(patient_id):
     url = f"{FHIR_BASE_URL}/Condition"
-    response = requests.get(url, params={"patient": patient_id})
+    response = requests.get(url, params={"patient": patient_id}, timeout=10)
     response.raise_for_status()
     return response.json()
 
 def get_medications(patient_id):
     url = f"{FHIR_BASE_URL}/MedicationRequest"
-    response = requests.get(url, params={"patient": patient_id})
+    response = requests.get(url, params={"patient": patient_id}, timeout=10)
     response.raise_for_status()
     return response.json()
 
 def get_service_requests(patient_id):
     url = f"{FHIR_BASE_URL}/ServiceRequest"
-    response = requests.get(url, params={"patient": patient_id})
+    response = requests.get(url, params={"patient": patient_id}, timeout=10)
     response.raise_for_status()
     return response.json()
 
