@@ -85,6 +85,8 @@ def get_fhir_patient_data(patient_id):
         medication_status = medication_resource.get("status", "")
         if medication_status != "active":
             continue
+        if medication_resource.get("doNotPerform", False):
+            continue
         medication_code_object = medication_resource.get("medicationCodeableConcept", {})
         medication_coding = medication_code_object.get("coding", [{}])[0]
         if medication_coding.get("system", "") != RXNORM_SYSTEM:
@@ -116,6 +118,8 @@ def get_fhir_patient_data(patient_id):
         procedure_resource = each_entry.get("resource", {})
         procedure_status = procedure_resource.get("status", "")
         if procedure_status != "active":
+            continue
+        if procedure_resource.get("doNotPerform", False):
             continue
         procedure_code_object = procedure_resource.get("code", {})
         procedure_coding = procedure_code_object.get("coding", [{}])[0]
