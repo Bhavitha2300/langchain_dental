@@ -23,19 +23,20 @@ def find_procedure_type(procedure_code, value_sets):
     if not procedure_code:
         return ""
     procedure_value_sets = value_sets.get("procedure_value_sets", {})
+    # first check the codes in value sets
+    for procedure_type, procedure_details in procedure_value_sets.items():
+        root_code = procedure_details.get("root_code", "")
+        if procedure_code == root_code:
+            return procedure_type
+    # if no code matches then check using Hermes.
+    url = f"{HERMES_BASE_URL}/v1/snomed/expand"
     for procedure_type, procedure_details in procedure_value_sets.items():
         root_code = procedure_details.get("root_code", "")
         ecl = procedure_details.get("ecl", f"<< {root_code}")
-        # If procedure code in fhir data is same as the procedure category in guidelines then give that
-        if procedure_code == root_code:
-            return procedure_type
-
-        url = f"{HERMES_BASE_URL}/v1/snomed/expand"
         ecl_query = f"({ecl}) AND {procedure_code}"
         response = requests.get(url, params={"ecl": ecl_query}, timeout=10)
         response.raise_for_status()
-        matching_procedures = response.json()
-        if matching_procedures:
+        if response.json():
             return procedure_type
     return ""
 
@@ -44,7 +45,6 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
     extraction_complexity = extraction_complexity.strip().lower()
     wound_size = wound_size.strip().lower()
     extraction_rules = guidelines.get("procedure_assessment_rules", {}).get("tooth_extraction", {})
-
     missing_information = []
     if quantity is None or quantity == "":
         missing_information.append("number_of_teeth")
@@ -72,7 +72,6 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
         allowed_wound_sizes = rule.get("wound_size", [])
         minimum_teeth = rule.get("minimum_teeth")
         maximum_teeth = rule.get("maximum_teeth")
-
         if allowed_complexities and extraction_complexity not in allowed_complexities:
             continue
         if allowed_wound_sizes and wound_size not in allowed_wound_sizes:
@@ -82,13 +81,11 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
         if maximum_teeth is not None and quantity > maximum_teeth:
             continue
         result = rule.get("result", {}).copy()
-
         if "missing_information" not in result:
             result["missing_information"] = []
         return result
 
     return extraction_rules.get("no_matching_rule_result", {}).copy()
-
 
 def assess_other_procedure(procedure_type, guidelines):
     procedure_rules = guidelines.get("procedure_assessment_rules", {}).get(procedure_type, {})
@@ -107,7 +104,6 @@ def assess_patient_context(patient_id, extraction_complexity="", wound_size=""):
     patient_context = add_medication_class_to_fhir_patient_data(patient_id)
     value_sets = load_value_sets()
     guidelines = load_guidelines()
-
     procedure_assessments = []
     for procedure in patient_context.get("planned_procedures", []):
         procedure_code = procedure.get("code", "")
@@ -117,8 +113,7 @@ def assess_patient_context(patient_id, extraction_complexity="", wound_size=""):
                 "classification_status": "procedure_code_missing",
                 "missing_information": ["procedure_code"],
                 "procedure_category": "",
-                "postoperative_bleeding_risk": ""
-            }
+                "postoperative_bleeding_risk": ""}
         else:
             try:
                 procedure_type = find_procedure_type(procedure_code, value_sets)
@@ -132,16 +127,14 @@ def assess_patient_context(patient_id, extraction_complexity="", wound_size=""):
                         "classification_status": "procedure_not_identified_in_sdcep_guidelines",
                         "missing_information": [],
                         "procedure_category": "",
-                        "postoperative_bleeding_risk": ""
-                    }
+                        "postoperative_bleeding_risk": ""}
             except requests.RequestException:
                 procedure_assessment = {
                     "procedure_type": "",
                     "classification_status": "terminology_service_unavailable",
                     "missing_information": [],
                     "procedure_category": "",
-                    "postoperative_bleeding_risk": ""
-                }
+                    "postoperative_bleeding_risk": ""}
         procedure_assessment["procedure_name"] = procedure.get("procedure_name", "")
         procedure_assessment["procedure_code"] = procedure_code
         procedure_assessment["quantity"] = procedure.get("quantity", "")
