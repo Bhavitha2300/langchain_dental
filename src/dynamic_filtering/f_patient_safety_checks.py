@@ -99,9 +99,17 @@ def find_patient_safety_reasons(assessed_context: dict):
     if has_vitamin_k_antagonist:
         inr_value = patient_safety.get("inr_value", "")
         inr_test_time = patient_safety.get("inr_test_time", "")
-        if inr_value == "":
+        if inr_value is None or inr_value == "":
             safety_reasons.append({"reason": "inr_value_missing",
                                    "message": "The patient's latest INR value is required."})
+        else:
+            try:
+                inr_value = float(str(inr_value))
+            except ValueError:
+                inr_value = 0.0
+            if not (0 < inr_value < float("inf")):
+                safety_reasons.append({"reason": "invalid_inr_value",
+                                       "message": "Enter a valid INR value greater than zero."})
         if not inr_test_time:
             safety_reasons.append({"reason": "inr_test_time_missing",
                                    "message": "The time of the latest INR test is required."})

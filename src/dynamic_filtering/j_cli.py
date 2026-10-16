@@ -83,13 +83,10 @@ def collect_safety_context(patient_context):
     print("Patient safety questions:")
     safety_context["medical_history_and_medicines_reviewed"] = ask_yes_no("Have the patient's medical history and medicines been reviewed?")
     safety_context["therapy_must_not_be_interrupted"] = ask_yes_no( "Does the patient have a prosthetic metal heart valve, coronary stent, DVT or PE within the last 3 months, or anticoagulation for cardioversion?")
-    extra_risk_present = ask_yes_no("Does the patient have any extra condition that may increase bleeding risk?")
-    if extra_risk_present == "yes":
-        safety_context["additional_bleeding_risk_condition"] = ask_yes_no("Does the patient have renal disease, liver disease, bone marrow disorder, or another condition increasing bleeding risk?")
-        safety_context["bleeding_history_concern"] = ask_yes_no("Does the patient have a history of prolonged or excessive bleeding?")
-    else:
-        safety_context["additional_bleeding_risk_condition"] = "no"
-        safety_context["bleeding_history_concern"] = "no"
+    safety_context["additional_bleeding_risk_condition"] = ask_yes_no(
+        "Does the patient have renal disease, liver disease, bone marrow disorder, or another condition increasing bleeding risk?")
+    safety_context["bleeding_history_concern"] = ask_yes_no(
+        "Does the patient have a history of prolonged or excessive bleeding?")
     medication_classes = get_medication_classes(patient_context)
     has_anticoagulant = ("doac" in medication_classes or "vitamin_k_antagonist" in medication_classes or "low_molecular_weight_heparin" in medication_classes or "unfractionated_heparin" in medication_classes)
     has_antiplatelet = "antiplatelet" in medication_classes
@@ -137,7 +134,9 @@ def collect_safety_context(patient_context):
             and not urgent_after_morning_dose and safety_context["therapy_must_not_be_interrupted"] != "yes")
     if dose_time_is_needed:
         safety_context["usual_dose_time"] = ask_choice("When does the patient normally take this medication?",["morning", "evening"])
-    safety_context["antithrombotic_treatment_duration"] = ask_choice("Enter treatment duration: long_term or time_limited",["long_term", "time_limited"])
+    safety_context["antithrombotic_treatment_duration"] = ask_choice("Enter treatment duration: long_term or time_limited", ["long_term", "time_limited"])
+    if not doac_ingredients and safety_context["antithrombotic_treatment_duration"] == "time_limited":
+        safety_context["urgent_dental_procedure"] = ask_yes_no("Does the planned dental procedure need to be performed urgently?")
 
     return safety_context
 
