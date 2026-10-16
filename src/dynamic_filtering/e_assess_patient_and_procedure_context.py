@@ -32,7 +32,7 @@ def find_procedure_type(procedure_code, value_sets):
 
         url = f"{HERMES_BASE_URL}/v1/snomed/expand"
         ecl_query = f"({ecl}) AND {procedure_code}"
-        response = requests.get(url, params={"ecl": ecl_query})
+        response = requests.get(url, params={"ecl": ecl_query}, timeout=10)
         response.raise_for_status()
         matching_procedures = response.json()
         if matching_procedures:
