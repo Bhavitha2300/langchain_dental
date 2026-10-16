@@ -146,6 +146,9 @@ def find_blocking_reasons(assessed_context):
     if not planned_procedures:
         blocking_reasons.append({"reason": "no_planned_procedure",
                                  "message": "No planned dental procedure was found."})
+    elif not procedure_assessments:
+        blocking_reasons.append({"reason": "procedure_assessment_missing",
+                                 "message": "The planned dental procedure has not been assessed."})
     for procedure_assessment in procedure_assessments:
         classification_status = procedure_assessment.get("classification_status", "")
         if classification_status != "classified":
