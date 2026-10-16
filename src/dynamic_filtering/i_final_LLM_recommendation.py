@@ -51,7 +51,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     else:
         response_instructions = """Answer the question using the patient context and retrieved guideline."""
 
-    retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context)
+    retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context,question_type=question_type)
 
     if retrieval_result["status"] != "retrieved":
         return retrieval_result.get("blocking_message", "")
@@ -95,6 +95,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
             - Preserve important conditions from the guideline, such as "unless contraindicated", "where possible", and medication timing requirements.
             - Do not add headings or sections for information that is not present or not applicable.
             - Clearly distinguish between delaying a medication dose and delaying the dental procedure. Do not say to delay the procedure when the guideline only says to delay the medication dose.
+            - Do not decide by yourself whether the dental procedure should be delayed or can proceed. State only the procedure action and medication action present in the retrieved guideline.
             Response instructions: {response_instructions}
             """),
         MessagesPlaceholder(variable_name="chat_history"),

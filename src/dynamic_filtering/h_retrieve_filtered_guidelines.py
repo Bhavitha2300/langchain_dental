@@ -1,7 +1,7 @@
 # h_retrieve_filtered_guidelines.py
 
 import pprint
-from dynamic_filtering.b_vector_store import get_vector_store
+from dynamic_filtering.l_langgraph_retrieval import retrieve_documents
 from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 from dynamic_filtering.f_patient_safety_checks import find_safety_warnings, find_blocking_reasons
 from dynamic_filtering.g_guideline_metadata_filter import build_metadata_filters
@@ -22,7 +22,7 @@ def create_blocking_message(blocking_reasons):
 
     return "\n".join(message_lines)
 
-def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="", wound_size="", safety_context=None):
+def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="", wound_size="", safety_context=None, question_type="treatment_recommendation"):
     if safety_context is None:
         safety_context = {}
     assessed_context = assess_patient_context(patient_id, extraction_complexity=extraction_complexity, wound_size=wound_size)
@@ -42,35 +42,7 @@ def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="",
             "documents": []
         }
     metadata_filters = build_metadata_filters(assessed_context)
-    # if no metadata filters are built then return this
-    if not metadata_filters:
-        blocking_reasons = [{"reason": "metadata_filter_not_created",
-                             "message": "A guideline filter could not be created."}]
-        blocking_message = create_blocking_message(blocking_reasons)
-        return {
-            "status": "no_metadata_filters",
-            "patient_context": assessed_context,
-            "blocking_reasons": blocking_reasons,
-            "blocking_message": blocking_message,
-            "safety_warnings": safety_warnings,
-            "metadata_filters": None,
-            "documents": []
-        }
-    vector_store = get_vector_store()
-    documents = []
-    added_chunk_ids = []
-    for metadata_filter in metadata_filters:
-        retrieved_documents = vector_store.similarity_search(
-            query=question,
-            k=10,
-            filter=metadata_filter
-        )
-        for document in retrieved_documents:
-            chunk_id = document.metadata.get("chunk_id", "")
-            if chunk_id in added_chunk_ids:
-                continue
-            added_chunk_ids.append(chunk_id)
-            documents.append(document)
+    documents = retrieve_documents(question=question, question_type=question_type, metadata_filters=metadata_filters)
     # it no documents match then return this
     if not documents:
         blocking_reasons = [{"reason": "no_matching_recommendation",
@@ -109,8 +81,14 @@ def preview_retrieval():
         "antithrombotic_treatment_duration": "long_term"
     }
 
-    question = "Can this patient proceed with the planned dental procedure?"
-    result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,safety_context=safety_context)
+    question = "Why should the morning dose of rivaroxaban be delayed?"
+    question_type = "guideline_explanation"
+    result = retrieve_filtered_guidelines(
+        patient_id=patient_id,
+        question=question,
+        safety_context=safety_context,
+        question_type=question_type
+    )
     print("Status:")
     print(result["status"])
     print()

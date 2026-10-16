@@ -132,7 +132,6 @@ def build_metadata_filters(assessed_context):
                 {"subaspect": {"$eq": subaspect}}
             ]
         })
-
     if not metadata_filters:
         return None
 
