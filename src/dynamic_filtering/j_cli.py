@@ -30,7 +30,7 @@ def ask_choice(question, allowed_values):
             selected_number = int(answer)
             if 1 <= selected_number <= len(allowed_values):
                 return allowed_values[selected_number - 1]
-            print(f"Please enter a number from 1 to {len(allowed_values)}.")
+        print(f"Please enter a number from 1 to {len(allowed_values)}.")
 
 def get_medication_classes(patient_context):
     medication_classes = []
