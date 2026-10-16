@@ -31,6 +31,12 @@ def get_service_requests(patient_id):
     response.raise_for_status()
     return response.json()
 
+def find_coding(code_object, required_system):
+    for coding in code_object.get("coding", []):
+        if coding.get("system", "") == required_system:
+            return coding
+    return {}
+
 def get_fhir_patient_data(patient_id):
     patient = get_patient(patient_id)
     conditions = get_conditions(patient_id)
@@ -57,9 +63,7 @@ def get_fhir_patient_data(patient_id):
     for each_entry in condition_entries:
         condition_resource = each_entry.get("resource", {})
         condition_code_object = condition_resource.get("code", {})
-        condition_coding = condition_code_object.get("coding", [{}])[0]
-        if condition_coding.get("system", "") != SNOMED_SYSTEM:
-            condition_coding = {}
+        condition_coding = find_coding(condition_code_object, SNOMED_SYSTEM)
         condition_code = condition_coding.get("code", "")
         condition_code_system = condition_coding.get("system", "")
         condition_status = condition_resource.get("clinicalStatus", {}).get("coding", [{}])[0].get("code", "")
@@ -88,9 +92,7 @@ def get_fhir_patient_data(patient_id):
         if medication_resource.get("doNotPerform", False):
             continue
         medication_code_object = medication_resource.get("medicationCodeableConcept", {})
-        medication_coding = medication_code_object.get("coding", [{}])[0]
-        if medication_coding.get("system", "") != RXNORM_SYSTEM:
-            medication_coding = {}
+        medication_coding = find_coding(medication_code_object, RXNORM_SYSTEM)
         medication_name = medication_code_object.get("text", "") or medication_coding.get("display", "")
         dosage = medication_resource.get("dosageInstruction", [{}])[0]
         timing = dosage.get("timing", {}).get("repeat", {})
@@ -122,9 +124,7 @@ def get_fhir_patient_data(patient_id):
         if procedure_resource.get("doNotPerform", False):
             continue
         procedure_code_object = procedure_resource.get("code", {})
-        procedure_coding = procedure_code_object.get("coding", [{}])[0]
-        if procedure_coding.get("system", "") != SNOMED_SYSTEM:
-            procedure_coding = {}
+        procedure_coding = find_coding(procedure_code_object, SNOMED_SYSTEM)
         procedure_name = procedure_code_object.get("text", "") or procedure_coding.get("display", "")
         quantity = procedure_resource.get("quantityQuantity", {})
         body_site = procedure_resource.get("bodySite", [{}])[0].get("text", "")
