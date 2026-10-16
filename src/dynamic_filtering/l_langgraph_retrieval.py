@@ -6,7 +6,6 @@ from dynamic_filtering.b_vector_store import get_vector_store
 
 class RetrievalState(TypedDict):
     question: str
-    question_type: str
     metadata_filters: list | None
     documents: list
 
@@ -53,10 +52,9 @@ workflow.add_conditional_edges("metadata_search",check_metadata_search,
 workflow.add_edge("similarity_search", END)
 retrieval_graph = workflow.compile()
 
-def retrieve_documents(question, question_type, metadata_filters):
+def retrieve_documents(question, metadata_filters):
     result = retrieval_graph.invoke({
         "question": question,
-        "question_type": question_type,
         "metadata_filters": metadata_filters,
         "documents": []})
 

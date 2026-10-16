@@ -51,7 +51,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     else:
         response_instructions = """Answer the question using the patient context and retrieved guideline."""
 
-    retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context,question_type=question_type)
+    retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context)
 
     if retrieval_result["status"] != "retrieved":
         return retrieval_result.get("blocking_message", "")

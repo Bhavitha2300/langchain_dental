@@ -22,7 +22,7 @@ def create_blocking_message(blocking_reasons):
 
     return "\n".join(message_lines)
 
-def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="", wound_size="", safety_context=None, question_type="treatment_recommendation"):
+def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="", wound_size="", safety_context=None):
     if safety_context is None:
         safety_context = {}
     assessed_context = assess_patient_context(patient_id, extraction_complexity=extraction_complexity, wound_size=wound_size)
@@ -42,7 +42,7 @@ def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="",
             "documents": []
         }
     metadata_filters = build_metadata_filters(assessed_context)
-    documents = retrieve_documents(question=question, question_type=question_type, metadata_filters=metadata_filters)
+    documents = retrieve_documents(question=question, metadata_filters=metadata_filters)
     # it no documents match then return this
     if not documents:
         blocking_reasons = [{"reason": "no_matching_recommendation",
@@ -82,12 +82,10 @@ def preview_retrieval():
     }
 
     question = "Why should the morning dose of rivaroxaban be delayed?"
-    question_type = "guideline_explanation"
     result = retrieve_filtered_guidelines(
         patient_id=patient_id,
         question=question,
-        safety_context=safety_context,
-        question_type=question_type
+        safety_context=safety_context
     )
     print("Status:")
     print(result["status"])
