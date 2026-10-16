@@ -76,7 +76,10 @@ def get_fhir_patient_data(patient_id):
         condition_status_coding = find_coding(condition_status_object,"http://terminology.hl7.org/CodeSystem/condition-clinical")
         condition_status = condition_status_coding.get("code", "")
         condition_name = condition_coding.get("display", "") or condition_code_object.get("text", "")
-        body_site = condition_resource.get("bodySite", [{}])[0].get("text", "")
+        body_sites = condition_resource.get("bodySite", [])
+        body_site = ""
+        if body_sites:
+            body_site = body_sites[0].get("text", "")
         notes = []
         for note in condition_resource.get("note", []):
             notes.append(note.get("text", ""))
@@ -112,7 +115,10 @@ def get_fhir_patient_data(patient_id):
         if dose_and_rates:
             dose_and_rate = dose_and_rates[0]
         dose_quantity = dose_and_rate.get("doseQuantity", {})
-        reason_reference = medication_resource.get("reasonReference", [{}])[0]
+        reason_references = medication_resource.get("reasonReference", [])
+        reason_reference = {}
+        if reason_references:
+            reason_reference = reason_references[0]
 
         full_fhir_patient_details["medications"].append({
             "medication_name": medication_name,
@@ -141,8 +147,14 @@ def get_fhir_patient_data(patient_id):
         procedure_coding = find_coding(procedure_code_object, SNOMED_SYSTEM)
         procedure_name = procedure_code_object.get("text", "") or procedure_coding.get("display", "")
         quantity = procedure_resource.get("quantityQuantity", {})
-        body_site = procedure_resource.get("bodySite", [{}])[0].get("text", "")
-        reason_reference = procedure_resource.get("reasonReference", [{}])[0]
+        body_sites = procedure_resource.get("bodySite", [])
+        body_site = ""
+        if body_sites:
+            body_site = body_sites[0].get("text", "")
+        reason_references = procedure_resource.get("reasonReference", [])
+        reason_reference = {}
+        if reason_references:
+            reason_reference = reason_references[0]
 
         full_fhir_patient_details["planned_procedures"].append({
             "procedure_name": procedure_name,
