@@ -19,7 +19,7 @@ def load_value_sets():
 # Using the code present in patient's Medication resource, get ingredient for that medication from RxNorm server
 def get_rxnorm_ingredients(rxnorm_code: str):
     url = f"{RXNORM_BASE_URL}/rxcui/{rxnorm_code}/related.json"
-    response = requests.get(url,params={"tty": "IN"})
+    response = requests.get(url, params={"tty": "IN"}, timeout=10)
     response.raise_for_status()
     rxnorm_data = response.json()
 

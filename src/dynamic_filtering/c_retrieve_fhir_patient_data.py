@@ -7,6 +7,7 @@ FHIR_BASE_URL = "http://localhost:8080/fhir"
 RXNORM_SYSTEM = "http://www.nlm.nih.gov/research/umls/rxnorm"
 SNOMED_SYSTEM = "http://snomed.info/sct"
 CONDITION_VERIFICATION_SYSTEM = "http://terminology.hl7.org/CodeSystem/condition-ver-status"
+CONDITION_STATUS_SYSTEM = "http://terminology.hl7.org/CodeSystem/condition-clinical"
 
 def get_patient(patient_id):
     url = f"{FHIR_BASE_URL}/Patient/{patient_id}"
@@ -75,12 +76,11 @@ def get_fhir_patient_data(patient_id):
         if verification_status in ["refuted", "entered-in-error"]:
             continue
         condition_code_object = condition_resource.get("code", {})
-        condition_code_object = condition_resource.get("code", {})
         condition_coding = find_coding(condition_code_object, SNOMED_SYSTEM)
         condition_code = condition_coding.get("code", "")
         condition_code_system = condition_coding.get("system", "")
         condition_status_object = condition_resource.get("clinicalStatus", {})
-        condition_status_coding = find_coding(condition_status_object,CONDITION_VERIFICATION_SYSTEM)
+        condition_status_coding = find_coding(condition_status_object,CONDITION_STATUS_SYSTEM)
         condition_status = condition_status_coding.get("code", "")
         condition_name = condition_coding.get("display", "") or condition_code_object.get("text", "")
         body_sites = condition_resource.get("bodySite", [])
