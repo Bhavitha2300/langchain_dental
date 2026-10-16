@@ -7,6 +7,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines
+from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 
 load_config()
 
@@ -43,31 +44,34 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     if question_type == "other":
         return "Please ask a question about this patient's dental treatment."
     if question_type == "treatment_recommendation":
-        response_instructions = "Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, procedure bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty. Include the action from every retrieved guideline section. Do not leave out an instruction to delay treatment. Include medication restart instructions and staged treatment advice only when they are present in the retrieved guideline."
+        response_instructions = "Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, procedure bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty. Include the action from every retrieved guideline section. Include medication restart instructions and staged treatment advice only when they are present in the retrieved guideline."
     elif question_type == "guideline_explanation":
         response_instructions = " Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. "
     elif question_type == "patient_information":
         response_instructions = "Answer only the question about the patient. Use only the structured patient context. Do not provide a treatment recommendation. Do not mention the retrieved guideline. Do not add management advice or a conclusion."
     else:
         response_instructions = """Answer the question using the patient context and retrieved guideline."""
-
-    retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context)
-
-    if retrieval_result["status"] != "retrieved":
-        return retrieval_result.get("blocking_message", "")
-    documents = retrieval_result.get("documents", [])
-    patient_context = retrieval_result["patient_context"]
+    if question_type == "patient_information":
+        patient_context = assess_patient_context(patient_id, extraction_complexity, wound_size)
+        patient_context["clinical_assessment"]["patient_safety"] = safety_context
+        documents = []
+        safety_warnings = []
+    else:
+        retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context)
+        if retrieval_result["status"] != "retrieved":
+            return retrieval_result.get("blocking_message", "")
+        patient_context = retrieval_result["patient_context"]
+        documents = retrieval_result.get("documents", [])
+        safety_warnings = retrieval_result.get("safety_warnings", [])
     relevant_patient_context = {
         "conditions": patient_context.get("conditions", []),
         "medications": patient_context.get("medications", []),
         "planned_procedures": patient_context.get("planned_procedures", []),
         "clinical_assessment": patient_context.get("clinical_assessment", {}),
-        "safety_warnings": retrieval_result.get("safety_warnings", [])
+        "safety_warnings": safety_warnings
     }
     patient_context_json = json.dumps(relevant_patient_context)
     guideline_context = format_guideline_documents(documents)
-    if question_type == "patient_information":
-        guideline_context = ""
     chat_model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
     prompt = ChatPromptTemplate.from_messages([
         ("system", """
@@ -91,7 +95,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
             - Do not add practical advice unless it is present in the retrieved guideline.
             - Use every retrieved guideline section that applies to the patient.
             - If a retrieved guideline section advises delaying the procedure, do not say to proceed without clearly stating that delay.
-            - Describe the procedure as having a higher postoperative bleeding risk. Do not say that the medication caused the procedure classification.
+            - Use the postoperative bleeding-risk classification provided in the clinical assessment.
             - Preserve important conditions from the guideline, such as "unless contraindicated", "where possible", and medication timing requirements.
             - Do not add headings or sections for information that is not present or not applicable.
             - Clearly distinguish between delaying a medication dose and delaying the dental procedure. Do not say to delay the procedure when the guideline only says to delay the medication dose.
