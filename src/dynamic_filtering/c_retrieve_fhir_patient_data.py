@@ -53,7 +53,7 @@ def get_fhir_patient_data(patient_id):
     if given_names:
         first_name = given_names[0]
     last_name = name.get("family", "")
-    full_name = f"{first_name} {last_name}"
+    full_name = f"{first_name} {last_name}".strip()
 
     full_fhir_patient_details = {
         "name": full_name,
@@ -102,9 +102,15 @@ def get_fhir_patient_data(patient_id):
         medication_code_object = medication_resource.get("medicationCodeableConcept", {})
         medication_coding = find_coding(medication_code_object, RXNORM_SYSTEM)
         medication_name = medication_code_object.get("text", "") or medication_coding.get("display", "")
-        dosage = medication_resource.get("dosageInstruction", [{}])[0]
+        dosage_instructions = medication_resource.get("dosageInstruction", [])
+        dosage = {}
+        if dosage_instructions:
+            dosage = dosage_instructions[0]
         timing = dosage.get("timing", {}).get("repeat", {})
-        dose_and_rate = dosage.get("doseAndRate", [{}])[0]
+        dose_and_rates = dosage.get("doseAndRate", [])
+        dose_and_rate = {}
+        if dose_and_rates:
+            dose_and_rate = dose_and_rates[0]
         dose_quantity = dose_and_rate.get("doseQuantity", {})
         reason_reference = medication_resource.get("reasonReference", [{}])[0]
 
