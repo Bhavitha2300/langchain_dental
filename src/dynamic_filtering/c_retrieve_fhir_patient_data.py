@@ -44,8 +44,14 @@ def get_fhir_patient_data(patient_id):
     planned_procedures = get_service_requests(patient_id)
 
     # patient name
-    name = patient.get("name", [{}])[0]
-    first_name = name.get("given", [""])[0]
+    names = patient.get("name", [])
+    name = {}
+    if names:
+        name = names[0]
+    given_names = name.get("given", [])
+    first_name = ""
+    if given_names:
+        first_name = given_names[0]
     last_name = name.get("family", "")
     full_name = f"{first_name} {last_name}"
 
