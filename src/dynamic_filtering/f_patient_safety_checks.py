@@ -150,6 +150,7 @@ def find_blocking_reasons(assessed_context):
         classification_status = procedure_assessment.get("classification_status", "")
         if classification_status != "classified":
             blocking_reasons.append({"reason": classification_status,
+                                     "missing_information": procedure_assessment.get("missing_information", []),
                                      "message": "The planned procedure could not be safely classified."})
     mapped_antithrombotic_medications = []
     for medication in medications:
