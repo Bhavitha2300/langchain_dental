@@ -46,7 +46,7 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
     extraction_rules = guidelines.get("procedure_assessment_rules", {}).get("tooth_extraction", {})
 
     missing_information = []
-    if quantity == "":
+    if quantity is None or quantity == "":
         missing_information.append("number_of_teeth")
     if not extraction_complexity:
         missing_information.append("extraction_complexity")
@@ -56,7 +56,15 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
         result = extraction_rules.get("missing_information_result", {}).copy()
         result["missing_information"] = missing_information
         return result
-
+    try:
+        quantity = float(str(quantity))
+    except ValueError:
+        quantity = 0.0
+    if quantity <= 0 or not quantity.is_integer():
+        result = extraction_rules.get("no_matching_rule_result", {}).copy()
+        result["classification_status"] = "invalid_number_of_teeth"
+        result["missing_information"] = ["number_of_teeth"]
+        return result
     quantity = int(quantity)
     rules = extraction_rules.get("rules", [])
     for rule in rules:
