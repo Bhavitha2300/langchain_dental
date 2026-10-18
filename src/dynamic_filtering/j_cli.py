@@ -140,20 +140,35 @@ def collect_safety_context(patient_context):
 
     return safety_context
 
-def get_extraction_information(patient_context):
+def collect_visit_procedures(patient_context):
+    visit_procedures = []
+    print()
+    print("Select procedures for this treatment visit:")
     for procedure in patient_context.get("planned_procedures", []):
-        procedure_name = procedure.get("procedure_name", "").lower()
-        if "extraction" in procedure_name:
-            extraction_complexity = ask_choice("Enter extraction complexity: simple, complex, or surgical",["simple", "complex", "surgical"])
-            wound_size = ask_choice("Enter wound size: restricted or large", ["restricted", "large"])
-            return extraction_complexity, wound_size
+        procedure_name = procedure.get("procedure_name", "")
+        procedure_id = procedure.get("procedure_id", "")
+        scheduled_date = procedure.get("scheduled_date", "")
+        body_site = procedure.get("body_site", "")
+        print()
+        print(f"Procedure: {procedure_name}")
+        print(f"Procedure ID: {procedure_id}")
+        print(f"Scheduled date: {scheduled_date}")
+        print(f"Body site: {body_site}")
+        include_procedure = ask_yes_no("Is this procedure included in this treatment visit?")
+        if include_procedure == "no":
+            continue
+        visit_procedure = procedure.copy()
+        if "extraction" in procedure_name.lower():
+            visit_procedure["extraction_complexity"] = ask_choice(f"Enter extraction complexity for {procedure_name}",["simple", "complex", "surgical"])
+            visit_procedure["wound_size"] = ask_choice(f"Enter wound size for {procedure_name}",["restricted", "large"])
+        visit_procedures.append(visit_procedure)
 
-    return "", ""
+    return visit_procedures
 
 def main(patient_id: str):
     patient_id, patient_context = confirm_patient(patient_id)
+    visit_procedures = collect_visit_procedures(patient_context)
     safety_context = collect_safety_context(patient_context)
-    extraction_complexity, wound_size = get_extraction_information(patient_context)
     chat_history = InMemoryChatMessageHistory()
     print()
     print("You can now ask clinical questions.")
@@ -168,11 +183,11 @@ def main(patient_id: str):
         answer = final_response(
             patient_id=patient_id,
             question=question,
-            extraction_complexity=extraction_complexity,
-            wound_size=wound_size,
+            visit_procedures=visit_procedures,
             safety_context=safety_context,
             chat_history=chat_history,
-            question_type = question_type)
+            question_type=question_type
+        )
         print()
         print(answer)
 

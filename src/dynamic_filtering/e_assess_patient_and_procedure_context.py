@@ -100,12 +100,32 @@ def assess_other_procedure(procedure_type, guidelines):
         "postoperative_bleeding_risk": ""
     }
 
-def assess_patient_context(patient_id, extraction_complexity="", wound_size=""):
+def assess_patient_context(patient_id, visit_procedures=None):
+    if visit_procedures is None:
+        visit_procedures = []
     patient_context = add_medication_class_to_fhir_patient_data(patient_id)
+    patient_context["planned_procedures"] = visit_procedures
     value_sets = load_value_sets()
     guidelines = load_guidelines()
+    combined_extraction_quantity = 0
+    extraction_quantities_are_valid = True
+    for procedure in visit_procedures:
+        if "extraction_complexity" not in procedure:
+            continue
+        quantity = procedure.get("quantity", "")
+        try:
+            quantity = float(str(quantity))
+        except (ValueError, TypeError):
+            extraction_quantities_are_valid = False
+            continue
+        if quantity <= 0 or not quantity.is_integer():
+            extraction_quantities_are_valid = False
+            continue
+        combined_extraction_quantity = (combined_extraction_quantity + int(quantity))
+    if not extraction_quantities_are_valid:
+        combined_extraction_quantity = ""
     procedure_assessments = []
-    for procedure in patient_context.get("planned_procedures", []):
+    for procedure in visit_procedures:
         procedure_code = procedure.get("code", "")
         if not procedure_code:
             procedure_assessment = {
@@ -118,7 +138,16 @@ def assess_patient_context(patient_id, extraction_complexity="", wound_size=""):
             try:
                 procedure_type = find_procedure_type(procedure_code, value_sets)
                 if procedure_type == "tooth_extraction":
-                    procedure_assessment = assess_extraction(procedure,extraction_complexity,wound_size, guidelines)
+                    procedure_for_assessment = procedure.copy()
+                    procedure_for_assessment["quantity"] = (combined_extraction_quantity)
+                    extraction_complexity = procedure.get("extraction_complexity","")
+                    wound_size = procedure.get( "wound_size","")
+                    procedure_assessment = assess_extraction(
+                        procedure_for_assessment,
+                        extraction_complexity,
+                        wound_size,
+                        guidelines
+                    )
                 elif procedure_type:
                     procedure_assessment = assess_other_procedure(procedure_type,guidelines)
                 else:
@@ -135,11 +164,19 @@ def assess_patient_context(patient_id, extraction_complexity="", wound_size=""):
                     "missing_information": [],
                     "procedure_category": "",
                     "postoperative_bleeding_risk": ""}
+        procedure_assessment["procedure_id"] = procedure.get("procedure_id","")
         procedure_assessment["procedure_name"] = procedure.get("procedure_name", "")
         procedure_assessment["procedure_code"] = procedure_code
         procedure_assessment["quantity"] = procedure.get("quantity", "")
         procedure_assessments.append(procedure_assessment)
-    patient_context["clinical_assessment"] = {"procedure_assessments": procedure_assessments}
+    treatment_plan_bleeding_risk = ""
+    for procedure_assessment in procedure_assessments:
+        bleeding_risk = procedure_assessment.get("postoperative_bleeding_risk","")
+        if bleeding_risk == "higher":
+            treatment_plan_bleeding_risk = "higher"
+        elif (bleeding_risk == "low" and treatment_plan_bleeding_risk != "higher"):
+            treatment_plan_bleeding_risk = "low"
+    patient_context["clinical_assessment"] = {"procedure_assessments": procedure_assessments,"treatment_plan_bleeding_risk": (treatment_plan_bleeding_risk)}
 
     return patient_context
 

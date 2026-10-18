@@ -36,7 +36,9 @@ def format_guideline_documents(documents):
     return guideline_context
 
 
-def final_response(patient_id,question,extraction_complexity="",wound_size="",safety_context=None,chat_history=None,question_type="treatment_recommendation"):
+def final_response(patient_id,question,visit_procedures=None,safety_context=None,chat_history=None,question_type="treatment_recommendation"):
+    if visit_procedures is None:
+        visit_procedures = []
     if safety_context is None:
         safety_context = {}
     if chat_history is None:
@@ -52,12 +54,12 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
     else:
         response_instructions = """Answer the question using the patient context and retrieved guideline."""
     if question_type == "patient_information":
-        patient_context = assess_patient_context(patient_id, extraction_complexity, wound_size)
+        patient_context = assess_patient_context(patient_id, visit_procedures=visit_procedures)
         patient_context["clinical_assessment"]["patient_safety"] = safety_context
         documents = []
         safety_warnings = []
     else:
-        retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,extraction_complexity=extraction_complexity,wound_size=wound_size,safety_context=safety_context)
+        retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,visit_procedures=visit_procedures,safety_context=safety_context)
         if retrieval_result["status"] != "retrieved":
             return retrieval_result.get("blocking_message", "")
         patient_context = retrieval_result["patient_context"]
@@ -90,6 +92,7 @@ def final_response(patient_id,question,extraction_complexity="",wound_size="",sa
             - If the clinician confirms that therapy must not be interrupted, do not guess which medical condition caused that answer.
             - Use the clinician role stated in the retrieved guideline. Do not replace cardiologist with prescribing clinician.
             - Use the chat history only to understand follow-up questions.
+            - Give one medication plan for the selected treatment-visit procedures and state which procedures it applies to.
             - Explain that the result requires clinician judgement when giving a clinical recommendation.
             - If the guideline says to consult the prescribing clinician, do not say that the treatment can be continued.
             - Do not add practical advice unless it is present in the retrieved guideline.

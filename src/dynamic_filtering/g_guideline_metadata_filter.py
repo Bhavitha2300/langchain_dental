@@ -7,15 +7,11 @@ def add_subaspect(selected_subaspects, subaspect):
         selected_subaspects.append(subaspect)
 
 def get_bleeding_risks(assessed_context):
-    bleeding_risks = []
     clinical_assessment = assessed_context.get("clinical_assessment", {})
-    procedure_assessments = clinical_assessment.get("procedure_assessments", [])
-    for procedure_assessment in procedure_assessments:
-        bleeding_risk = procedure_assessment.get("postoperative_bleeding_risk", "")
-        if bleeding_risk and bleeding_risk not in bleeding_risks:
-            bleeding_risks.append(bleeding_risk)
-
-    return bleeding_risks
+    bleeding_risk = clinical_assessment.get("treatment_plan_bleeding_risk","")
+    if bleeding_risk:
+        return [bleeding_risk]
+    return []
 
 def get_recommendation_subaspects(assessed_context):
     selected_subaspects = []

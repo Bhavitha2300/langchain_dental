@@ -21,10 +21,12 @@ def create_blocking_message(blocking_reasons):
             message_lines.append(message)
     return "\n".join(message_lines)
 
-def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="", wound_size="", safety_context=None):
+def retrieve_filtered_guidelines(patient_id, question,visit_procedures=None, safety_context=None):
+    if visit_procedures is None:
+        visit_procedures = []
     if safety_context is None:
         safety_context = {}
-    assessed_context = assess_patient_context(patient_id, extraction_complexity=extraction_complexity, wound_size=wound_size)
+    assessed_context = assess_patient_context(patient_id, visit_procedures=visit_procedures)
     assessed_context["clinical_assessment"]["patient_safety"] = safety_context
     safety_warnings = find_safety_warnings(assessed_context)
     blocking_reasons = find_blocking_reasons(assessed_context)

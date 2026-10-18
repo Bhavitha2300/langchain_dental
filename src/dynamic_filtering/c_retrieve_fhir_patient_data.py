@@ -44,7 +44,6 @@ def get_fhir_patient_data(patient_id):
     conditions = get_conditions(patient_id)
     medications = get_medications(patient_id)
     planned_procedures = get_service_requests(patient_id)
-
     # patient name
     names = patient.get("name", [])
     name = {}
@@ -56,16 +55,13 @@ def get_fhir_patient_data(patient_id):
         first_name = given_names[0]
     last_name = name.get("family", "")
     full_name = f"{first_name} {last_name}".strip()
-
     full_fhir_patient_details = {
         "name": full_name,
         "gender": patient.get("gender", ""),
         "birth_date": patient.get("birthDate", ""),
         "conditions": [],
         "medications": [],
-        "planned_procedures": []
-    }
-
+        "planned_procedures": []}
     # Conditions
     condition_entries = conditions.get("entry", [])
     for each_entry in condition_entries:
@@ -90,7 +86,6 @@ def get_fhir_patient_data(patient_id):
         notes = []
         for note in condition_resource.get("note", []):
             notes.append(note.get("text", ""))
-
         full_fhir_patient_details["conditions"].append({
             "condition_name": condition_name,
             "body_site": body_site,
@@ -98,9 +93,7 @@ def get_fhir_patient_data(patient_id):
             "status": condition_status,
             "verification_status": verification_status,
             "code": condition_code,
-            "notes": notes
-        })
-
+            "notes": notes})
     # Medications
     medication_entries = medications.get("entry", [])
     for each_entry in medication_entries:
@@ -127,7 +120,6 @@ def get_fhir_patient_data(patient_id):
         reason_reference = {}
         if reason_references:
             reason_reference = reason_references[0]
-
         full_fhir_patient_details["medications"].append({
             "medication_name": medication_name,
             "rxnorm_system": medication_coding.get("system", ""),
@@ -139,9 +131,7 @@ def get_fhir_patient_data(patient_id):
             "frequency": timing.get("frequency", ""),
             "period": timing.get("period", ""),
             "period_unit": timing.get("periodUnit", ""),
-            "route": dosage.get("route", {}).get("text", "")
-        })
-
+            "route": dosage.get("route", {}).get("text", "")})
     # Planned procedures
     procedure_entries = planned_procedures.get("entry", [])
     for each_entry in procedure_entries:
@@ -163,8 +153,13 @@ def get_fhir_patient_data(patient_id):
         reason_reference = {}
         if reason_references:
             reason_reference = reason_references[0]
-
+        scheduled_date = procedure_resource.get("occurrenceDateTime","")
+        if not scheduled_date:
+            occurrence_period = procedure_resource.get("occurrencePeriod",{})
+            scheduled_date = occurrence_period.get("start", "")
         full_fhir_patient_details["planned_procedures"].append({
+            "procedure_id": procedure_resource.get("id", ""),
+            "scheduled_date": scheduled_date,
             "procedure_name": procedure_name,
             "code_system": procedure_coding.get("system", ""),
             "code": procedure_coding.get("code", ""),
@@ -173,16 +168,13 @@ def get_fhir_patient_data(patient_id):
             "quantity_unit": quantity.get("unit", ""),
             "body_site": body_site,
             "reason": reason_reference.get("display", ""),
-            "do_not_perform": procedure_resource.get("doNotPerform", False)
-        })
-
+            "do_not_perform": procedure_resource.get("doNotPerform", False)})
     return full_fhir_patient_details
 
 def preview_patient_data():
     patient_id = "1301"
     fhir_patient_data = get_fhir_patient_data(patient_id)
     pprint.pprint(fhir_patient_data)
-
 
 if __name__ == "__main__":
     preview_patient_data()
