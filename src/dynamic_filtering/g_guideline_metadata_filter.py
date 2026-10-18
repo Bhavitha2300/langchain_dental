@@ -111,13 +111,36 @@ def get_recommendation_subaspects(assessed_context):
                     add_subaspect(selected_subaspects,"aspirin_alone")
                 else:
                     add_subaspect(selected_subaspects,"other_single_or_dual_antiplatelet_therapy")
+    principal_outcomes = [
+        "therapy_that_should_not_be_interrupted",
+        "dental_treatment_with_combination_therapy",
+        "time_limited_antithrombotic_treatment",
+        "acute_dvt_or_pe_high_dose_doac",
+        "doac_low_risk_procedure",
+        "doac_higher_risk_apixaban_dabigatran",
+        "doac_higher_risk_rivaroxaban_edoxaban_morning",
+        "doac_higher_risk_rivaroxaban_edoxaban_evening",
+        "urgent_higher_risk_procedure_after_morning_doac",
+        "inr_below_4",
+        "inr_4_or_above",
+        "lmwh_prophylactic_dose",
+        "lmwh_treatment_dose_or_uncertain_dose",
+        "short_term_lmwh",
+        "kidney_dialysis_and_heparin",
+        "single_or_dual_antiplatelet_therapy"]
+    principal_outcome_found = False
+    for selected_subaspect in selected_subaspects:
+        if selected_subaspect in principal_outcomes:
+            principal_outcome_found = True
+    if not principal_outcome_found:
+        add_subaspect(selected_subaspects,"unclear_medication_or_medical_condition")
+        return selected_subaspects
     if selected_subaspects and "inr_4_or_above" not in selected_subaspects:
         add_subaspect(selected_subaspects, "schedule_treatment")
         add_subaspect(selected_subaspects, "atraumatic_treatment")
         add_subaspect(selected_subaspects, "local_haemostatic_measures")
         add_subaspect(selected_subaspects, "analgesic_advice")
         add_subaspect(selected_subaspects, "post_treatment_advice")
-
     return selected_subaspects
 
 def build_metadata_filters(assessed_context):
