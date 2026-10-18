@@ -26,9 +26,15 @@ def find_patient_safety_reasons(assessed_context: dict):
         if answer not in ["yes", "no"]:
             safety_reasons.append({"reason": "missing_safety_information",
                                    "missing_information": [question]})
-    if patient_safety.get("medical_history_and_medicines_reviewed", "") == "no":
+    if patient_safety.get("medical_history_and_medicines_reviewed","") == "no":
         safety_reasons.append({"reason": "clinical_information_not_reviewed",
-                               "message": "Review the patient's medical history and medicines before continuing."})
+                               "message": ("Review the patient's medical history and medicines before continuing.")})
+    recorded_conditions = assessed_context.get("conditions", [])
+    if recorded_conditions:
+        conditions_reconciled = patient_safety.get("recorded_conditions_reconciled","")
+        if conditions_reconciled != "yes":
+            safety_reasons.append({"reason": "recorded_conditions_not_reconciled",
+                                   "message": ("Review the recorded conditions and correct the safety answers before continuing.")})
     has_anticoagulant = False
     has_antiplatelet = False
     for medication in assessed_context.get("medications", []):

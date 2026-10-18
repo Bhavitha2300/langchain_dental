@@ -57,7 +57,9 @@ def show_patient_summary(patient_id, patient_context):
     print()
     print("Conditions:")
     for condition in patient_context.get("conditions", []):
-        print(condition.get("condition_name", ""))
+        print(f"- {condition.get('condition_name', '')}")
+        print(f"  Status: {condition.get('status', '')}")
+        print(f"  Verification status: {condition.get('verification_status', '')}")
     print()
     print("Medications:")
     for medication in patient_context.get("medications", []):
@@ -89,6 +91,13 @@ def collect_safety_context(patient_context):
         "Does the patient have renal disease, liver disease, bone marrow disorder, or another condition increasing bleeding risk?")
     safety_context["bleeding_history_concern"] = ask_yes_no(
         "Does the patient have a history of prolonged or excessive bleeding?")
+    recorded_conditions = patient_context.get("conditions", [])
+    if recorded_conditions:
+        safety_context["recorded_conditions_reconciled"] = (ask_yes_no("After reviewing the recorded conditions above, do your safety answers agree with the patient's current medical history?"))
+    else:
+        safety_context[
+            "recorded_conditions_reconciled"
+        ] = "not_applicable"
     medication_classes = get_medication_classes(patient_context)
     has_anticoagulant = ("doac" in medication_classes or "vitamin_k_antagonist" in medication_classes or "low_molecular_weight_heparin" in medication_classes or "unfractionated_heparin" in medication_classes)
     has_antiplatelet = "antiplatelet" in medication_classes
