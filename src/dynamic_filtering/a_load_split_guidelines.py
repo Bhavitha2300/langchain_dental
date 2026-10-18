@@ -113,9 +113,17 @@ def load_documents():
             documents.append(document)
     recursive_character_text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=80)
     split_documents = recursive_character_text_splitter.split_documents(documents=documents)
+    chunk_counts = {}
+    for document in split_documents:
+        subaspect = document.metadata.get("subaspect", "")
+        if subaspect not in chunk_counts:
+            chunk_counts[subaspect] = 0
+        chunk_counts[subaspect] = chunk_counts[subaspect] + 1
+    for document in split_documents:
+        subaspect = document.metadata.get("subaspect", "")
+        document.metadata["subsection_chunk_count"] = chunk_counts[subaspect]
 
     return split_documents
-
 
 def preview_documents():
     documents = load_documents()

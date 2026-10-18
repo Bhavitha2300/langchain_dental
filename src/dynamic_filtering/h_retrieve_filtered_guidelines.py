@@ -4,7 +4,7 @@ import pprint
 from dynamic_filtering.l_langgraph_retrieval import retrieve_documents
 from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 from dynamic_filtering.f_patient_safety_checks import find_safety_warnings, find_blocking_reasons
-from dynamic_filtering.g_guideline_metadata_filter import build_metadata_filters
+from dynamic_filtering.g_guideline_metadata_filter import (build_metadata_filters, get_recommendation_subaspects)
 
 def create_blocking_message(blocking_reasons):
     message_lines = ["A guideline recommendation cannot be generated."]
@@ -19,7 +19,6 @@ def create_blocking_message(blocking_reasons):
             message_lines.append(f"Missing information: {missing_text}")
         if message:
             message_lines.append(message)
-
     return "\n".join(message_lines)
 
 def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="", wound_size="", safety_context=None):
@@ -32,40 +31,36 @@ def retrieve_filtered_guidelines(patient_id, question, extraction_complexity="",
     # if any of the blocking reasons are present return this
     if blocking_reasons:
         blocking_message = create_blocking_message(blocking_reasons)
-        return {
-            "status": "needs_clinician_confirmation",
-            "patient_context": assessed_context,
-            "blocking_reasons": blocking_reasons,
-            "blocking_message": blocking_message,
-            "safety_warnings": safety_warnings,
-            "metadata_filters": None,
-            "documents": []
-        }
+        return {"status": "needs_clinician_confirmation",
+                "patient_context": assessed_context,
+                "blocking_reasons": blocking_reasons,
+                "blocking_message": blocking_message,
+                "safety_warnings": safety_warnings,
+                "metadata_filters": None,
+                "documents": []}
+    required_sections = get_recommendation_subaspects(assessed_context)
     metadata_filters = build_metadata_filters(assessed_context)
-    documents = retrieve_documents(question=question, metadata_filters=metadata_filters)
-    # it no documents match then return this
-    if not documents:
+    retrieval_result = retrieve_documents(question=question,metadata_filters=metadata_filters,required_sections=required_sections)
+    documents = retrieval_result["documents"]
+    missing_sections = retrieval_result["missing_sections"]
+    if not metadata_filters or missing_sections:
         blocking_reasons = [{"reason": "no_matching_recommendation",
-                             "message": "No matching guideline recommendation was found."}]
+                             "message": ("The required guideline recommendation was not retrieved completely.")}]
         blocking_message = create_blocking_message(blocking_reasons)
-        return {
-            "status": "no_matching_recommendation",
+        return {"status": "no_matching_recommendation",
+                "patient_context": assessed_context,
+                "blocking_reasons": blocking_reasons,
+                "blocking_message": blocking_message,
+                "safety_warnings": safety_warnings,
+                "metadata_filters": metadata_filters,
+                "documents": []}
+    return {"status": "retrieved",
             "patient_context": assessed_context,
-            "blocking_reasons": blocking_reasons,
-            "blocking_message": blocking_message,
+            "blocking_reasons": [],
+            "blocking_message": "",
             "safety_warnings": safety_warnings,
             "metadata_filters": metadata_filters,
-            "documents": []
-        }
-    return {
-        "status": "retrieved",
-        "patient_context": assessed_context,
-        "blocking_reasons": [],
-        "blocking_message": "",
-        "safety_warnings": safety_warnings,
-        "metadata_filters": metadata_filters,
-        "documents": documents
-    }
+            "documents": documents}
 
 def preview_retrieval():
     patient_id = "1256"
@@ -78,15 +73,9 @@ def preview_retrieval():
         "morning_doac_dose_already_taken": "no",
         "initial_high_dose_doac": "no",
         "usual_dose_time": "morning",
-        "antithrombotic_treatment_duration": "long_term"
-    }
-
+        "antithrombotic_treatment_duration": "long_term"}
     question = "Why should the morning dose of rivaroxaban be delayed?"
-    result = retrieve_filtered_guidelines(
-        patient_id=patient_id,
-        question=question,
-        safety_context=safety_context
-    )
+    result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,safety_context=safety_context)
     print("Status:")
     print(result["status"])
     print()

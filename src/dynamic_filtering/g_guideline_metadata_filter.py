@@ -17,7 +17,6 @@ def get_bleeding_risks(assessed_context):
 
     return bleeding_risks
 
-
 def get_recommendation_subaspects(assessed_context):
     selected_subaspects = []
     bleeding_risks = get_bleeding_risks(assessed_context)
@@ -120,7 +119,6 @@ def get_recommendation_subaspects(assessed_context):
         add_subaspect(selected_subaspects, "post_treatment_advice")
 
     return selected_subaspects
-
 
 def build_metadata_filters(assessed_context):
     selected_subaspects = get_recommendation_subaspects(assessed_context)
