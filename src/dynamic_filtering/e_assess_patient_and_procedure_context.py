@@ -42,23 +42,29 @@ def find_procedure_type(procedure_code, value_sets):
 
 def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
     quantity = procedure.get("quantity", "")
-    extraction_complexity = extraction_complexity.strip().lower()
-    wound_size = wound_size.strip().lower()
-    extraction_rules = guidelines.get("procedure_assessment_rules", {}).get("tooth_extraction", {})
+    quantity_unit = str(procedure.get("quantity_unit", "")).strip().lower()
+    extraction_complexity = str(extraction_complexity).strip().lower()
+    wound_size = str(wound_size).strip().lower()
+    adjacent_extractions = str(procedure.get("whether_extractions_are_adjacent","")).strip().lower()
+    extraction_rules = guidelines.get("procedure_assessment_rules",{}).get("tooth_extraction", {})
     missing_information = []
     if quantity is None or quantity == "":
         missing_information.append("number_of_teeth")
-    if not extraction_complexity:
+    elif quantity_unit not in ["tooth", "teeth"]:
+        missing_information.append("quantity_unit")
+    if extraction_complexity not in ["simple", "complex", "surgical"]:
         missing_information.append("extraction_complexity")
-    if not wound_size:
+    if wound_size not in ["restricted", "large"]:
         missing_information.append("wound_size")
+    if (extraction_complexity == "simple" and wound_size == "large" and adjacent_extractions not in ["yes", "no"]):
+        missing_information.append("whether_extractions_are_adjacent")
     if missing_information:
         result = extraction_rules.get("missing_information_result", {}).copy()
         result["missing_information"] = missing_information
         return result
     try:
         quantity = float(str(quantity))
-    except ValueError:
+    except (ValueError, TypeError):
         quantity = 0.0
     if quantity <= 0 or not quantity.is_integer():
         result = extraction_rules.get("no_matching_rule_result", {}).copy()
@@ -70,11 +76,14 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
     for rule in rules:
         allowed_complexities = rule.get("extraction_complexity", [])
         allowed_wound_sizes = rule.get("wound_size", [])
+        allowed_adjacent_answers = rule.get("whether_extractions_are_adjacent",[])
         minimum_teeth = rule.get("minimum_teeth")
         maximum_teeth = rule.get("maximum_teeth")
         if allowed_complexities and extraction_complexity not in allowed_complexities:
             continue
         if allowed_wound_sizes and wound_size not in allowed_wound_sizes:
+            continue
+        if (allowed_adjacent_answers and adjacent_extractions not in allowed_adjacent_answers):
             continue
         if minimum_teeth is not None and quantity < minimum_teeth:
             continue
@@ -84,7 +93,6 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
         if "missing_information" not in result:
             result["missing_information"] = []
         return result
-
     return extraction_rules.get("no_matching_rule_result", {}).copy()
 
 def assess_other_procedure(procedure_type, guidelines):
@@ -97,8 +105,7 @@ def assess_other_procedure(procedure_type, guidelines):
         "classification_status": "procedure_not_mapped",
         "missing_information": [],
         "procedure_category": "",
-        "postoperative_bleeding_risk": ""
-    }
+        "postoperative_bleeding_risk": ""}
 
 def assess_patient_context(patient_id, visit_procedures=None):
     if visit_procedures is None:
@@ -142,12 +149,7 @@ def assess_patient_context(patient_id, visit_procedures=None):
                     procedure_for_assessment["quantity"] = (combined_extraction_quantity)
                     extraction_complexity = procedure.get("extraction_complexity","")
                     wound_size = procedure.get( "wound_size","")
-                    procedure_assessment = assess_extraction(
-                        procedure_for_assessment,
-                        extraction_complexity,
-                        wound_size,
-                        guidelines
-                    )
+                    procedure_assessment = assess_extraction(procedure_for_assessment,extraction_complexity,wound_size,guidelines)
                 elif procedure_type:
                     procedure_assessment = assess_other_procedure(procedure_type,guidelines)
                 else:
@@ -177,7 +179,6 @@ def assess_patient_context(patient_id, visit_procedures=None):
         elif (bleeding_risk == "low" and treatment_plan_bleeding_risk != "higher"):
             treatment_plan_bleeding_risk = "low"
     patient_context["clinical_assessment"] = {"procedure_assessments": procedure_assessments,"treatment_plan_bleeding_risk": (treatment_plan_bleeding_risk)}
-
     return patient_context
 
 def preview_patient_assessment():

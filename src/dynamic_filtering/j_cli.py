@@ -1,8 +1,10 @@
 # j_cli.py
 
 import typer
+import requests
 from langchain_core.chat_history import InMemoryChatMessageHistory
-from dynamic_filtering.d_medication_terminology import add_medication_class_to_fhir_patient_data
+from dynamic_filtering.d_medication_terminology import add_medication_class_to_fhir_patient_data, load_value_sets
+from dynamic_filtering.e_assess_patient_and_procedure_context import find_procedure_type
 from dynamic_filtering.i_final_LLM_recommendation import final_response
 from dynamic_filtering.k_jev import classify_clinician_question
 
@@ -142,6 +144,7 @@ def collect_safety_context(patient_context):
 
 def collect_visit_procedures(patient_context):
     visit_procedures = []
+    value_sets = load_value_sets()
     print()
     print("Select procedures for this treatment visit:")
     for procedure in patient_context.get("planned_procedures", []):
@@ -158,9 +161,18 @@ def collect_visit_procedures(patient_context):
         if include_procedure == "no":
             continue
         visit_procedure = procedure.copy()
-        if "extraction" in procedure_name.lower():
+        procedure_code = procedure.get("code", "")
+        procedure_type = ""
+        if procedure_code:
+            try:
+                procedure_type = find_procedure_type(procedure_code,value_sets)
+            except requests.RequestException:
+                procedure_type = ""
+        if procedure_type == "tooth_extraction":
             visit_procedure["extraction_complexity"] = ask_choice(f"Enter extraction complexity for {procedure_name}",["simple", "complex", "surgical"])
             visit_procedure["wound_size"] = ask_choice(f"Enter wound size for {procedure_name}",["restricted", "large"])
+            if (visit_procedure["extraction_complexity"] == "simple" and visit_procedure["wound_size"] == "large"):
+                visit_procedure["whether_extractions_are_adjacent" ] = ask_yes_no("Are two or more teeth that are next to each other being extracted during this visit?")
         visit_procedures.append(visit_procedure)
 
     return visit_procedures

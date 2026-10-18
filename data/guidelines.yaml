@@ -61,18 +61,23 @@ procedure_assessment_rules:
           procedure_category: simple_extraction_1_to_3_teeth_with_restricted_wound_size
           postoperative_bleeding_risk: low
 
-      - rule_id: large_wound_requires_confirmation
+      - rule_id: adjacent_extractions_causing_large_wound
+
+        extraction_complexity:
+        - simple
 
         wound_size:
-          - large
+        - large
+
+        whether_extractions_are_adjacent:
+        - "yes"
 
         result:
           procedure_type: tooth_extraction
-          classification_status: requires_clinician_review
-          procedure_category: ""
-          postoperative_bleeding_risk: ""
-          missing_information:
-            - whether_extractions_are_adjacent
+          classification_status: classified
+          procedure_category: adjacent_extractions_causing_large_wound
+          postoperative_bleeding_risk: higher
+          missing_information: [ ]
 
     no_matching_rule_result:
       procedure_type: tooth_extraction
