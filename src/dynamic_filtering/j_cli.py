@@ -11,13 +11,15 @@ from dynamic_filtering.k_jev import classify_clinician_question
 # ask yes or no questions
 def ask_yes_no(question):
     while True:
-        answer = typer.prompt(f"{question} (yes/no)")
+        answer = typer.prompt(f"{question} (yes/no/unknown)")
         answer = answer.strip().lower()
-        if answer in ["yes","y"]:
+        if answer in ["yes", "y"]:
             return "yes"
-        if answer in ["no","n"]:
+        if answer in ["no", "n"]:
             return "no"
-        print("Please enter yes or no.")
+        if answer in ["unknown","u","don't know","dont know"]:
+            return "unknown"
+        print("Please enter yes, no, or unknown.")
 
 def ask_choice(question, allowed_values):
     print(question)
@@ -129,17 +131,14 @@ def collect_safety_context(patient_context):
             doac_ingredients.append(ingredient_name)
     if doac_ingredients:
         safety_context["urgent_dental_procedure"] = ask_yes_no("Does the planned dental procedure need to be performed urgently?")
-        if safety_context["urgent_dental_procedure"] == "yes":
-            safety_context["morning_doac_dose_already_taken"] = ask_yes_no("Has the patient already taken today's morning DOAC dose?")
-        else:
-            safety_context["morning_doac_dose_already_taken"] = "no"
+        safety_context["morning_doac_dose_already_taken"] = ask_yes_no("Has the patient taken any DOAC dose this morning?")
     else:
-        safety_context["urgent_dental_procedure"] = "no"
-        safety_context["morning_doac_dose_already_taken"] = "no"
+        safety_context["urgent_dental_procedure"] = "not_applicable"
+        safety_context["morning_doac_dose_already_taken"] = "not_applicable"
     if "apixaban" in doac_ingredients or "rivaroxaban" in doac_ingredients:
         safety_context["initial_high_dose_doac"] = ask_yes_no("Is the patient taking initial high-dose apixaban or rivaroxaban for acute DVT or pulmonary embolism during the first 1 to 3 weeks of treatment?")
     else:
-        safety_context["initial_high_dose_doac"] = "no"
+        safety_context["initial_high_dose_doac"] = "not_applicable"
     urgent_after_morning_dose = (safety_context["urgent_dental_procedure"] == "yes" and safety_context["morning_doac_dose_already_taken"] == "yes")
     dose_time_is_needed = (("rivaroxaban" in doac_ingredients or "edoxaban" in doac_ingredients)
             and not urgent_after_morning_dose and safety_context["therapy_must_not_be_interrupted"] != "yes")
@@ -166,7 +165,7 @@ def collect_visit_procedures(patient_context):
         print(f"Procedure ID: {procedure_id}")
         print(f"Scheduled date: {scheduled_date}")
         print(f"Body site: {body_site}")
-        include_procedure = ask_yes_no("Is this procedure included in this treatment visit?")
+        include_procedure = ask_choice("Is this procedure included in this treatment visit?",["yes", "no"])
         if include_procedure == "no":
             continue
         visit_procedure = procedure.copy()
