@@ -187,8 +187,8 @@ def collect_visit_procedures(patient_context):
 
 def main(patient_id: str):
     patient_id, patient_context = confirm_patient(patient_id)
-    visit_procedures = collect_visit_procedures(patient_context)
-    safety_context = collect_safety_context(patient_context)
+    visit_procedures = None
+    safety_context = None
     chat_history = InMemoryChatMessageHistory()
     print()
     print("You can now ask clinical questions.")
@@ -200,14 +200,23 @@ def main(patient_id: str):
             print("Conversation ended.")
             break
         question_type = classify_clinician_question(question)
+        if question_type in [
+            "treatment_recommendation",
+            "guideline_explanation"]:
+            if visit_procedures is None:
+                visit_procedures = collect_visit_procedures(patient_context)
+            if safety_context is None:
+                safety_context = collect_safety_context(patient_context)
+        response_visit_procedures = visit_procedures
+        if (question_type == "patient_information" and response_visit_procedures is None):
+            response_visit_procedures = patient_context.get( "planned_procedures",[])
         answer = final_response(
             patient_id=patient_id,
             question=question,
-            visit_procedures=visit_procedures,
+            visit_procedures=response_visit_procedures,
             safety_context=safety_context,
             chat_history=chat_history,
-            question_type=question_type
-        )
+            question_type=question_type)
         print()
         print(answer)
 

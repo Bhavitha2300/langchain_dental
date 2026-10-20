@@ -6,7 +6,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines
+from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines, retrieve_guideline_information
 from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 
 load_config()
@@ -47,14 +47,24 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         return "Please ask a question about this patient's dental treatment."
     if question_type == "treatment_recommendation":
         response_instructions = "Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, procedure bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty. Include the action from every retrieved guideline section. Include medication restart instructions and staged treatment advice only when they are present in the retrieved guideline."
+    elif question_type == "guideline_information":
+        response_instructions = ("Explain the guideline's name, source, purpose and scope using only the retrieved guideline content. "
+                                 "Do not give a patient-specific treatment recommendation.")
     elif question_type == "guideline_explanation":
         response_instructions = " Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. "
     elif question_type == "patient_information":
         response_instructions = "Answer only the question about the patient. Use only the structured patient context. Do not provide a treatment recommendation. Do not mention the retrieved guideline. Do not add management advice or a conclusion."
     else:
         response_instructions = """Answer the question using the patient context and retrieved guideline."""
-    if question_type == "patient_information":
-        patient_context = assess_patient_context(patient_id, visit_procedures=visit_procedures)
+    if question_type == "guideline_information":
+        retrieval_result = retrieve_guideline_information(question)
+        if retrieval_result["missing_sections"]:
+            return "The guideline information could not be retrieved completely."
+        patient_context = {}
+        documents = retrieval_result["documents"]
+        safety_warnings = []
+    elif question_type == "patient_information":
+        patient_context = assess_patient_context(patient_id,visit_procedures=visit_procedures)
         patient_context["clinical_assessment"]["patient_safety"] = safety_context
         documents = []
         safety_warnings = []

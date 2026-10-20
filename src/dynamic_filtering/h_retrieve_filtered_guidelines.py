@@ -21,6 +21,20 @@ def create_blocking_message(blocking_reasons):
             message_lines.append(message)
     return "\n".join(message_lines)
 
+def retrieve_guideline_information(question):
+    required_sections = [
+        "applicable_patient_group",
+        "statement_of_intent"]
+    metadata_filters = []
+    for section in required_sections:
+        metadata_filters.append({
+            "$and": [
+                {"record_type": {"$eq": "background_information"}},
+                {"subaspect": {"$eq": section}}
+            ]
+        })
+    return retrieve_documents(question=question, metadata_filters=metadata_filters,required_sections=required_sections)
+
 def retrieve_filtered_guidelines(patient_id, question,visit_procedures=None, safety_context=None):
     if visit_procedures is None:
         visit_procedures = []

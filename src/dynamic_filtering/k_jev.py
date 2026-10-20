@@ -14,7 +14,8 @@ def classify_clinician_question(question):
                 instructions= "What type of information is the clinician asking for?",
                 criteria={
                     "treatment_recommendation": "The clinician is asking what to do for the planned dental treatment.",
-                    "guideline_explanation": "The clinician is asking why, when, or how the guideline recommendation applies.",
+                    "guideline_explanation": "The clinician is asking why, when, or how the guideline recommendation applies to this patient.",
+                    "guideline_information": ("The clinician is asking which guideline is used, who produced it, its purpose, scope, edition, or intended patient group."),
                     "patient_information": "The clinician is asking about this patient's condition, medicine, planned procedure, or bleeding risk.",
                     "other": "The question is not about this patient's dental treatment or medicines."})})
     question_type = response.answers["question_type"].choice
