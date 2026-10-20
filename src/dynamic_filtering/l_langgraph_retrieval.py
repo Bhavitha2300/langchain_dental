@@ -3,6 +3,7 @@
 from typing import TypedDict
 from langgraph.graph import StateGraph, START, END
 from dynamic_filtering.b_vector_store import get_vector_store
+from dynamic_filtering.a_load_split_guidelines import load_documents
 
 class RetrievalState(TypedDict):
     question: str
@@ -15,6 +16,7 @@ class RetrievalState(TypedDict):
 
 def metadata_search(state):
     vector_store = get_vector_store()
+    current_documents = load_documents()
     retrieved_documents = []
     for metadata_filter in state["metadata_filters"]:
         matching_documents = vector_store.similarity_search(
@@ -26,27 +28,38 @@ def metadata_search(state):
                 retrieved_documents.append(document)
     found_sections = []
     missing_sections = []
+    verified_documents = []
     for required_section in state["required_sections"]:
+        expected_documents = []
+        for document in current_documents:
+            if document.metadata.get("subaspect", "") == required_section:
+                expected_documents.append(document)
+
         section_documents = []
-        for document in retrieved_documents:
-            document_section = document.metadata.get("subaspect", "")
-            if document_section == required_section:
-                section_documents.append(document)
-        number_of_chunks_found = len(section_documents)
-        if number_of_chunks_found == 0:
-            missing_sections.append(required_section)
-            continue
-        expected_chunk_count = section_documents[0].metadata.get("subsection_chunk_count",0)
-        if number_of_chunks_found == expected_chunk_count:
+        for expected in expected_documents:
+            for document in retrieved_documents:
+                if document.page_content != expected.page_content:
+                    continue
+                metadata_matches = True
+                for key, value in expected.metadata.items():
+                    if document.metadata.get(key) != value:
+                        metadata_matches = False
+                        break
+                if metadata_matches:
+                    section_documents.append(document)
+                    break
+        if expected_documents and len(section_documents) == len(expected_documents):
             found_sections.append(required_section)
+            verified_documents.extend(section_documents)
         else:
             missing_sections.append(required_section)
+    if missing_sections:
+        verified_documents = []
     return {
-        "documents": retrieved_documents,
+        "documents": verified_documents,
         "found_sections": found_sections,
         "missing_sections": missing_sections,
-        "search_method": "metadata_filtered_similarity"
-    }
+        "search_method": "metadata_filtered_similarity"}
 
 def stop_search(state):
     required_sections = state["required_sections"]

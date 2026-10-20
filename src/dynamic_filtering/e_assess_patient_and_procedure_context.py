@@ -10,7 +10,6 @@ DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 GUIDELINES_FILE = DATA_DIR / "guidelines.yaml"
 
 HERMES_BASE_URL = "http://localhost:8081"
-SNOMED_SYSTEM = "http://snomed.info/sct"
 
 def load_guidelines():
     with open(GUIDELINES_FILE, "r", encoding="utf-8") as file:

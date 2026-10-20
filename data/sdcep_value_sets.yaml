@@ -154,14 +154,3 @@ procedure_value_sets:
   periodontal_surgery:
     root_code: "234677007"
     display: Periodontal operation
-
-
-# ============================================================
-# SAFETY BEHAVIOUR
-# ============================================================
-
-unmapped_behavior:
-
-  medication: require_terminology_review
-  condition: retain_in_patient_context
-  procedure: require_clinician_confirmation

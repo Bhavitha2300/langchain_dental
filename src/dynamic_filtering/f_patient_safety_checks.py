@@ -226,9 +226,6 @@ def find_blocking_reasons(assessed_context):
             "unfractionated_heparin"]:
             if ingredient_name not in anticoagulants:
                 anticoagulants.append(ingredient_name)
-        if medication_class == "antiplatelet":
-            if ingredient_name not in antiplatelets:
-                antiplatelets.append(ingredient_name)
     if len(anticoagulants) > 1:
         blocking_reasons.append({"reason": "multiple_anticoagulants",
                                  "message": "Multiple anticoagulants need clinician review."})

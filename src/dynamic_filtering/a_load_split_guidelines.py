@@ -49,61 +49,14 @@ def load_documents():
             if subsection.get("source_table"):
                 metadata["source_table"] = subsection["source_table"]
             single_value_fields = [
-                "recommendation_type",
                 "medication_action",
-                "risk_type",
-                "bleeding_likelihood",
-                "postoperative_bleeding_risk",
                 "recommendation_strength",
-                "evidence_certainty",
-                "condition_group",
-                "inr_category",
-                "dose_category",
-                "therapy_type",
-                "treatment_duration",
-                "medication_context",
-                "patient_bleeding_risk_factor"
+                "evidence_certainty"
             ]
             for field in single_value_fields:
                 value = subsection.get(field)
                 if value:
                     metadata[field] = normalize_value(value)
-            list_value_fields = [
-                "medications",
-                "medication_classes",
-                "conditions",
-                "procedures",
-                "clinical_contexts",
-                "interacting_medications",
-                "trade_names",
-                "other_names",
-                "alternative_names",
-                "substances",
-                "commonly_used_treatments",
-                "commonly_used_medications",
-                "combination_trade_names",
-                "examples"
-            ]
-            for field in list_value_fields:
-                values = subsection.get(field, [])
-                if values:
-                    normalized_values = []
-                    for value in values:
-                        normalized_values.append(normalize_value(value))
-                    metadata[field] = normalized_values
-            interactions = subsection.get("interactions", [])
-            if interactions:
-                interacting_drugs = []
-                interaction_effects = []
-                for interaction in interactions:
-                    interacting_drug = interaction.get("interacting_drug", "")
-                    possible_effect = interaction.get("possible_effect", "")
-                    if interacting_drug:
-                        interacting_drugs.append(normalize_value(interacting_drug))
-                    if possible_effect:
-                        interaction_effects.append(normalize_value(possible_effect))
-                metadata["interacting_drugs"] = interacting_drugs
-                metadata["interaction_effects"] = interaction_effects
             page_content = f"""
     Guideline: {document_title}
     Section: {section_title}
@@ -119,6 +72,7 @@ def load_documents():
         if subaspect not in chunk_counts:
             chunk_counts[subaspect] = 0
         chunk_counts[subaspect] = chunk_counts[subaspect] + 1
+        document.metadata["subsection_chunk_number"] = chunk_counts[subaspect]
     for document in split_documents:
         subaspect = document.metadata.get("subaspect", "")
         document.metadata["subsection_chunk_count"] = chunk_counts[subaspect]
