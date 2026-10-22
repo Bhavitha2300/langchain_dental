@@ -15,30 +15,31 @@ def find_patient_safety_reasons(assessed_context: dict):
     safety_reasons = []
     clinical_assessment = assessed_context.get("clinical_assessment", {})
     patient_safety = clinical_assessment.get("patient_safety", {})
-
-    required_questions = [
-        "medical_history_and_medicines_reviewed",
-        "therapy_must_not_be_interrupted",
-        "additional_bleeding_risk_condition",
-        "bleeding_history_concern"]
-
+    bleeding_risk = clinical_assessment.get("treatment_plan_bleeding_risk","")
+    if bleeding_risk == "unlikely":
+        required_questions = ["medical_history_and_medicines_reviewed"]
+    else:
+        required_questions = [
+            "medical_history_and_medicines_reviewed",
+            "therapy_must_not_be_interrupted",
+            "additional_bleeding_risk_condition",
+            "bleeding_history_concern"]
     for question in required_questions:
         answer = patient_safety.get(question, "")
         if answer not in ["yes", "no"]:
             safety_reasons.append({"reason": "missing_safety_information",
                                    "missing_information": [question]})
-
     if patient_safety.get("medical_history_and_medicines_reviewed", "") == "no":
         safety_reasons.append({"reason": "clinical_information_not_reviewed",
                                "message": "Review the patient's medical history and medicines before continuing."})
-
+    if bleeding_risk == "unlikely":
+        return safety_reasons
     recorded_conditions = assessed_context.get("conditions", [])
     if recorded_conditions:
         conditions_reconciled = patient_safety.get("recorded_conditions_reconciled", "")
         if conditions_reconciled != "yes":
             safety_reasons.append({"reason": "recorded_conditions_not_reconciled",
                                    "message": "Review the recorded conditions and correct the safety answers before continuing."})
-
     has_anticoagulant = False
     has_antiplatelet = False
     for medication in assessed_context.get("medications", []):
@@ -47,27 +48,22 @@ def find_patient_safety_reasons(assessed_context: dict):
             has_anticoagulant = True
         if medication_class == "antiplatelet":
             has_antiplatelet = True
-
     if has_anticoagulant and has_antiplatelet:
         return safety_reasons
-
     doac_ingredients = []
     for medication in assessed_context.get("medications", []):
         if medication.get("medication_class", "") == "doac":
             ingredient_name = normalize_value(medication.get("ingredient_name", ""))
             doac_ingredients.append(ingredient_name)
-
     higher_risk_procedure = False
     for procedure in clinical_assessment.get("procedure_assessments", []):
         if procedure.get("postoperative_bleeding_risk", "") == "higher":
             higher_risk_procedure = True
-
     if doac_ingredients:
         urgent_dental_procedure = patient_safety.get("urgent_dental_procedure", "")
         if urgent_dental_procedure not in ["yes", "no"]:
             safety_reasons.append({"reason": "procedure_urgency_missing",
                                    "message": "Confirm whether the dental procedure is urgent."})
-
         if higher_risk_procedure:
             morning_dose_taken = patient_safety.get("morning_doac_dose_already_taken", "")
             if morning_dose_taken not in ["yes", "no"]:
@@ -76,19 +72,15 @@ def find_patient_safety_reasons(assessed_context: dict):
             elif urgent_dental_procedure == "no" and morning_dose_taken == "yes":
                 safety_reasons.append({"reason": "morning_doac_dose_taken_before_elective_higher_risk_procedure",
                                        "message": "The morning DOAC dose has already been taken before an elective higher-risk procedure. Confirm the treatment plan before continuing."})
-
     if "apixaban" in doac_ingredients or "rivaroxaban" in doac_ingredients:
         initial_high_dose = patient_safety.get("initial_high_dose_doac", "")
         if initial_high_dose not in ["yes", "no"]:
             safety_reasons.append({"reason": "initial_high_dose_information_missing",
                                    "message": "Confirm whether the patient is taking initial high-dose apixaban or rivaroxaban."})
-
     urgent_after_morning_dose = (
         patient_safety.get("urgent_dental_procedure", "") == "yes"
         and patient_safety.get("morning_doac_dose_already_taken", "") == "yes")
-
     therapy_must_not_be_interrupted = patient_safety.get("therapy_must_not_be_interrupted", "")
-
     if higher_risk_procedure:
         if "rivaroxaban" in doac_ingredients or "edoxaban" in doac_ingredients:
             if not urgent_after_morning_dose and therapy_must_not_be_interrupted != "yes":
@@ -96,38 +88,31 @@ def find_patient_safety_reasons(assessed_context: dict):
                 if usual_dose_time not in ["morning", "evening"]:
                     safety_reasons.append({"reason": "usual_dose_time_missing",
                                            "message": "Confirm whether the patient normally takes the medication in the morning or evening."})
-
     has_low_molecular_weight_heparin = False
     has_unfractionated_heparin = False
-
     for medication in assessed_context.get("medications", []):
         medication_class = medication.get("medication_class", "")
         if medication_class == "low_molecular_weight_heparin":
             has_low_molecular_weight_heparin = True
         elif medication_class == "unfractionated_heparin":
             has_unfractionated_heparin = True
-
     if has_low_molecular_weight_heparin:
         lmwh_dose_category = patient_safety.get("lmwh_dose_category", "")
         if lmwh_dose_category not in ["prophylactic_low", "treatment_higher", "uncertain"]:
             safety_reasons.append({"reason": "lmwh_dose_category_missing",
                                    "message": "Confirm whether the LMWH dose is prophylactic, treatment, or uncertain."})
-
     if has_low_molecular_weight_heparin or has_unfractionated_heparin:
         dialysis_heparin = patient_safety.get("heparin_during_kidney_dialysis", "")
         if dialysis_heparin not in ["yes", "no"]:
             safety_reasons.append({"reason": "kidney_dialysis_heparin_information_missing",
                                    "message": "Confirm whether the patient receives heparin or LMWH during kidney dialysis."})
-
     has_vitamin_k_antagonist = False
     for medication in assessed_context.get("medications", []):
         if medication.get("medication_class", "") == "vitamin_k_antagonist":
             has_vitamin_k_antagonist = True
-
     if has_vitamin_k_antagonist:
         inr_value = patient_safety.get("inr_value", "")
         inr_test_time = patient_safety.get("inr_test_time", "")
-
         if inr_value is None or inr_value == "":
             safety_reasons.append({"reason": "inr_value_missing",
                                    "message": "The patient's latest INR value is required."})
@@ -139,7 +124,6 @@ def find_patient_safety_reasons(assessed_context: dict):
             if not (0 < inr_value < float("inf")):
                 safety_reasons.append({"reason": "invalid_inr_value",
                                        "message": "Enter a valid INR value greater than zero."})
-
         if not inr_test_time:
             safety_reasons.append({"reason": "inr_test_time_missing",
                                    "message": "The time of the latest INR test is required."})
@@ -150,14 +134,11 @@ def find_patient_safety_reasons(assessed_context: dict):
             if patient_safety.get("inr_is_stable", "") != "yes":
                 safety_reasons.append({"reason": "inr_requires_recent_test",
                                        "message": "The INR must be checked no more than 24 hours before treatment."})
-
     treatment_duration = patient_safety.get("antithrombotic_treatment_duration", "")
     treatment_duration = treatment_duration.strip().lower().replace(" ", "_")
-
     if treatment_duration not in ["long_term", "time_limited"]:
         safety_reasons.append({"reason": "missing_safety_information",
                                "missing_information": ["antithrombotic_treatment_duration"]})
-
     if treatment_duration == "time_limited" and not doac_ingredients:
         urgent_dental_procedure = patient_safety.get("urgent_dental_procedure", "")
         if urgent_dental_procedure not in ["yes", "no"]:

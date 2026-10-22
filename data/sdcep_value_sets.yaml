@@ -154,3 +154,18 @@ procedure_value_sets:
   periodontal_surgery:
     root_code: "234677007"
     display: Periodontal operation
+
+  procedures_unlikely_to_cause_bleeding:
+    root_code: "105491000220107"
+    display: Procedures unlikely to cause bleeding
+
+    codes:
+      - "105491000220107"
+      - "1260227005"
+      - "1260228000"
+      - "1264277001"
+      - "234745004"
+      - "281835005"
+      - "1286899007"
+
+    ecl: "(<< 105491000220107 OR << 1260227005 OR << 1260228000 OR << 1264277001 OR << 234745004 OR << 281835005 OR << 1286899007)"

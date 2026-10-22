@@ -25,7 +25,8 @@ def find_procedure_type(procedure_code, value_sets):
     # first check the codes in value sets
     for procedure_type, procedure_details in procedure_value_sets.items():
         root_code = procedure_details.get("root_code", "")
-        if procedure_code == root_code:
+        codes = procedure_details.get("codes", [])
+        if procedure_code == root_code or procedure_code in codes:
             return procedure_type
     # if no code matches then check using Hermes.
     url = f"{HERMES_BASE_URL}/v1/snomed/expand"
@@ -175,8 +176,10 @@ def assess_patient_context(patient_id, visit_procedures=None):
         bleeding_risk = procedure_assessment.get("postoperative_bleeding_risk","")
         if bleeding_risk == "higher":
             treatment_plan_bleeding_risk = "higher"
-        elif (bleeding_risk == "low" and treatment_plan_bleeding_risk != "higher"):
+        elif bleeding_risk == "low" and treatment_plan_bleeding_risk != "higher":
             treatment_plan_bleeding_risk = "low"
+        elif bleeding_risk == "unlikely" and not treatment_plan_bleeding_risk:
+            treatment_plan_bleeding_risk = "unlikely"
     patient_context["clinical_assessment"] = {"procedure_assessments": procedure_assessments,"treatment_plan_bleeding_risk": (treatment_plan_bleeding_risk)}
     return patient_context
 

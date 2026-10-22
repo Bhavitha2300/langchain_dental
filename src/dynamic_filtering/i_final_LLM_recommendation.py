@@ -113,6 +113,7 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
             - Do not add headings or sections for information that is not present or not applicable.
             - Clearly distinguish between delaying a medication dose and delaying the dental procedure. Do not say to delay the procedure when the guideline only says to delay the medication dose.
             - Do not decide by yourself whether the dental procedure should be delayed or can proceed. State only the procedure action and medication action present in the retrieved guideline.
+            - When the retrieved action says "treat according to standard procedures", use those words. Do not change this to "the procedure can proceed", do not say medicines can be continued, and do not mention restart or staged treatment unless those actions are explicitly present in the retrieved guideline.
             Response instructions: {response_instructions}
             """),
         MessagesPlaceholder(variable_name="chat_history"),

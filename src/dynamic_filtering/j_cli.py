@@ -4,7 +4,7 @@ import typer
 import requests
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from dynamic_filtering.d_medication_terminology import add_medication_class_to_fhir_patient_data, load_value_sets
-from dynamic_filtering.e_assess_patient_and_procedure_context import find_procedure_type
+from dynamic_filtering.e_assess_patient_and_procedure_context import find_procedure_type, assess_patient_context
 from dynamic_filtering.i_final_LLM_recommendation import final_response
 from dynamic_filtering.k_jev import classify_clinician_question
 
@@ -83,11 +83,13 @@ def confirm_patient(patient_id):
         print("Please check the patient ID.")
         patient_id = typer.prompt("Enter the correct patient ID")
 
-def collect_safety_context(patient_context):
+def collect_safety_context(patient_context, bleeding_risk=""):
     safety_context = {}
     print()
     print("Patient safety questions:")
-    safety_context["medical_history_and_medicines_reviewed"] = ask_yes_no("Have the patient's medical history and medicines been reviewed?")
+    safety_context["medical_history_and_medicines_reviewed"] = ask_yes_no("Have the patient's current medical conditions, all prescribed and non-prescribed medicines, antithrombotic treatment duration, and bleeding history been reviewed, with no unresolved concerns?")
+    if bleeding_risk == "unlikely":
+        return safety_context
     safety_context["therapy_must_not_be_interrupted"] = ask_yes_no( "Does the patient have a prosthetic metal heart valve, coronary stent, DVT or PE within the last 3 months, or anticoagulation for cardioversion?")
     safety_context["additional_bleeding_risk_condition"] = ask_yes_no(
         "Does the patient have renal disease, liver disease, bone marrow disorder, or another condition increasing bleeding risk?")
@@ -206,7 +208,9 @@ def main(patient_id: str):
             if visit_procedures is None:
                 visit_procedures = collect_visit_procedures(patient_context)
             if safety_context is None:
-                safety_context = collect_safety_context(patient_context)
+                assessed_context = assess_patient_context(patient_id,visit_procedures=visit_procedures)
+                bleeding_risk = assessed_context.get("clinical_assessment",{}).get("treatment_plan_bleeding_risk", "")
+                safety_context = collect_safety_context(patient_context,bleeding_risk)
         response_visit_procedures = visit_procedures
         if (question_type == "patient_information" and response_visit_procedures is None):
             response_visit_procedures = patient_context.get( "planned_procedures",[])

@@ -16,6 +16,9 @@ def get_bleeding_risks(assessed_context):
 def get_recommendation_subaspects(assessed_context):
     selected_subaspects = []
     bleeding_risks = get_bleeding_risks(assessed_context)
+    if "unlikely" in bleeding_risks:
+        return ["procedures_unlikely_to_cause_bleeding",
+                "treatment_unlikely_to_cause_bleeding"]
     medications = assessed_context.get("medications", [])
     antiplatelet_ingredients = []
     has_anticoagulant = False
@@ -143,9 +146,12 @@ def build_metadata_filters(assessed_context):
     selected_subaspects = get_recommendation_subaspects(assessed_context)
     metadata_filters = []
     for subaspect in selected_subaspects:
+        record_type = "clinical_recommendation"
+        if subaspect == "procedures_unlikely_to_cause_bleeding":
+            record_type = "procedure_classification"
         metadata_filters.append({
             "$and": [
-                {"record_type": {"$eq": "clinical_recommendation"}},
+                {"record_type": {"$eq": record_type}},
                 {"subaspect": {"$eq": subaspect}}
             ]
         })
