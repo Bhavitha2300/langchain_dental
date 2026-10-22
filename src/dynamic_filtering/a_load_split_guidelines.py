@@ -12,7 +12,6 @@ KNOWLEDGE_BASE_FILE = DATA_DIR / "guidelines.yaml"
 def normalize_value(value):
     return value.strip().lower().replace("-", "_").replace(" ", "_")
 
-
 def load_documents():
     with open(KNOWLEDGE_BASE_FILE, "r", encoding="utf-8") as file:
         knowledge_base = yaml.safe_load(file)

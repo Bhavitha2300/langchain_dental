@@ -31,7 +31,7 @@ def find_patient_safety_reasons(assessed_context: dict):
                                    "missing_information": [question]})
     if patient_safety.get("medical_history_and_medicines_reviewed", "") == "no":
         safety_reasons.append({"reason": "clinical_information_not_reviewed",
-                               "message": "Review the patient's medical history and medicines before continuing."})
+                               "message": "Complete or correct the patient's medical history and medication list before continuing."})
     if bleeding_risk == "unlikely":
         return safety_reasons
     recorded_conditions = assessed_context.get("conditions", [])

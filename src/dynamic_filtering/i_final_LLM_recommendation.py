@@ -8,6 +8,7 @@ from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines, retrieve_guideline_information
 from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
+from dynamic_filtering.m_drug_interaction_retrieval import retrieve_drug_interactions
 
 load_config()
 
@@ -52,6 +53,8 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
                                  "Do not give a patient-specific treatment recommendation.")
     elif question_type == "guideline_explanation":
         response_instructions = " Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. "
+    elif question_type == "drug_interaction":
+        response_instructions = ("Answer only the drug-interaction question. State only interactions present in the retrieved guideline. If the medicine is not mentioned, say it was not identified in the stored SDCEP interaction information and advise checking the current BNF or medicine SPC. Never say that no interaction exists.")
     elif question_type == "patient_information":
         response_instructions = "Answer only the question about the patient. Use only the structured patient context. Do not provide a treatment recommendation. Do not mention the retrieved guideline. Do not add management advice or a conclusion."
     else:
@@ -61,6 +64,13 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         if retrieval_result["missing_sections"]:
             return "The guideline information could not be retrieved completely."
         patient_context = {}
+        documents = retrieval_result["documents"]
+        safety_warnings = []
+    elif question_type == "drug_interaction":
+        retrieval_result = retrieve_drug_interactions( patient_id=patient_id,question=question, safety_context=safety_context)
+        if retrieval_result["status"] != "retrieved":
+            return retrieval_result.get("message", "")
+        patient_context = retrieval_result["patient_context"]
         documents = retrieval_result["documents"]
         safety_warnings = []
     elif question_type == "patient_information":
@@ -114,6 +124,7 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
             - Clearly distinguish between delaying a medication dose and delaying the dental procedure. Do not say to delay the procedure when the guideline only says to delay the medication dose.
             - Do not decide by yourself whether the dental procedure should be delayed or can proceed. State only the procedure action and medication action present in the retrieved guideline.
             - When the retrieved action says "treat according to standard procedures", use those words. Do not change this to "the procedure can proceed", do not say medicines can be continued, and do not mention restart or staged treatment unless those actions are explicitly present in the retrieved guideline.
+            - Preserve important qualifiers from the guideline, such as 'regular use', and do not make the interaction sound broader than the retrieved content.
             Response instructions: {response_instructions}
             """),
         MessagesPlaceholder(variable_name="chat_history"),

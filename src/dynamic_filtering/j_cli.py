@@ -83,11 +83,14 @@ def confirm_patient(patient_id):
         print("Please check the patient ID.")
         patient_id = typer.prompt("Enter the correct patient ID")
 
-def collect_safety_context(patient_context, bleeding_risk=""):
-    safety_context = {}
+def collect_medication_review():
     print()
-    print("Patient safety questions:")
-    safety_context["medical_history_and_medicines_reviewed"] = ask_yes_no("Have the patient's current medical conditions, all prescribed and non-prescribed medicines, antithrombotic treatment duration, and bleeding history been reviewed, with no unresolved concerns?")
+    print("Medication review:")
+    answer = ask_yes_no(" Does the information shown above include all current medical conditions and all prescribed, non-prescribed, herbal and complementary medicines, and have treatment duration and bleeding history been reviewed without unresolved concerns?")
+    return {"medical_history_and_medicines_reviewed": answer}
+
+def collect_safety_context(patient_context, bleeding_risk=""):
+    safety_context = collect_medication_review()
     if bleeding_risk == "unlikely":
         return safety_context
     safety_context["therapy_must_not_be_interrupted"] = ask_yes_no( "Does the patient have a prosthetic metal heart valve, coronary stent, DVT or PE within the last 3 months, or anticoagulation for cardioversion?")
@@ -191,6 +194,7 @@ def main(patient_id: str):
     patient_id, patient_context = confirm_patient(patient_id)
     visit_procedures = None
     safety_context = None
+    interaction_safety_context = None
     chat_history = InMemoryChatMessageHistory()
     print()
     print("You can now ask clinical questions.")
@@ -202,6 +206,9 @@ def main(patient_id: str):
             print("Conversation ended.")
             break
         question_type = classify_clinician_question(question)
+        if question_type == "drug_interaction":
+            if interaction_safety_context is None:
+                interaction_safety_context = (collect_medication_review())
         if question_type in [
             "treatment_recommendation",
             "guideline_explanation"]:
@@ -213,12 +220,15 @@ def main(patient_id: str):
                 safety_context = collect_safety_context(patient_context,bleeding_risk)
         response_visit_procedures = visit_procedures
         if (question_type == "patient_information" and response_visit_procedures is None):
-            response_visit_procedures = patient_context.get( "planned_procedures",[])
+            response_visit_procedures = patient_context.get("planned_procedures", [])
+        response_safety_context = safety_context
+        if question_type == "drug_interaction":
+            response_safety_context = interaction_safety_context
         answer = final_response(
             patient_id=patient_id,
             question=question,
             visit_procedures=response_visit_procedures,
-            safety_context=safety_context,
+            safety_context=response_safety_context,
             chat_history=chat_history,
             question_type=question_type)
         print()
