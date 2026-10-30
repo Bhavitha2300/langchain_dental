@@ -36,7 +36,6 @@ def format_guideline_documents(documents):
 
     return guideline_context
 
-
 def final_response(patient_id,question,visit_procedures=None,safety_context=None,chat_history=None,question_type="treatment_recommendation"):
     if visit_procedures is None:
         visit_procedures = []
@@ -54,7 +53,15 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
     elif question_type == "guideline_explanation":
         response_instructions = " Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. "
     elif question_type == "drug_interaction":
-        response_instructions = ("Answer only the drug-interaction question. State only interactions present in the retrieved guideline. If the medicine is not mentioned, say it was not identified in the stored SDCEP interaction information and advise checking the current BNF or medicine SPC. Never say that no interaction exists.")
+        response_instructions = ("Answer only the drug-interaction question. "
+        "If the medicine is mentioned in the retrieved guideline, state every "
+        "interaction given for that medicine and preserve all conditions and "
+        "qualifiers, including statements that apply only to regular use. "
+        "When the medicine is mentioned, do not advise checking the BNF or SPC "
+        "unless the retrieved guideline explicitly gives that advice. "
+        "If the medicine is not mentioned, say it was not identified in the "
+        "stored SDCEP interaction information and advise checking the current "
+        "BNF or medicine SPC. Never say that no interaction exists.")
     elif question_type == "patient_information":
         response_instructions = "Answer only the question about the patient. Use only the structured patient context. Do not provide a treatment recommendation. Do not mention the retrieved guideline. Do not add management advice or a conclusion."
     else:
@@ -107,7 +114,7 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
             - Do not create or guess medication, diagnosis or procedure codes.
             - Do not change the procedure bleeding-risk classification.
             - The bleeding-risk classification belongs to the planned dental procedure. Do not say that the medication caused this classification.
-            - Include medication restart timing and staged treatment advice when they are present in the retrieved guideline.
+            - Include medication restart timing and staged treatment advice when they are present in the retrieved guideline. If not present just ignore, do not say anything about restart instructions or staged treatment advice
             - Do not create a medication recommendation that is not stated in the retrieved guideline.
             - If the clinician confirms that therapy must not be interrupted, do not guess which medical condition caused that answer.
             - Use the clinician role stated in the retrieved guideline. Do not replace cardiologist with prescribing clinician.

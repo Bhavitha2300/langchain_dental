@@ -11,16 +11,27 @@ def classify_clinician_question(question):
         state=question,
         questions={
             "question_type": Choice(
-                instructions= "What type of information is the clinician asking for?",
+                instructions="Classify the clinician's question into exactly one category.",
                 criteria={
-                    "treatment_recommendation": "The clinician is asking what to do for the planned dental treatment.",
-                    "guideline_explanation": "The clinician is asking why, when, or how the guideline recommendation applies to this patient.",
-                    "guideline_information": ("The clinician is asking which guideline is used, who produced it, its purpose, scope, edition, or intended patient group."),
-                    "drug_interaction": ("The clinician is asking whether a medicine they are considering prescribing may interact with this patient's anticoagulant or antiplatelet medication."),
-                    "patient_information": "The clinician is asking about this patient's condition, medicine, planned procedure, or bleeding risk.",
-                    "other": "The question is not about this patient's dental treatment or medicines."})})
+                    "treatment_recommendation": ("The clinician is asking whether to proceed with or modify the "
+                                                 "planned dental procedure, including management of the patient's "
+                                                 "existing anticoagulant or antiplatelet medication."),
+                    "guideline_explanation": ("The clinician is asking why, when, or how a guideline "
+                                              "recommendation applies to this patient."),
+                    "guideline_information": ("The clinician is asking about the guideline's name, source, "
+                                              "purpose, scope, edition, or intended patient group."),
+                    "drug_interaction": ("The clinician is asking whether they can prescribe, administer, "
+                                         "or recommend another medicine for this patient. This includes "
+                                         "questions such as 'Can I prescribe amoxicillin?' and questions "
+                                         "about interactions with the patient's anticoagulant or "
+                                         "antiplatelet medication."),
+                    "patient_information": ("The clinician is asking for existing information about the "
+                                            "patient's condition, current medication, planned procedure, "
+                                            "or procedure bleeding risk."),
+                    "other": ("The question is unrelated to this patient's dental treatment "
+                              "or medicines.")
+                })})
     question_type = response.answers["question_type"].choice
-
     return question_type
 
 def preview_question_type():

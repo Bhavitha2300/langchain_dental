@@ -16,91 +16,105 @@ class RetrievalState(TypedDict):
 
 def metadata_search(state):
     vector_store = get_vector_store()
-    current_documents = load_documents()
-    retrieved_documents = []
-    for metadata_filter in state["metadata_filters"]:
-        matching_documents = vector_store.similarity_search(
+    all_guideline_chunks_created_from_yaml = load_documents()
+    chunks_returned_by_vector_search = []
+    for one_metadata_filter in state["metadata_filters"]:
+        searched_results = vector_store.similarity_search(
             query=state["question"],
             k=10,
-            filter=metadata_filter)
-        for document in matching_documents:
-            if document not in retrieved_documents:
-                retrieved_documents.append(document)
-    found_sections = []
-    missing_sections = []
-    verified_documents = []
-    for required_section in state["required_sections"]:
-        expected_documents = []
-        for document in current_documents:
-            if document.metadata.get("subaspect", "") == required_section:
-                expected_documents.append(document)
+            filter=one_metadata_filter
+        )
+        for retrieved_chunk in searched_results:
+            if retrieved_chunk not in chunks_returned_by_vector_search:
+                chunks_returned_by_vector_search.append(retrieved_chunk)
 
-        section_documents = []
-        for expected in expected_documents:
-            for document in retrieved_documents:
-                if document.page_content != expected.page_content:
+    found_subaspect_names = []
+    missing_subaspect_names = []
+    all_verified_chunks = []
+    for required_subaspect_name in state["required_sections"]:
+        expected_chunks_for_this_subaspect = []
+        for guideline_chunk in all_guideline_chunks_created_from_yaml:
+            guideline_chunk_subaspect = guideline_chunk.metadata.get("subaspect","")
+            if guideline_chunk_subaspect == required_subaspect_name:
+                expected_chunks_for_this_subaspect.append(guideline_chunk)
+        verified_chunks_for_this_subaspect = []
+        for expected_chunk in expected_chunks_for_this_subaspect:
+            for retrieved_chunk in chunks_returned_by_vector_search:
+                if retrieved_chunk.page_content != expected_chunk.page_content:
                     continue
-                metadata_matches = True
-                for key, value in expected.metadata.items():
-                    if document.metadata.get(key) != value:
-                        metadata_matches = False
+                all_metadata_matches = True
+                for metadata_key, expected_metadata_value in expected_chunk.metadata.items():
+                    retrieved_metadata_value = (retrieved_chunk.metadata.get(metadata_key))
+                    if retrieved_metadata_value != expected_metadata_value:
+                        all_metadata_matches = False
                         break
-                if metadata_matches:
-                    section_documents.append(document)
+                if all_metadata_matches:
+                    verified_chunks_for_this_subaspect.append(retrieved_chunk)
                     break
-        if expected_documents and len(section_documents) == len(expected_documents):
-            found_sections.append(required_section)
-            verified_documents.extend(section_documents)
+        expected_chunk_count = len(expected_chunks_for_this_subaspect)
+        verified_chunk_count = len(verified_chunks_for_this_subaspect)
+        if expected_chunk_count > 0 and verified_chunk_count == expected_chunk_count:
+            found_subaspect_names.append(required_subaspect_name)
+            all_verified_chunks.extend(verified_chunks_for_this_subaspect)
         else:
-            missing_sections.append(required_section)
-    if missing_sections:
-        verified_documents = []
+            missing_subaspect_names.append( required_subaspect_name)
+    if missing_subaspect_names:
+        all_verified_chunks = []
     return {
-        "documents": verified_documents,
-        "found_sections": found_sections,
-        "missing_sections": missing_sections,
-        "search_method": "metadata_filtered_similarity"}
+        "documents": all_verified_chunks,
+        "found_sections": found_subaspect_names,
+        "missing_sections": missing_subaspect_names,
+        "search_method": "metadata_filtered_similarity"
+    }
 
 def stop_search(state):
-    required_sections = state["required_sections"]
+    required_subaspect_names = state["required_sections"]
     return {
         "documents": [],
         "found_sections": [],
-        "missing_sections": required_sections,
+        "missing_sections": required_subaspect_names,
         "search_method": "not_searched"
     }
 
-
 def choose_search(state):
-    metadata_filters = state["metadata_filters"]
-    if metadata_filters is None:
+    available_metadata_filters = state["metadata_filters"]
+    if available_metadata_filters is None:
         return "stop_search"
-    if len(metadata_filters) == 0:
+    if len(available_metadata_filters) == 0:
         return "stop_search"
     return "metadata_search"
 
+
 workflow = StateGraph(RetrievalState)
-workflow.add_node("metadata_search",metadata_search)
-workflow.add_node("stop_search",stop_search)
-workflow.add_conditional_edges(START,choose_search,
-    {"metadata_search": "metadata_search",
-     "stop_search": "stop_search"})
-workflow.add_edge("metadata_search", END)
-workflow.add_edge("stop_search", END)
+workflow.add_node("metadata_search", metadata_search)
+workflow.add_node( "stop_search", stop_search)
+workflow.add_conditional_edges(START,choose_search,{
+        "metadata_search": "metadata_search",
+        "stop_search": "stop_search"})
+workflow.add_edge( "metadata_search",END)
+workflow.add_edge("stop_search",END)
 retrieval_graph = workflow.compile()
 
-def retrieve_documents(question,metadata_filters,required_sections):
-    starting_state = {"question": question,
-                      "metadata_filters": metadata_filters,
-                      "required_sections": required_sections,
-                      "documents": [],
-                      "found_sections": [],
-                      "missing_sections": [],
-                      "search_method": ""}
-    result = retrieval_graph.invoke(starting_state)
-    retrieval_report = {"documents": result["documents"],
-                        "requested_sections": required_sections,
-                        "found_sections": result["found_sections"],
-                        "missing_sections": result["missing_sections"],
-                        "search_method": result["search_method"]}
+def retrieve_documents(
+    question,
+    metadata_filters,
+    required_sections
+):
+    retrieval_starting_state = {
+        "question": question,
+        "metadata_filters": metadata_filters,
+        "required_sections": required_sections,
+        "documents": [],
+        "found_sections": [],
+        "missing_sections": [],
+        "search_method": ""
+    }
+    graph_result = retrieval_graph.invoke(retrieval_starting_state)
+    retrieval_report = {
+        "documents": graph_result["documents"],
+        "requested_sections": required_sections,
+        "found_sections": graph_result["found_sections"],
+        "missing_sections": graph_result["missing_sections"],
+        "search_method": graph_result["search_method"]
+    }
     return retrieval_report

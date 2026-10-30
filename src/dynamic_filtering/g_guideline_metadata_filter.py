@@ -18,7 +18,10 @@ def get_recommendation_subaspects(assessed_context):
     bleeding_risks = get_bleeding_risks(assessed_context)
     if "unlikely" in bleeding_risks:
         return ["procedures_unlikely_to_cause_bleeding",
-                "treatment_unlikely_to_cause_bleeding"]
+        "treatment_unlikely_to_cause_bleeding",
+        "atraumatic_treatment",
+        "local_haemostatic_measures",
+        "haemostatic_equipment"]
     medications = assessed_context.get("medications", [])
     antiplatelet_ingredients = []
     has_anticoagulant = False

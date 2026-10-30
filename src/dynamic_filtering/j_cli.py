@@ -102,9 +102,7 @@ def collect_safety_context(patient_context, bleeding_risk=""):
     if recorded_conditions:
         safety_context["recorded_conditions_reconciled"] = (ask_yes_no("After reviewing the recorded conditions above, do your safety answers agree with the patient's current medical history?"))
     else:
-        safety_context[
-            "recorded_conditions_reconciled"
-        ] = "not_applicable"
+        safety_context["recorded_conditions_reconciled"] = "not_applicable"
     medication_classes = get_medication_classes(patient_context)
     has_anticoagulant = ("doac" in medication_classes or "vitamin_k_antagonist" in medication_classes or "low_molecular_weight_heparin" in medication_classes or "unfractionated_heparin" in medication_classes)
     has_antiplatelet = "antiplatelet" in medication_classes
@@ -162,12 +160,10 @@ def collect_visit_procedures(patient_context):
     print("Select procedures for this treatment visit:")
     for procedure in patient_context.get("planned_procedures", []):
         procedure_name = procedure.get("procedure_name", "")
-        procedure_id = procedure.get("procedure_id", "")
         scheduled_date = procedure.get("scheduled_date", "")
         body_site = procedure.get("body_site", "")
         print()
         print(f"Procedure: {procedure_name}")
-        print(f"Procedure ID: {procedure_id}")
         print(f"Scheduled date: {scheduled_date}")
         print(f"Body site: {body_site}")
         include_procedure = ask_choice("Is this procedure included in this treatment visit?",["yes", "no"])
@@ -206,6 +202,7 @@ def main(patient_id: str):
             print("Conversation ended.")
             break
         question_type = classify_clinician_question(question)
+        print("Question type:", question_type)
         if question_type == "drug_interaction":
             if interaction_safety_context is None:
                 interaction_safety_context = (collect_medication_review())
