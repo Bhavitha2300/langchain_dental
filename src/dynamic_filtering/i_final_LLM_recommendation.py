@@ -95,6 +95,7 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
     relevant_patient_context = {
         "conditions": patient_context.get("conditions", []),
         "medications": patient_context.get("medications", []),
+        "observations": patient_context.get("observations", []),
         "planned_procedures": patient_context.get("planned_procedures", []),
         "clinical_assessment": patient_context.get("clinical_assessment", {}),
         "safety_warnings": safety_warnings

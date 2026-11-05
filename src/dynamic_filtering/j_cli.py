@@ -68,6 +68,15 @@ def show_patient_summary(patient_id, patient_context):
         print(medication.get("medication_name", ""))
         print(f"  Medication class: {medication.get('medication_class', '')}")
     print()
+    print("Observations:")
+    for observation in patient_context.get("observations", []):
+        value = observation.get("value", "")
+        unit = observation.get("unit", "")
+        effective_date = observation.get("effective_date", "")
+        print(f"- {observation.get('observation_name', '')}")
+        print(f"  Value: {value} {unit}".strip())
+        print(f"  Date: {effective_date}")
+        print(f"  Status: {observation.get('status', '')}")
     print("Planned procedures:")
     for procedure in patient_context.get("planned_procedures", []):
         print(procedure.get("procedure_name", ""))

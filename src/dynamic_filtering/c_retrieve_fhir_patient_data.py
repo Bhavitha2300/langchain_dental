@@ -21,6 +21,12 @@ def get_conditions(patient_id):
     response.raise_for_status()
     return response.json()
 
+def get_observations(patient_id):
+    url = f"{FHIR_BASE_URL}/Observation"
+    response = requests.get(url, params={"patient": patient_id},timeout=10)
+    response.raise_for_status()
+    return response.json()
+
 def get_medications(patient_id):
     url = f"{FHIR_BASE_URL}/MedicationRequest"
     response = requests.get(url, params={"patient": patient_id}, timeout=10)
@@ -44,6 +50,7 @@ def get_fhir_patient_data(patient_id):
     conditions = get_conditions(patient_id)
     medications = get_medications(patient_id)
     planned_procedures = get_service_requests(patient_id)
+    observations = get_observations(patient_id)
     # patient name
     names = patient.get("name", [])
     name = {}
@@ -61,6 +68,7 @@ def get_fhir_patient_data(patient_id):
         "birth_date": patient.get("birthDate", ""),
         "conditions": [],
         "medications": [],
+        "observations": [],
         "planned_procedures": []}
     # Conditions
     condition_entries = conditions.get("entry", [])
@@ -132,6 +140,28 @@ def get_fhir_patient_data(patient_id):
             "period": timing.get("period", ""),
             "period_unit": timing.get("periodUnit", ""),
             "route": dosage.get("route", {}).get("text", "")})
+    # Observations
+    observation_entries = observations.get("entry", [])
+    for each_entry in observation_entries:
+        observation_resource = each_entry.get("resource", {})
+        observation_status = observation_resource.get("status", "")
+        if observation_status in ["cancelled", "entered-in-error"]:
+            continue
+        observation_code = observation_resource.get("code", {})
+        observation_name = observation_code.get("text", "")
+        if not observation_name:
+            observation_codings = observation_code.get("coding", [])
+            if observation_codings:
+                observation_name = observation_codings[0].get("display","")
+        value_quantity = observation_resource.get("valueQuantity",{})
+        full_fhir_patient_details["observations"].append({
+            "observation_id": observation_resource.get("id", ""),
+            "observation_name": observation_name,
+            "status": observation_status,
+            "effective_date": observation_resource.get("effectiveDateTime",""),
+            "value": value_quantity.get("value", ""),
+            "unit": value_quantity.get("unit", "")
+        })
     # Planned procedures
     procedure_entries = planned_procedures.get("entry", [])
     for each_entry in procedure_entries:
@@ -179,4 +209,4 @@ def preview_patient_data():
 if __name__ == "__main__":
     preview_patient_data()
 
-# Patient IDs: 1000, 1151, 1155, 1256, 1301, 1306, 1351
+# Patient IDs: 1000, 1151, 1155, 1256, 1301, 1306, 1351, 1409,1407, 1413, 1419, 1424, 1429
