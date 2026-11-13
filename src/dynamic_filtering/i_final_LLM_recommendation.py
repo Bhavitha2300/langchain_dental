@@ -48,8 +48,17 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
     if question_type == "treatment_recommendation":
         response_instructions = "Give the full clinical decision-support response. Include the relevant medication, medication class, planned procedure, procedure bleeding risk, guideline action, practical management advice, guideline section, recommendation strength and evidence certainty. Include the action from every retrieved guideline section. Include medication restart instructions and staged treatment advice only when they are present in the retrieved guideline."
     elif question_type == "guideline_information":
-        response_instructions = ("Explain the guideline's name, source, purpose and scope using only the retrieved guideline content. "
-                                 "Do not give a patient-specific treatment recommendation.")
+        response_instructions = (
+            "Give a general answer to the specific question using "
+            "only the retrieved guideline content and source metadata. "
+            "Include the supporting section references. "
+            "Preserve medication, procedure and timing conditions. "
+            "Do not combine advice for different situations into one plan. "
+            "Do not apply the answer to the selected patient. "
+            "If the content is insufficient, say so. "
+            "If the question requests a patient-specific decision, "
+            "explain that patient assessment is required. "
+            "A missing interaction statement does not mean no interaction exists.")
     elif question_type == "guideline_explanation":
         response_instructions = " Answer the clinician's specific question using the retrieved guideline. Give a short and direct explanation. Do not repeat the complete clinical recommendation, patient context or clinical assesment or guideline content. "
     elif question_type == "drug_interaction":
@@ -68,11 +77,12 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         response_instructions = """Answer the question using the patient context and retrieved guideline."""
     if question_type == "guideline_information":
         retrieval_result = retrieve_guideline_information(question)
-        if retrieval_result["missing_sections"]:
+        if not retrieval_result["documents"] or retrieval_result["missing_sections"]:
             return "The guideline information could not be retrieved completely."
         patient_context = {}
         documents = retrieval_result["documents"]
         safety_warnings = []
+        chat_history = InMemoryChatMessageHistory()
     elif question_type == "drug_interaction":
         retrieval_result = retrieve_drug_interactions( patient_id=patient_id,question=question, safety_context=safety_context)
         if retrieval_result["status"] != "retrieved":
@@ -163,6 +173,23 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
 
 def preview_final_response():
     patient_id = "1256"
+    visit_procedures = [
+        {
+            "procedure_id": "test-restoration",
+            "procedure_name": "Direct restoration",
+            "code_system": "http://snomed.info/sct",
+            "code": "173307000",
+            "margin_location": "unknown"
+        }
+    ]
+
+    assessed_context = assess_patient_context(
+        patient_id=patient_id,
+        visit_procedures=visit_procedures
+    )
+
+    print("Procedure assessment:")
+    print(assessed_context["clinical_assessment"])
     safety_context = {
         "medical_history_and_medicines_reviewed": "yes",
         "therapy_must_not_be_interrupted": "no",
@@ -170,12 +197,25 @@ def preview_final_response():
         "bleeding_history_concern": "no",
         "urgent_dental_procedure": "no",
         "morning_doac_dose_already_taken": "no",
+        "recorded_conditions_reconciled": "yes",
         "initial_high_dose_doac": "no",
         "usual_dose_time": "morning",
         "antithrombotic_treatment_duration": "long_term"
     }
+    print("Recorded conditions:")
+    for condition in assessed_context.get("conditions", []):
+        print(condition)
+
+    print("FHIR planned procedures:")
+    for procedure in assessed_context.get("planned_procedures", []):
+        print(procedure)
     question = "Can this patient proceed with the planned dental procedure?"
-    answer = final_response(patient_id=patient_id,question=question,safety_context=safety_context)
+    answer = final_response(
+        patient_id=patient_id,
+        question=question,
+        visit_procedures=visit_procedures,
+        safety_context=safety_context
+    )
     print(answer)
 
 

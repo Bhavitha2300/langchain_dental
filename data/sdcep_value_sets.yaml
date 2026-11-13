@@ -122,10 +122,20 @@ procedure_value_sets:
     root_code: "450526008"
     display: Drainage of dental abscess by intraoral approach
 
+  restoration_of_tooth:
+    root_code: "173307000"
+    display: Restoration of tooth
+    ecl: "173307000"
+
   root_surface_debridement:
     root_code: "234699004"
     display: Root surface debridement
     ecl: "(234699004 OR 1260196001 OR 1260200006)"
+
+  detailed_six_point_full_periodontal_examination:
+    root_code: "771343009"
+    display: Measurement of periodontal pocket depth-six areas per tooth exam
+    ecl: "771343009"
 
   preprosthetic_surgery:
     root_code: "173297008"

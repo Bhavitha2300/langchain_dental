@@ -86,6 +86,29 @@ procedure_assessment_rules:
       postoperative_bleeding_risk: ""
       missing_information: []
 
+  restoration_of_tooth:
+
+    subgingival_result:
+      procedure_type: direct_or_indirect_restorations_with_subgingival_margins
+      classification_status: classified
+      procedure_category: restoration_with_subgingival_margins
+      postoperative_bleeding_risk: low
+      missing_information: [ ]
+
+    supragingival_result:
+      procedure_type: procedures_unlikely_to_cause_bleeding
+      classification_status: classified
+      procedure_category: restoration_with_supragingival_margins
+      postoperative_bleeding_risk: unlikely
+      missing_information: [ ]
+
+    missing_information_result:
+      procedure_type: restoration_of_tooth
+      classification_status: needs_clinician_confirmation
+      procedure_category: ""
+      postoperative_bleeding_risk: ""
+      missing_information: [ ]
+
   procedures_unlikely_to_cause_bleeding:
 
     result:

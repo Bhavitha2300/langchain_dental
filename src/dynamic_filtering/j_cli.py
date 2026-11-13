@@ -74,7 +74,7 @@ def show_patient_summary(patient_id, patient_context):
         unit = observation.get("unit", "")
         effective_date = observation.get("effective_date", "")
         print(f"- {observation.get('observation_name', '')}")
-        print(f"  Value: {value} {unit}".strip())
+        print(f"  Value: {value} {unit}".rstrip())
         print(f"  Date: {effective_date}")
         print(f"  Status: {observation.get('status', '')}")
     print("Planned procedures:")
@@ -191,6 +191,10 @@ def collect_visit_procedures(patient_context):
             visit_procedure["wound_size"] = ask_choice(f"Enter wound size for {procedure_name}",["restricted", "large"])
             if (visit_procedure["extraction_complexity"] == "simple" and visit_procedure["wound_size"] == "large"):
                 visit_procedure["whether_extractions_are_adjacent" ] = ask_yes_no("Are two or more teeth that are next to each other being extracted during this visit?")
+        if procedure_type == "restoration_of_tooth":
+            visit_procedure["margin_location"] = ask_choice(
+                f"Where is the restoration margin for {procedure_name}?",
+                ["subgingival", "supragingival", "unknown"])
         visit_procedures.append(visit_procedure)
 
     return visit_procedures
