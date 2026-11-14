@@ -10,6 +10,8 @@ MEDICATION_CLASSES_PRESENT_IN_GUIDELINES = [
     "unfractionated_heparin",
     "antiplatelet"]
 
+NON_BLOCKING_TERMINOLOGY_STATUSES = ["ingredient_not_in_sdcep_value_sets"]
+
 # This function checks safety answers from the clinician
 def find_patient_safety_reasons(assessed_context: dict):
     safety_reasons = []
@@ -187,7 +189,8 @@ def find_blocking_reasons(assessed_context):
         terminology_status = medication.get("terminology_status", "")
         medication_class = medication.get("medication_class", "")
         ingredient_name = medication.get("ingredient_name", "")
-        if terminology_status != "mapped":
+        if (terminology_status != "mapped"
+                and terminology_status not in NON_BLOCKING_TERMINOLOGY_STATUSES):
             blocking_reasons.append({"reason": terminology_status,
                                      "message": "Medication terminology could not be mapped."})
         elif medication_class in MEDICATION_CLASSES_PRESENT_IN_GUIDELINES:

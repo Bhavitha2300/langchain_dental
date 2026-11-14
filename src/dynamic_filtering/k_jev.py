@@ -11,25 +11,34 @@ def classify_clinician_question(question):
         state=question,
         questions={
             "question_type": Choice(
-                instructions="Classify the clinician's question into exactly one category.",
+                instructions=(
+                    "Classify the clinician's question into exactly one category. "
+                    "Questions about what to do for a specific patient must use "
+                    "the appropriate patient-specific category, even if they "
+                    "mention guidelines. Use guideline_information for general "
+                    "questions about what SDCEP says."
+                ),
                 criteria={
                     "treatment_recommendation": ("The clinician is asking whether to proceed with or modify the "
                                                  "planned dental procedure, including management of the patient's "
                                                  "existing anticoagulant or antiplatelet medication."),
                     "guideline_explanation": ("The clinician is asking why, when, or how a guideline "
                                               "recommendation applies to this patient."),
-                    "guideline_information": ("The clinician is asking about the guideline's name, source, "
-                                              "purpose, scope, edition, or intended patient group."),
-                    "drug_interaction": ("The clinician is asking whether they can prescribe, administer, "
-                                         "or recommend another medicine for this patient. This includes "
-                                         "questions such as 'Can I prescribe amoxicillin?' and questions "
-                                         "about interactions with the patient's anticoagulant or "
-                                         "antiplatelet medication."),
+                    "guideline_information": ("General questions about the SDCEP guideline's source, scope, "
+                                              "recommendations or explanations. Includes general questions "
+                                              "about haemostasis, staged treatment, postoperative advice "
+                                              "and drug interactions. The question does not request a "
+                                              "decision for a specific patient."),
+                    "drug_interaction": ("The clinician asks about prescribing or giving another "
+                                         "medicine to a specific patient, or interactions with "
+                                         "that patient's medicines. Includes 'Can I prescribe "
+                                         "amoxicillin?' General questions about what SDCEP says "
+                                         "about interactions belong to guideline_information."),
                     "patient_information": ("The clinician is asking for existing information about the "
                                             "patient's condition, current medication, planned procedure, "
                                             "or procedure bleeding risk."),
-                    "other": ("The question is unrelated to this patient's dental treatment "
-                              "or medicines.")
+                    "other": ("The question is outside both the patient's dental "
+                              "antithrombotic management and the stored SDCEP guidance."),
                 })})
     question_type = response.answers["question_type"].choice
     return question_type

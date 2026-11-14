@@ -40,6 +40,18 @@ def find_procedure_type(procedure_code, value_sets):
             return procedure_type
     return ""
 
+def assess_restoration_procedure(procedure, guidelines):
+    restoration_rules = guidelines.get("procedure_assessment_rules", {}).get("restoration_of_tooth", {})
+    margin_location = procedure.get("margin_location", "")
+    margin_location = str(margin_location).strip().lower()
+    if margin_location == "subgingival":
+        return restoration_rules.get("subgingival_result",{}).copy()
+    if margin_location == "supragingival":
+        return restoration_rules.get("supragingival_result",{}).copy()
+    result = restoration_rules.get("missing_information_result",{}).copy()
+    result["missing_information"] = ["margin_location"]
+    return result
+
 def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
     quantity = procedure.get("quantity", "")
     quantity_unit = str(procedure.get("quantity_unit", "")).strip().lower()
@@ -150,6 +162,8 @@ def assess_patient_context(patient_id, visit_procedures=None):
                     extraction_complexity = procedure.get("extraction_complexity","")
                     wound_size = procedure.get( "wound_size","")
                     procedure_assessment = assess_extraction(procedure_for_assessment,extraction_complexity,wound_size,guidelines)
+                elif procedure_type == "restoration_of_tooth":
+                    procedure_assessment = assess_restoration_procedure(procedure,guidelines)
                 elif procedure_type:
                     procedure_assessment = assess_other_procedure(procedure_type,guidelines)
                 else:

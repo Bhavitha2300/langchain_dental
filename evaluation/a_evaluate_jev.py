@@ -11,10 +11,9 @@ RESULT_FILE = EVALUATION_DIR / "results" / "jev_question_classification_results.
 def evaluate_jev_questions():
     correct_answers = 0
     total_questions = 0
-
     with open(DATASET_FILE, "r", encoding="utf-8") as file:
         data_dict = csv.DictReader(file)
-        with open(RESULT_FILE,"w", encoding="utf-8", newline="") as result_file:
+        with open(RESULT_FILE,"w", encoding="utf-8") as result_file:
             result_writer = csv.writer(result_file)
             result_writer.writerow([
                 "question",
@@ -43,8 +42,6 @@ def evaluate_jev_questions():
     print("Correct answers:", correct_answers)
     print("Total questions:", total_questions)
     print("Accuracy:", round(accuracy, 2), "%")
-    print("Results saved in:", RESULT_FILE)
-
 
 if __name__ == "__main__":
     evaluate_jev_questions()

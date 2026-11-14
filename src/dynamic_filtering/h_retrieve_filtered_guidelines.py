@@ -4,7 +4,8 @@ import pprint
 from dynamic_filtering.l_langgraph_retrieval import retrieve_documents
 from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 from dynamic_filtering.f_patient_safety_checks import find_safety_warnings, find_blocking_reasons
-from dynamic_filtering.g_guideline_metadata_filter import (build_metadata_filters, get_recommendation_subaspects)
+from dynamic_filtering.g_guideline_metadata_filter import build_metadata_filters, get_recommendation_subaspects
+from dynamic_filtering.b_vector_store import get_vector_store
 
 def create_blocking_message(blocking_reasons):
     message_lines = ["A guideline recommendation cannot be generated."]
@@ -22,18 +23,27 @@ def create_blocking_message(blocking_reasons):
     return "\n".join(message_lines)
 
 def retrieve_guideline_information(question):
-    required_sections = [
-        "applicable_patient_group",
-        "statement_of_intent"]
+    vector_store = get_vector_store()
+    search_results = vector_store.similarity_search(
+        query=question,
+        k=5)
+    selected_sections = []
+    for document in search_results:
+        section = document.metadata.get("subaspect", "")
+        if section and section not in selected_sections:
+            selected_sections.append(section)
     metadata_filters = []
-    for section in required_sections:
+    for section in selected_sections:
         metadata_filters.append({
-            "$and": [
-                {"record_type": {"$eq": "background_information"}},
-                {"subaspect": {"$eq": section}}
-            ]
+            "subaspect": {"$eq": section}
         })
-    return retrieve_documents(question=question, metadata_filters=metadata_filters,required_sections=required_sections)
+    result = retrieve_documents(
+        question=question,
+        metadata_filters=metadata_filters,
+        required_sections=selected_sections)
+    result["search_method"] = "similarity_then_subsection_verification"
+    result["search_results"] = search_results
+    return result
 
 def retrieve_filtered_guidelines(patient_id, question,visit_procedures=None, safety_context=None):
     if visit_procedures is None:

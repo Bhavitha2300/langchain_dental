@@ -39,15 +39,21 @@ def get_rxnorm_ingredients(rxnorm_code: str):
 
     return ingredients
 
-# For the ingredient code we got from RxNorm server, identify the medication class from the value sets
-def find_medication_class_from_value_sets(ingredient_code, value_sets):
+# For the ingredient code returned by RxNorm, identify both the medication class and medication key
+def find_medication_details_from_value_sets(ingredient_code, value_sets):
     medication_value_sets = value_sets.get("medication_value_sets", {})
     for medication_class, medications in medication_value_sets.items():
         for medication in medications:
             if medication.get("code", "") == ingredient_code:
-                return medication_class
+                return { "medication_class": medication_class,
+                         "medication_key": medication.get("medication_key", "")}
 
-    return ""
+    return {"medication_class": "", "medication_key": ""}
+
+
+def find_medication_class_from_value_sets(ingredient_code, value_sets):
+    medication_details = find_medication_details_from_value_sets(ingredient_code,value_sets)
+    return medication_details.get("medication_class", "")
 
 # adding the medicaiton class, ingredient to the fhir patient data
 def add_medication_class_to_fhir_patient_data(patient_id):
@@ -79,9 +85,15 @@ def add_medication_class_to_fhir_patient_data(patient_id):
         ingredient = ingredients[0]
         ingredient_code = ingredient.get("code", "")
         ingredient_name = ingredient.get("name", "")
-        medication_class = find_medication_class_from_value_sets(ingredient_code, value_sets)
+        medication_details = find_medication_details_from_value_sets(
+            ingredient_code,
+            value_sets
+        )
+        medication_class = medication_details.get("medication_class", "")
+        medication_key = medication_details.get("medication_key", "")
 
-        medication["ingredient_name"] = ingredient_name
+        medication["rxnorm_ingredient_name"] = ingredient_name
+        medication["ingredient_name"] = medication_key or ingredient_name
         medication["ingredient_rxnorm_code"] = ingredient_code
         medication["medication_class"] = medication_class
         # if ingredient or medication present does not come under medication class present in sdcep value sets then raise this error

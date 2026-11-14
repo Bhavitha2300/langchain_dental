@@ -27,6 +27,10 @@ medication_value_sets:
       code: "1546356"
       display: dabigatran
 
+    - medication_key: dabigatran
+      code: "1037042"
+      display: dabigatran etexilate
+
     - medication_key: rivaroxaban
       code: "1114195"
       display: rivaroxaban
