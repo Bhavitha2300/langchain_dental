@@ -48,6 +48,8 @@ def get_recommendation_subaspects(assessed_context):
         add_subaspect(selected_subaspects,"therapy_that_should_not_be_interrupted")
     if has_anticoagulant and has_antiplatelet:
         add_subaspect( selected_subaspects,"dental_treatment_with_combination_therapy")
+        if ( patient_safety.get("antithrombotic_treatment_duration") == "time_limited" and patient_safety.get("urgent_dental_procedure") == "no"):
+            add_subaspect(selected_subaspects, "time_limited_antithrombotic_treatment")
         return selected_subaspects
     inr_value = patient_safety.get("inr_value", "")
     usual_dose_time = patient_safety.get("usual_dose_time", "")

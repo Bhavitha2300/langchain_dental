@@ -93,28 +93,30 @@ def confirm_patient(patient_id):
         patient_id = typer.prompt("Enter the correct patient ID")
 
 def collect_medication_review():
-    print()
-    print("Medication review:")
-    answer = ask_yes_no(" Does the information shown above include all current medical conditions and all prescribed, non-prescribed, herbal and complementary medicines, and have treatment duration and bleeding history been reviewed without unresolved concerns?")
+    answer = ask_yes_no("Have you checked and confirmed the recorded medical history and all current prescribed, over-the-counter, herbal and complementary medicines, including any corrections?")
     return {"medical_history_and_medicines_reviewed": answer}
 
-def collect_safety_context(patient_context, bleeding_risk=""):
-    safety_context = collect_medication_review()
+def collect_safety_context(patient_context, bleeding_risk="", medication_review=None):
+    if medication_review is None:
+        medication_review = collect_medication_review()
+    safety_context = medication_review.copy()
     if bleeding_risk == "unlikely":
         return safety_context
     safety_context["therapy_must_not_be_interrupted"] = ask_yes_no( "Does the patient have a prosthetic metal heart valve, coronary stent, DVT or PE within the last 3 months, or anticoagulation for cardioversion?")
-    safety_context["additional_bleeding_risk_condition"] = ask_yes_no(
-        "Does the patient have renal disease, liver disease, bone marrow disorder, or another condition increasing bleeding risk?")
+    safety_context["additional_bleeding_risk_condition"] = ask_yes_no("Does the patient have a medical condition or another medicine that may increase bleeding risk? Consider kidney or liver disease, blood disorders, NSAIDs, antidepressants and immunosuppressants.")
     safety_context["bleeding_history_concern"] = ask_yes_no(
         "Does the patient have a history of prolonged or excessive bleeding?")
-    recorded_conditions = patient_context.get("conditions", [])
-    if recorded_conditions:
-        safety_context["recorded_conditions_reconciled"] = (ask_yes_no("After reviewing the recorded conditions above, do your safety answers agree with the patient's current medical history?"))
+    if patient_context.get("conditions"):
+        safety_context["recorded_conditions_reconciled"] = (safety_context["medical_history_and_medicines_reviewed"])
     else:
         safety_context["recorded_conditions_reconciled"] = "not_applicable"
     medication_classes = get_medication_classes(patient_context)
     has_anticoagulant = ("doac" in medication_classes or "vitamin_k_antagonist" in medication_classes or "low_molecular_weight_heparin" in medication_classes or "unfractionated_heparin" in medication_classes)
     has_antiplatelet = "antiplatelet" in medication_classes
+    safety_context["antithrombotic_treatment_duration"] = ask_choice( "Is the antithrombotic treatment long-term or time-limited?",["long_term", "time_limited"])
+    safety_context["urgent_dental_procedure"] = "not_applicable"
+    if safety_context["antithrombotic_treatment_duration"] == "time_limited":
+        safety_context["urgent_dental_procedure"] = ask_yes_no("Does the planned dental procedure need to be performed urgently?")
     if has_anticoagulant and has_antiplatelet:
         print("The patient is taking an anticoagulant and antiplatelet combination.")
         return safety_context
@@ -141,24 +143,21 @@ def collect_safety_context(patient_context, bleeding_risk=""):
         if medication.get("medication_class", "") == "doac":
             ingredient_name = medication.get("ingredient_name", "").strip().lower()
             doac_ingredients.append(ingredient_name)
-    if doac_ingredients:
-        safety_context["urgent_dental_procedure"] = ask_yes_no("Does the planned dental procedure need to be performed urgently?")
-        safety_context["morning_doac_dose_already_taken"] = ask_yes_no("Has the patient taken any DOAC dose this morning?")
-    else:
-        safety_context["urgent_dental_procedure"] = "not_applicable"
-        safety_context["morning_doac_dose_already_taken"] = "not_applicable"
+    higher_risk = bleeding_risk == "higher"
+    safety_context["morning_doac_dose_already_taken"] = "not_applicable"
+    safety_context["initial_high_dose_doac"] = "not_applicable"
+    # Initial high-dose treatment matters for any procedure likely to bleed.
     if "apixaban" in doac_ingredients or "rivaroxaban" in doac_ingredients:
-        safety_context["initial_high_dose_doac"] = ask_yes_no("Is the patient taking initial high-dose apixaban or rivaroxaban for acute DVT or pulmonary embolism during the first 1 to 3 weeks of treatment?")
-    else:
-        safety_context["initial_high_dose_doac"] = "not_applicable"
-    urgent_after_morning_dose = (safety_context["urgent_dental_procedure"] == "yes" and safety_context["morning_doac_dose_already_taken"] == "yes")
-    dose_time_is_needed = (("rivaroxaban" in doac_ingredients or "edoxaban" in doac_ingredients)
-            and not urgent_after_morning_dose and safety_context["therapy_must_not_be_interrupted"] != "yes")
-    if dose_time_is_needed:
-        safety_context["usual_dose_time"] = ask_choice("When does the patient normally take this medication?",["morning", "evening"])
-    safety_context["antithrombotic_treatment_duration"] = ask_choice("Enter treatment duration: long_term or time_limited", ["long_term", "time_limited"])
-    if not doac_ingredients and safety_context["antithrombotic_treatment_duration"] == "time_limited":
-        safety_context["urgent_dental_procedure"] = ask_yes_no("Does the planned dental procedure need to be performed urgently?")
+        safety_context["initial_high_dose_doac"] = ask_yes_no("Is the patient taking initial high-dose apixaban or rivaroxaban for acute DVT or PE during the first 1 to 3 weeks?")
+    # Dose timing matters for higher-risk DOAC procedures.
+    if doac_ingredients and higher_risk:
+        if safety_context["urgent_dental_procedure"] == "not_applicable":
+            safety_context["urgent_dental_procedure"] = ask_yes_no("Does the planned dental procedure need to be performed urgently?")
+        safety_context["morning_doac_dose_already_taken"] = ask_yes_no("On the day of this dental procedure, has the patient already taken a DOAC dose that morning?")
+        urgent_after_morning_dose = (safety_context["urgent_dental_procedure"] == "yes" and safety_context["morning_doac_dose_already_taken"] == "yes")
+        once_daily_doac = ("rivaroxaban" in doac_ingredients or "edoxaban" in doac_ingredients)
+        if (once_daily_doac and not urgent_after_morning_dose and safety_context["therapy_must_not_be_interrupted"] != "yes"):
+            safety_context["usual_dose_time"] = ask_choice( "When does the patient normally take rivaroxaban or edoxaban?", ["morning", "evening"])
 
     return safety_context
 
@@ -188,13 +187,12 @@ def collect_visit_procedures(patient_context):
                 procedure_type = ""
         if procedure_type == "tooth_extraction":
             visit_procedure["extraction_complexity"] = ask_choice(f"Enter extraction complexity for {procedure_name}",["simple", "complex", "surgical"])
-            visit_procedure["wound_size"] = ask_choice(f"Enter wound size for {procedure_name}",["restricted", "large"])
-            if (visit_procedure["extraction_complexity"] == "simple" and visit_procedure["wound_size"] == "large"):
-                visit_procedure["whether_extractions_are_adjacent" ] = ask_yes_no("Are two or more teeth that are next to each other being extracted during this visit?")
+            if visit_procedure["extraction_complexity"] == "simple":
+                visit_procedure["wound_size"] = ask_choice(f"Enter wound size for {procedure_name}",["restricted", "large"])
+                if visit_procedure["wound_size"] == "large":
+                    visit_procedure["whether_extractions_are_adjacent"] =  ask_yes_no( "Will two or more adjacent teeth be extracted during this visit?")
         if procedure_type == "restoration_of_tooth":
-            visit_procedure["margin_location"] = ask_choice(
-                f"Where is the restoration margin for {procedure_name}?",
-                ["subgingival", "supragingival", "unknown"])
+            visit_procedure["margin_location"] = ask_choice( f"Where is the restoration margin for {procedure_name}?",["subgingival", "supragingival", "unknown"])
         visit_procedures.append(visit_procedure)
 
     return visit_procedures
@@ -204,6 +202,7 @@ def main(patient_id: str):
     visit_procedures = None
     safety_context = None
     interaction_safety_context = None
+    medication_review = None
     chat_history = InMemoryChatMessageHistory()
     print()
     print("You can now ask clinical questions.")
@@ -217,8 +216,9 @@ def main(patient_id: str):
         question_type = classify_clinician_question(question)
         print("Question type:", question_type)
         if question_type == "drug_interaction":
-            if interaction_safety_context is None:
-                interaction_safety_context = (collect_medication_review())
+            if medication_review is None:
+                medication_review = collect_medication_review()
+            interaction_safety_context = medication_review.copy()
         if question_type in [
             "treatment_recommendation",
             "guideline_explanation"]:
@@ -227,7 +227,12 @@ def main(patient_id: str):
             if safety_context is None:
                 assessed_context = assess_patient_context(patient_id,visit_procedures=visit_procedures)
                 bleeding_risk = assessed_context.get("clinical_assessment",{}).get("treatment_plan_bleeding_risk", "")
-                safety_context = collect_safety_context(patient_context,bleeding_risk)
+                if medication_review is None:
+                    medication_review = collect_medication_review()
+                safety_context = collect_safety_context(
+                    patient_context,
+                    bleeding_risk,
+                    medication_review)
         response_visit_procedures = visit_procedures
         if (question_type == "patient_information" and response_visit_procedures is None):
             response_visit_procedures = patient_context.get("planned_procedures", [])

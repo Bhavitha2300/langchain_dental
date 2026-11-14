@@ -66,8 +66,9 @@ def assess_extraction(procedure, extraction_complexity, wound_size, guidelines):
         missing_information.append("quantity_unit")
     if extraction_complexity not in ["simple", "complex", "surgical"]:
         missing_information.append("extraction_complexity")
-    if wound_size not in ["restricted", "large"]:
-        missing_information.append("wound_size")
+    if extraction_complexity == "simple":
+        if wound_size not in ["restricted", "large"]:
+            missing_information.append("wound_size")
     if (extraction_complexity == "simple" and wound_size == "large" and adjacent_extractions not in ["yes", "no"]):
         missing_information.append("whether_extractions_are_adjacent")
     if missing_information:

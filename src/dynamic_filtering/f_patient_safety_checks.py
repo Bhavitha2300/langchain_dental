@@ -51,6 +51,15 @@ def find_patient_safety_reasons(assessed_context: dict):
         if medication_class == "antiplatelet":
             has_antiplatelet = True
     if has_anticoagulant and has_antiplatelet:
+        duration = patient_safety.get("antithrombotic_treatment_duration", "")
+        if duration not in ["long_term", "time_limited"]:
+            safety_reasons.append({ "reason": "missing_safety_information",
+                                    "missing_information": ["antithrombotic_treatment_duration"]})
+        if duration == "time_limited":
+            urgency = patient_safety.get("urgent_dental_procedure", "")
+            if urgency not in ["yes", "no"]:
+                safety_reasons.append({ "reason": "procedure_urgency_missing",
+                                        "message": "Confirm whether the dental procedure is urgent."})
         return safety_reasons
     doac_ingredients = []
     for medication in assessed_context.get("medications", []):
@@ -61,7 +70,7 @@ def find_patient_safety_reasons(assessed_context: dict):
     for procedure in clinical_assessment.get("procedure_assessments", []):
         if procedure.get("postoperative_bleeding_risk", "") == "higher":
             higher_risk_procedure = True
-    if doac_ingredients:
+    if doac_ingredients and higher_risk_procedure:
         urgent_dental_procedure = patient_safety.get("urgent_dental_procedure", "")
         if urgent_dental_procedure not in ["yes", "no"]:
             safety_reasons.append({"reason": "procedure_urgency_missing",
@@ -141,7 +150,7 @@ def find_patient_safety_reasons(assessed_context: dict):
     if treatment_duration not in ["long_term", "time_limited"]:
         safety_reasons.append({"reason": "missing_safety_information",
                                "missing_information": ["antithrombotic_treatment_duration"]})
-    if treatment_duration == "time_limited" and not doac_ingredients:
+    if treatment_duration == "time_limited":
         urgent_dental_procedure = patient_safety.get("urgent_dental_procedure", "")
         if urgent_dental_procedure not in ["yes", "no"]:
             safety_reasons.append({"reason": "procedure_urgency_missing",
