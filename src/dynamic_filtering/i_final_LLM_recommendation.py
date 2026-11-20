@@ -125,7 +125,11 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         safety_warnings = []
         chat_history = InMemoryChatMessageHistory()
     elif question_type == "drug_interaction":
-        retrieval_result = retrieve_drug_interactions( patient_id=patient_id,question=question, safety_context=safety_context)
+        if retrieval_result is None:
+            retrieval_result = retrieve_drug_interactions(
+                patient_id=patient_id,
+                question=question,
+                safety_context=safety_context)
         if retrieval_result["status"] != "retrieved":
             return retrieval_result.get("message", "")
         patient_context = retrieval_result["patient_context"]
