@@ -13,6 +13,7 @@ from dynamic_filtering.i_final_LLM_recommendation import final_response, format_
 EVALUATION_DIR = Path(__file__).resolve().parent
 DATASET_FILE = EVALUATION_DIR / "datasets" / "rag_evaluation_dataset.csv"
 OUTPUT_FILE = EVALUATION_DIR / "results" / "ragas_answer_scores.csv"
+ANSWERS_FILE = EVALUATION_DIR / "results" / "generated_answers.csv"
 
 
 def evaluate_answers():
@@ -21,6 +22,15 @@ def evaluate_answers():
         rows = list(csv.DictReader(file))
     if not rows:
         raise ValueError("The dataset is empty.")
+    ANSWERS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(ANSWERS_FILE, "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow([
+            "fhir_patient_id",
+            "clinician_question",
+            "generated_answer",
+            "evidence_contexts",
+            "reference_answer"])
     samples = []
     for test_number, row in enumerate(rows, start=1):
         reference = row["reference_answer"].strip()
@@ -66,6 +76,14 @@ def evaluate_answers():
             "response": answer,
             "retrieved_contexts": contexts,
             "reference": reference})
+        with open(ANSWERS_FILE, "a", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                row["fhir_patient_id"],
+                row["clinician_question"],
+                answer,
+                json.dumps(contexts),
+                reference])
 
     dataset = EvaluationDataset.from_list(samples)
     evaluator_llm = LangchainLLMWrapper(ChatOpenAI(model="gpt-4o", temperature=0))

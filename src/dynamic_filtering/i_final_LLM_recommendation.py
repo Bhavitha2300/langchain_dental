@@ -36,7 +36,7 @@ def format_guideline_documents(documents):
 
     return guideline_context
 
-def final_response(patient_id,question,visit_procedures=None,safety_context=None,chat_history=None,question_type="treatment_recommendation"):
+def final_response(patient_id,question,visit_procedures=None,safety_context=None,chat_history=None,question_type="treatment_recommendation", retrieval_result=None):
     if visit_procedures is None:
         visit_procedures = []
     if safety_context is None:
@@ -95,8 +95,13 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         patient_context["clinical_assessment"]["patient_safety"] = safety_context
         documents = []
         safety_warnings = []
-    else:
-        retrieval_result = retrieve_filtered_guidelines(patient_id=patient_id,question=question,visit_procedures=visit_procedures,safety_context=safety_context)
+        else:
+        if retrieval_result is None:
+            retrieval_result = retrieve_filtered_guidelines(
+                patient_id=patient_id,
+                question=question,
+                visit_procedures=visit_procedures,
+                safety_context=safety_context)
         if retrieval_result["status"] != "retrieved":
             return retrieval_result.get("blocking_message", "")
         patient_context = retrieval_result["patient_context"]
