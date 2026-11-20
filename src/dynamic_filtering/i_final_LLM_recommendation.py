@@ -91,11 +91,11 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         documents = retrieval_result["documents"]
         safety_warnings = []
     elif question_type == "patient_information":
-        patient_context = assess_patient_context(patient_id,visit_procedures=visit_procedures)
+        patient_context = assess_patient_context(patient_id, visit_procedures=visit_procedures)
         patient_context["clinical_assessment"]["patient_safety"] = safety_context
         documents = []
         safety_warnings = []
-        else:
+    else:
         if retrieval_result is None:
             retrieval_result = retrieve_filtered_guidelines(
                 patient_id=patient_id,

@@ -31,10 +31,7 @@ def evaluate_retrieval():
             visit_procedures=procedures,
             safety_context=answers)
 
-        actual = sorted({
-            document.metadata["subaspect"]
-            for document in response["documents"]
-        })
+        actual = sorted(set(response["found_sections"]))
 
         samples.append({
             "user_input": row["clinician_question"],
@@ -52,6 +49,8 @@ def evaluate_retrieval():
             "status": response["status"],
             "result": "pass" if success else "fail",
             "missing_sections": json.dumps(sorted(set(expected) - set(actual))),
+            "requested_sections": json.dumps(response["requested_sections"]),
+            "retrieval_missing_sections": json.dumps(response["missing_sections"]),
             "unexpected_sections": json.dumps(sorted(set(actual) - set(expected))),
             "error": response.get("blocking_message", "")
         })

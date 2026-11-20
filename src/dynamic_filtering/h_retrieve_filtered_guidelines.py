@@ -63,7 +63,10 @@ def retrieve_filtered_guidelines(patient_id, question,visit_procedures=None, saf
                 "blocking_message": blocking_message,
                 "safety_warnings": safety_warnings,
                 "metadata_filters": None,
-                "documents": []}
+                "documents": [],
+                "requested_sections": [],
+                "found_sections": [],
+                "missing_sections": []}
     required_sections = get_recommendation_subaspects(assessed_context)
     metadata_filters = build_metadata_filters(assessed_context)
     retrieval_result = retrieve_documents(question=question,metadata_filters=metadata_filters,required_sections=required_sections)
@@ -79,14 +82,20 @@ def retrieve_filtered_guidelines(patient_id, question,visit_procedures=None, saf
                 "blocking_message": blocking_message,
                 "safety_warnings": safety_warnings,
                 "metadata_filters": metadata_filters,
-                "documents": []}
+                "documents": [],
+                "requested_sections": retrieval_result["requested_sections"],
+                "found_sections": retrieval_result["found_sections"],
+                "missing_sections": retrieval_result["missing_sections"]}
     return {"status": "retrieved",
             "patient_context": assessed_context,
             "blocking_reasons": [],
             "blocking_message": "",
             "safety_warnings": safety_warnings,
             "metadata_filters": metadata_filters,
-            "documents": documents}
+            "documents": documents,
+            "requested_sections": retrieval_result["requested_sections"],
+            "found_sections": retrieval_result["found_sections"],
+            "missing_sections": retrieval_result["missing_sections"]}
 
 def preview_retrieval():
     patient_id = "1256"
