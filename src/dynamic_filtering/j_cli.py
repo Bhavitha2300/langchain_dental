@@ -207,12 +207,23 @@ def main(patient_id: str):
     print()
     print("You can now ask clinical questions.")
     print("Type exit to end the conversation.")
+    print("Type review to correct procedure selections or safety answers.")
     while True:
         print()
         question = typer.prompt("Enter your clinical question")
-        if question.strip().lower() == "exit":
+        command = question.strip().lower()
+        if command == "exit":
             print("Conversation ended.")
             break
+        if command == "review":
+            visit_procedures = None
+            safety_context = None
+            interaction_safety_context = None
+            medication_review = None
+            chat_history = InMemoryChatMessageHistory()
+            print("Previous selections and answers have been cleared.")
+            print("Ask your clinical question again to enter corrected details.")
+            continue
         question_type = classify_clinician_question(question)
         print("Question type:", question_type)
         if question_type == "drug_interaction":
