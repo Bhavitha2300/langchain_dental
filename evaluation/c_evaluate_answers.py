@@ -9,7 +9,8 @@ from ragas.llms import LangchainLLMWrapper
 from ragas.metrics import Faithfulness, FactualCorrectness, ResponseRelevancy
 from config import load_config
 from dynamic_filtering.k_jev import classify_clinician_question
-from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines
+from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines, retrieve_guideline_information
+from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 from dynamic_filtering.m_drug_interaction_retrieval import retrieve_drug_interactions
 from dynamic_filtering.i_final_LLM_recommendation import final_response, format_guideline_documents
 
@@ -63,8 +64,46 @@ def evaluate_answers():
         actual_type = classify_clinician_question(row["clinician_question"])
         classification_ok = actual_type == expected_type
 
-        if actual_type == "drug_interaction":
-            retrieval = retrieve_drug_interactions(
+        if actual_type == "guideline_information":
+            response = retrieve_guideline_information(row["clinician_question"])
+            response["patient_context"] = {}
+            if response["documents"] and not response["missing_sections"]:
+                response["status"] = "retrieved"
+            else:
+                response["status"] = "no_matching_recommendation"
+
+        elif actual_type == "other":
+            message = final_response(
+                patient_id=row["fhir_patient_id"],
+                question=row["clinician_question"],
+                question_type="other")
+            response = {
+                "status": "out_of_scope",
+                "message": message,
+                "documents": [],
+                "patient_context": {}}
+
+        elif not row["fhir_patient_id"].strip():
+            response = {
+                "status": "missing_patient_context",
+                "message": "The selected route requires a patient ID.",
+                "documents": [],
+                "patient_context": {}}
+
+        elif actual_type == "patient_information":
+            patient = assess_patient_context(
+                patient_id=row["fhir_patient_id"],
+                visit_procedures=procedures)
+            patient["clinical_assessment"]["patient_safety"] = answers
+
+            response = {
+                "status": "retrieved",
+                "patient_context": patient,
+                "documents": [],
+                "found_sections": []}
+
+        elif actual_type == "drug_interaction":
+            response = retrieve_drug_interactions(
                 patient_id=row["fhir_patient_id"],
                 question=row["clinician_question"],
                 safety_context=answers)
@@ -72,19 +111,19 @@ def evaluate_answers():
         elif actual_type in [
             "treatment_recommendation",
             "guideline_explanation"]:
-            retrieval = retrieve_filtered_guidelines(
+            response = retrieve_filtered_guidelines(
                 patient_id=row["fhir_patient_id"],
                 question=row["clinician_question"],
                 visit_procedures=procedures,
                 safety_context=answers)
 
         else:
-            retrieval = {
+            response = {
                 "status": "unsupported_evaluation_route",
                 "message": f"Unexpected question type: {actual_type}",
                 "documents": [],
                 "patient_context": {}}
-
+        retrieval = response
         status_ok = retrieval["status"] == expected_status
         actual_reasons = [
             reason.get("reason", "")
@@ -103,7 +142,7 @@ def evaluate_answers():
 
             reason_result = "pass" if reason_ok else "fail"
 
-        elif expected_status != "retrieved":
+        elif expected_status not in ["retrieved", "out_of_scope"]:
             raise ValueError(f"Test {test_number} has an invalid expected status.")
 
         patient = retrieval.get("patient_context", {})
@@ -119,7 +158,8 @@ def evaluate_answers():
 
         patient_text = "Patient context: " + json.dumps(patient_evidence)
         guideline_text = format_guideline_documents(documents)
-        contexts = [patient_text, guideline_text]
+        clinician_text = "Clinician-provided question and scenario: " + row["clinician_question"]
+        contexts = [clinician_text, patient_text, guideline_text]
         should_generate = (
             expected_status == "retrieved"
             and retrieval["status"] == "retrieved")

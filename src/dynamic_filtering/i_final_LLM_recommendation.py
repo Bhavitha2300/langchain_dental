@@ -117,7 +117,8 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         )
 
     if question_type == "guideline_information":
-        retrieval_result = retrieve_guideline_information(question)
+        if retrieval_result is None:
+            retrieval_result = retrieve_guideline_information(question)
         if not retrieval_result["documents"] or retrieval_result["missing_sections"]:
             return "The guideline information could not be retrieved completely."
         patient_context = {}
@@ -136,7 +137,10 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
         documents = retrieval_result["documents"]
         safety_warnings = []
     elif question_type == "patient_information":
-        patient_context = assess_patient_context(patient_id, visit_procedures=visit_procedures)
+        if retrieval_result is None:
+            patient_context = assess_patient_context(patient_id, visit_procedures=visit_procedures)
+        else:
+            patient_context = retrieval_result["patient_context"]
         patient_context["clinical_assessment"]["patient_safety"] = safety_context
         documents = []
         safety_warnings = []

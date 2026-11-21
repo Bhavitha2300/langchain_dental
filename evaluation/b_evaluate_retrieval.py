@@ -5,8 +5,10 @@ from ragas import EvaluationDataset, evaluate
 from ragas.metrics import IDBasedContextPrecision, IDBasedContextRecall
 
 from dynamic_filtering.k_jev import classify_clinician_question
-from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines
+from dynamic_filtering.h_retrieve_filtered_guidelines import retrieve_filtered_guidelines, retrieve_guideline_information
+from dynamic_filtering.e_assess_patient_and_procedure_context import assess_patient_context
 from dynamic_filtering.m_drug_interaction_retrieval import retrieve_drug_interactions
+from dynamic_filtering.i_final_LLM_recommendation import final_response
 
 EVALUATION_DIR = Path(__file__).resolve().parent
 DATASET_FILE = EVALUATION_DIR / "datasets" / "rag_evaluation_dataset.csv"
@@ -35,7 +37,43 @@ def evaluate_retrieval():
         actual_type = classify_clinician_question(row["clinician_question"])
         classification_ok = actual_type == expected_type
 
-        if actual_type == "drug_interaction":
+        if actual_type == "guideline_information":
+            response = retrieve_guideline_information(row["clinician_question"])
+            response["patient_context"] = {}
+            if response["documents"] and not response["missing_sections"]:
+                response["status"] = "retrieved"
+            else:
+                response["status"] = "no_matching_recommendation"
+
+        elif actual_type == "other":
+            message = final_response(
+                patient_id=row["fhir_patient_id"],
+                question=row["clinician_question"],
+                question_type="other")
+            response = {
+                "status": "out_of_scope",
+                "message": message,
+                "documents": [],
+                "patient_context": {}}
+
+        elif not row["fhir_patient_id"].strip():
+            response = {
+                "status": "missing_patient_context",
+                "message": "The selected route requires a patient ID.",
+                "documents": [],
+                "patient_context": {}}
+
+        elif actual_type == "patient_information":
+            patient = assess_patient_context(patient_id=row["fhir_patient_id"], visit_procedures=procedures)
+            patient["clinical_assessment"]["patient_safety"] = answers
+
+            response = {
+                "status": "retrieved",
+                "patient_context": patient,
+                "documents": [],
+                "found_sections": []}
+
+        elif actual_type == "drug_interaction":
             response = retrieve_drug_interactions(
                 patient_id=row["fhir_patient_id"],
                 question=row["clinician_question"],
@@ -54,11 +92,10 @@ def evaluate_retrieval():
             response = {
                 "status": "unsupported_evaluation_route",
                 "message": f"Unexpected question type: {actual_type}",
-                "documents": []
-            }
+                "documents": [],
+                "patient_context": {}}
 
         actual_sections = response.get("found_sections")
-
         if actual_sections is None:
             actual_sections = [
                 document.metadata["subaspect"]
@@ -74,7 +111,11 @@ def evaluate_retrieval():
 
         reason_result = "NA"
         section_result = "NA"
-        if expected_status == "retrieved":
+        score_guidelines = (
+            expected_status == "retrieved"
+            and expected_type not in ["patient_information", "other"])
+
+        if score_guidelines:
             if not expected_sections:
                 raise ValueError(f"Test {test_number} needs expected guideline sections.")
 
@@ -87,6 +128,20 @@ def evaluate_retrieval():
                 "user_input": row["clinician_question"],
                 "retrieved_context_ids": actual_sections,
                 "reference_context_ids": expected_sections})
+
+        elif expected_type == "patient_information" and expected_status == "retrieved":
+            success = (
+                classification_ok and status_ok
+                and bool(response.get("patient_context"))
+                and not expected_sections and not actual_sections
+                and not response.get("documents"))
+
+        elif expected_type == "other" and expected_status == "out_of_scope":
+            success = (
+                classification_ok and status_ok
+                and bool(response.get("message"))
+                and not expected_sections and not actual_sections
+                and not response.get("documents"))
 
         elif expected_status == "needs_clinician_confirmation":
             if expected_sections or not expected_reason:
@@ -132,7 +187,7 @@ def evaluate_retrieval():
 
         details.append(detail)
 
-        if expected_status == "retrieved":
+        if score_guidelines:
             scored_details.append(detail)
 
         print(f"Test {test_number}: {detail['result']}")
