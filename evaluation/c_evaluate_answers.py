@@ -228,7 +228,11 @@ def evaluate_answers():
         metrics=[Faithfulness(),
                  FactualCorrectness(mode="f1"),
                  ResponseRelevancy()],
-        llm=LangchainLLMWrapper(ChatOpenAI(model="gpt-4o", temperature=0)),
+        llm=LangchainLLMWrapper(
+            ChatOpenAI(model="gpt-6.2-astra", reasoning_effort="medium"),
+            bypass_temperature=True,
+            bypass_n=True
+        ),
         embeddings=LangchainEmbeddingsWrapper(OpenAIEmbeddings(model="text-embedding-3-small")),
         raise_exceptions=True)
 

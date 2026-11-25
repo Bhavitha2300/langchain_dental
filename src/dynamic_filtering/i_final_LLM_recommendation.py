@@ -166,7 +166,7 @@ def final_response(patient_id,question,visit_procedures=None,safety_context=None
     }
     patient_context_json = json.dumps(relevant_patient_context)
     guideline_context = format_guideline_documents(documents)
-    chat_model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    chat_model = ChatOpenAI(model="gpt-6.2-sol", reasoning_effort="medium")
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
