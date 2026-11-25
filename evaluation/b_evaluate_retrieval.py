@@ -12,7 +12,7 @@ from dynamic_filtering.i_final_LLM_recommendation import final_response
 
 EVALUATION_DIR = Path(__file__).resolve().parent
 DATASET_FILE = EVALUATION_DIR / "datasets" / "rag_evaluation_dataset.csv"
-RESULT_FILE = EVALUATION_DIR / "results" / "ragas_retrieval_results.csv"
+RESULT_FILE = EVALUATION_DIR / "results_2" / "ragas_retrieval_results.csv"
 
 
 def evaluate_retrieval():
@@ -34,7 +34,14 @@ def evaluate_retrieval():
         expected_status = row["expected_status"].strip()
         expected_reason = row["expected_blocking_reason"].strip()
 
-        actual_type = classify_clinician_question(row["clinician_question"])
+        jev_usage = {}
+        actual_type = classify_clinician_question(
+            row["clinician_question"], usage=jev_usage)
+
+        jev_cost_usd = ""
+        if jev_usage["input_tokens"] is not None:
+            jev_cost_usd = round(
+                jev_usage["input_tokens"] * 0.042 / 1_000_000, 10)
         classification_ok = actual_type == expected_type
 
         if actual_type == "guideline_information":
@@ -165,6 +172,10 @@ def evaluate_retrieval():
             "clinician_question": row["clinician_question"],
             "expected_question_type": expected_type,
             "actual_question_type": actual_type,
+            "jev_model": jev_usage["model"],
+            "jev_input_tokens": jev_usage["input_tokens"],
+            "jev_output_tokens": jev_usage["output_tokens"],
+            "jev_cost_usd": jev_cost_usd,
             "classification_result": "pass" if classification_ok else "fail",
             "expected_status": expected_status,
             "actual_status": response["status"],

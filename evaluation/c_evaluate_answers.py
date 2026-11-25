@@ -17,8 +17,8 @@ from dynamic_filtering.i_final_LLM_recommendation import final_response, format_
 
 EVALUATION_DIR = Path(__file__).resolve().parent
 DATASET_FILE = EVALUATION_DIR / "datasets" / "rag_evaluation_dataset.csv"
-OUTPUT_FILE = EVALUATION_DIR / "results" / "ragas_answer_scores.csv"
-ANSWERS_FILE = EVALUATION_DIR / "results" / "generated_answers.csv"
+OUTPUT_FILE = EVALUATION_DIR / "results_2" / "ragas_answer_scores.csv"
+ANSWERS_FILE = EVALUATION_DIR / "results_2" / "generated_answers.csv"
 
 
 def evaluate_answers():
@@ -32,6 +32,10 @@ def evaluate_answers():
         "clinician_question",
         "expected_question_type",
         "actual_question_type",
+        "jev_model",
+        "jev_input_tokens",
+        "jev_output_tokens",
+        "jev_cost_usd",
         "classification_result",
         "expected_status",
         "actual_status",
@@ -41,6 +45,7 @@ def evaluate_answers():
         "blocking_reason_result",
         "answer_source",
         "answer_usage",
+        "answer_cost_usd",
         "generated_answer",
         "evidence_contexts",
         "reference_answer"
@@ -63,7 +68,14 @@ def evaluate_answers():
         expected_status = row["expected_status"].strip()
         expected_reason = row["expected_blocking_reason"].strip()
 
-        actual_type = classify_clinician_question(row["clinician_question"])
+        jev_usage = {}
+        actual_type = classify_clinician_question(
+            row["clinician_question"], usage=jev_usage)
+
+        jev_cost_usd = ""
+        if jev_usage["input_tokens"] is not None:
+            jev_cost_usd = round(
+                jev_usage["input_tokens"] * 0.042 / 1_000_000, 10)
         classification_ok = actual_type == expected_type
 
         if actual_type == "guideline_information":
@@ -201,6 +213,31 @@ def evaluate_answers():
                 answer = ( "No LLM answer generated because the actual status "
                            "did not match the expected workflow.")
 
+        answer_cost_usd = ""
+
+        if answer_usage:
+            answer_cost_usd = 0.0
+
+            for usage in answer_usage.values():
+                input_tokens = usage["input_tokens"]
+                output_tokens = usage["output_tokens"]
+                details = usage.get("input_token_details", {})
+                cached_tokens = details.get("cache_read", 0)
+                cache_write_tokens = details.get("cache_creation", 0)
+                normal_tokens = input_tokens - cached_tokens - cache_write_tokens
+
+                answer_cost_usd += (
+                                           normal_tokens * 2.00
+                                           + cached_tokens * 0.10
+                                           + cache_write_tokens * 2.50
+                                           + output_tokens * 10.00
+                                   ) / 1_000_000
+
+            answer_cost_usd = round(answer_cost_usd, 6)
+
+        elif answer_source == "system_message":
+            answer_cost_usd = 0.0
+
         with open(ANSWERS_FILE, "a", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, fieldnames=fields)
             writer.writerow({
@@ -209,6 +246,10 @@ def evaluate_answers():
                 "clinician_question": row["clinician_question"],
                 "expected_question_type": expected_type,
                 "actual_question_type": actual_type,
+                "jev_model": jev_usage["model"],
+                "jev_input_tokens": jev_usage["input_tokens"],
+                "jev_output_tokens": jev_usage["output_tokens"],
+                "jev_cost_usd": jev_cost_usd,
                 "classification_result": ("pass" if classification_ok else "fail"),
                 "expected_status": expected_status,
                 "actual_status": retrieval["status"],
@@ -218,6 +259,7 @@ def evaluate_answers():
                 "blocking_reason_result": reason_result,
                 "answer_source": answer_source,
                 "answer_usage": json.dumps(answer_usage),
+                "answer_cost_usd": answer_cost_usd,
                 "generated_answer": answer,
                 "evidence_contexts": json.dumps(contexts),
                 "reference_answer": reference

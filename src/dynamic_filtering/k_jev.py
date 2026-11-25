@@ -5,7 +5,7 @@ from typesafe_sdk import Choice, TypeSafeClient
 
 load_config()
 
-def classify_clinician_question(question):
+def classify_clinician_question(question, usage=None):
     client = TypeSafeClient()
     response = client.system_one(
         state=question,
@@ -41,6 +41,12 @@ def classify_clinician_question(question):
                               "antithrombotic management and the stored SDCEP guidance."),
                 })})
     question_type = response.answers["question_type"].choice
+
+    if usage is not None:
+        usage["model"] = response.model
+        usage["input_tokens"] = response.usage.input_tokens
+        usage["output_tokens"] = response.usage.output_tokens
+
     return question_type
 
 def preview_question_type():
