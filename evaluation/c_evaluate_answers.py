@@ -17,8 +17,8 @@ from dynamic_filtering.i_final_LLM_recommendation import final_response, format_
 
 EVALUATION_DIR = Path(__file__).resolve().parent
 DATASET_FILE = EVALUATION_DIR / "datasets" / "rag_evaluation_dataset.csv"
-OUTPUT_FILE = EVALUATION_DIR / "results_2" / "ragas_answer_scores.csv"
-ANSWERS_FILE = EVALUATION_DIR / "results_2" / "generated_answers.csv"
+OUTPUT_FILE = EVALUATION_DIR / "results_3" / "ragas_answer_scores.csv"
+ANSWERS_FILE = EVALUATION_DIR / "results_3" / "generated_answers.csv"
 
 
 def evaluate_answers():
@@ -278,7 +278,7 @@ def evaluate_answers():
                  FactualCorrectness(mode="f1"),
                  ResponseRelevancy()],
         llm=LangchainLLMWrapper(
-            ChatOpenAI(model="gpt-6.2-astra", reasoning_effort="medium"),
+            ChatOpenAI(model="gpt-6.2-sol", reasoning_effort="medium"),
             bypass_temperature=True,
             bypass_n=True
         ),

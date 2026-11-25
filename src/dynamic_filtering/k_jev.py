@@ -12,18 +12,27 @@ def classify_clinician_question(question, usage=None):
         questions={
             "question_type": Choice(
                 instructions=(
-                    "Classify the clinician's question into exactly one category. "
-                    "Questions about what to do for a specific patient must use "
-                    "the appropriate patient-specific category, even if they "
-                    "mention guidelines. Use guideline_information for general "
-                    "questions about what SDCEP says."
+                    "Classify the clinician's main request, not just its medical topic. "
+                    "Use guideline_explanation when the clinician asks for the reason "
+                    "behind advice or an assessment for a specific patient. "
+                    "Mentioning medicines, procedures or conditions does not turn "
+                    "an explanation request into a treatment decision, interaction "
+                    "check or request for recorded facts. "
+                    "Use treatment_recommendation for a new management decision. "
+                    "Use guideline_information for general SDCEP guidance "
+                    "not applied to a specific patient."
                 ),
                 criteria={
                     "treatment_recommendation": ("The clinician is asking whether to proceed with or modify the "
                                                  "planned dental procedure, including management of the patient's "
                                                  "existing anticoagulant or antiplatelet medication."),
-                    "guideline_explanation": ("The clinician is asking why, when, or how a guideline "
-                                              "recommendation applies to this patient."),
+                    "guideline_explanation": (
+                        "The clinician asks for the reason or rationale behind "
+                        "guideline-based advice, a previous management decision "
+                        "or a bleeding-risk assessment for a specific patient. "
+                        "They want to understand the advice or assessment, "
+                        "rather than request a new treatment plan."
+                    ),
                     "guideline_information": ("General questions about the SDCEP guideline's source, scope, "
                                               "recommendations or explanations. Includes general questions "
                                               "about haemostasis, staged treatment, postoperative advice "

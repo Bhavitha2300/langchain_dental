@@ -6,7 +6,7 @@ from dynamic_filtering.k_jev import classify_clinician_question
 
 EVALUATION_DIR = Path(__file__).resolve().parent
 DATASET_FILE = EVALUATION_DIR/ "datasets"/ "jev_question_classification.csv"
-RESULT_FILE = EVALUATION_DIR / "results_2" / "jev_question_classification_results.csv"
+RESULT_FILE = EVALUATION_DIR / "results_3" / "jev_question_classification_results.csv"
 
 def evaluate_jev_questions():
     correct_answers = 0

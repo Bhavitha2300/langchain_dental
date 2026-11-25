@@ -12,7 +12,7 @@ from dynamic_filtering.i_final_LLM_recommendation import final_response
 
 EVALUATION_DIR = Path(__file__).resolve().parent
 DATASET_FILE = EVALUATION_DIR / "datasets" / "rag_evaluation_dataset.csv"
-RESULT_FILE = EVALUATION_DIR / "results_2" / "ragas_retrieval_results.csv"
+RESULT_FILE = EVALUATION_DIR / "results_3" / "ragas_retrieval_results.csv"
 
 
 def evaluate_retrieval():
