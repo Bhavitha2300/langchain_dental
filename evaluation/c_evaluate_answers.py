@@ -2,6 +2,7 @@ import csv
 import json
 from pathlib import Path
 
+from langchain_core.callbacks import get_usage_metadata_callback
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from ragas import EvaluationDataset, evaluate
 from ragas.embeddings import LangchainEmbeddingsWrapper
@@ -39,6 +40,7 @@ def evaluate_answers():
         "actual_blocking_reasons",
         "blocking_reason_result",
         "answer_source",
+        "answer_usage",
         "generated_answer",
         "evidence_contexts",
         "reference_answer"
@@ -164,15 +166,19 @@ def evaluate_answers():
             expected_status == "retrieved"
             and retrieval["status"] == "retrieved")
 
-        if should_generate:
-            answer = final_response(
-                patient_id=row["fhir_patient_id"],
-                question=row["clinician_question"],
-                visit_procedures=procedures,
-                safety_context=answers,
-                question_type=actual_type,
-                retrieval_result=retrieval)
+        answer_usage = {}
 
+        if should_generate:
+            with get_usage_metadata_callback() as token_counter:
+                answer = final_response(
+                    patient_id=row["fhir_patient_id"],
+                    question=row["clinician_question"],
+                    visit_procedures=procedures,
+                    safety_context=answers,
+                    question_type=actual_type,
+                    retrieval_result=retrieval)
+
+            answer_usage = token_counter.usage_metadata
             answer_source = "llm"
             samples.append({
                 "user_input": row["clinician_question"],
@@ -211,6 +217,7 @@ def evaluate_answers():
                 "actual_blocking_reasons": json.dumps(actual_reasons),
                 "blocking_reason_result": reason_result,
                 "answer_source": answer_source,
+                "answer_usage": json.dumps(answer_usage),
                 "generated_answer": answer,
                 "evidence_contexts": json.dumps(contexts),
                 "reference_answer": reference
